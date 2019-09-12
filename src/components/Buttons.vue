@@ -1,5 +1,5 @@
 <template>
-  <div class="buttons" :class="{'buttons--stacked':stacked}">
+  <div class="buttons" :class="classes">
     <slot></slot>
   </div>
 </template>
@@ -8,9 +8,24 @@
 export default {
   name: "s-buttons",
   props: {
-    stacked: {
+    stack: {
       type: Boolean,
       default: false
+    },
+    group: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  computed: {
+    classes() {
+      let classes = [];
+      ["stack", "group"].forEach(item => {
+        if (this[item]) classes.push(`buttons--${item}`);
+      });
+
+      return classes;
     }
   }
 };

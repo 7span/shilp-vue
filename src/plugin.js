@@ -1,5 +1,6 @@
 const install = (Vue, options = {}) => {
   //Components
+  Vue.component("SLayout", require("./components/Layout").default);
   Vue.component("SButton", require("./components/Button").default);
   Vue.component("SButtons", require("./components/Buttons").default);
   Vue.component("SBlocks", require("./components/Blocks").default);
@@ -10,10 +11,16 @@ const install = (Vue, options = {}) => {
   Vue.component("SSelect", require("./components/Select").default);
   Vue.component("SRadio", require("./components/Radio").default);
   Vue.component("SCheckbox", require("./components/Checkbox").default);
+  Vue.component("SAlert", require("./components/Alert").default);
+
   Vue.component("SNav", require("./components/Nav").default);
   Vue.component("SNavItem", require("./components/NavItem").default);
   Vue.component("SNavGroup", require("./components/NavGroup").default);
-  Vue.component("SLayout", require("./components/Layout").default);
+
+  Vue.component("SCard", require("./components/Card").default);
+  Vue.component("SCardHeader", require("./components/CardHeader").default);
+  Vue.component("SCardBody", require("./components/CardBody").default);
+  Vue.component("SCardFooter", require("./components/CardFooter").default);
 
   //Vue Material Design Icons
   for (var key in options.vueMaterialDesignIcons) {

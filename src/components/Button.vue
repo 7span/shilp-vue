@@ -20,7 +20,7 @@ export default {
     to: String,
     href: String,
     icon: String,
-    loading: {
+    loader: {
       type: Boolean,
       default: false
     },
@@ -49,8 +49,8 @@ export default {
       });
 
       if (this.fluid) classes.push("button--fluid");
-      if (this.loading) classes.push("loader");
-      if (this.loading && this.size) classes.push(`loader--${this.size}`);
+      if (this.loader) classes.push("loader");
+      if (this.loader && this.size) classes.push(`loader--${this.size}`);
 
       return classes;
     }
