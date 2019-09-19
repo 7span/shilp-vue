@@ -13,13 +13,17 @@ export default {
     fluid: {
       type: Boolean,
       default: false
-    }
+    },
+    style_: String
   },
 
   computed: {
     classes() {
       let classes = [];
-      if (this.size) classes.push(`card--${this.size}`);
+      ["size", "style_"].forEach(item => {
+        if (this[item]) classes.push(`card--${this[item]}`);
+      });
+
       if (this.fluid) classes.push(`card--fluid`);
       return classes;
     }

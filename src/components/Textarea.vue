@@ -1,10 +1,10 @@
 <template>
-  <input class="field-block" :value="value" @input="input" />
+  <textarea class="field-block" :value="value" @input="input"></textarea>
 </template>
 
 <script>
 export default {
-  name: "s-textbox",
+  name: "s-textarea",
 
   props: {
     value: [String, Number]
