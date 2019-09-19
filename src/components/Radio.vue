@@ -1,5 +1,5 @@
 <template>
-  <div class="options" :class="`gx--${gap}`">
+  <div class="options" :class="`space space--${gap}`">
     <div class="radio" v-for="option in options">
       <input
         :name="name"
@@ -25,7 +25,7 @@ export default {
     };
   },
   props: {
-    value: [String, Boolean],
+    value: [String, Number, Boolean],
     options: Array,
     name: String,
     gap: {

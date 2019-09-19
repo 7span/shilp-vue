@@ -18,7 +18,6 @@ const components = {
   //NAV
   SNav: require("./components/Nav").default,
   SNavItem: require("./components/NavItem").default,
-  SNavGroup: require("./components/NavGroup").default,
 
   //CARD
   SCard: require("./components/Card").default,

@@ -40,7 +40,7 @@ export default {
   },
 
   props: {
-    value: [Array, Boolean],
+    value: [Array, String, Number, Boolean],
     options: Array,
     name: String,
     gap: {
