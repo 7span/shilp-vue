@@ -9,7 +9,6 @@ const components = {
 
   //FORM
   SField: require("./components/Field").default,
-  SFieldValidate: require("./components/FieldValidate").default,
   STextbox: require("./components/Textbox").default,
   STextarea: require("./components/Textarea").default,
   SCheckbox: require("./components/Checkbox").default,
@@ -59,6 +58,7 @@ const plugin = {
 };
 
 export default plugin;
+
 export const {
   SLayout,
   SButton,
@@ -84,6 +84,9 @@ export const {
   SFieldView,
   SItem
 } = components;
+
+//Manual Import Components
+export const SFieldValidate = require("./components/FieldValidate").default;
 
 if (typeof window !== "undefined" && window.Vue) {
   window.Vue.use(plugin);
