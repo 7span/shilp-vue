@@ -1,8 +1,10 @@
 <template>
   <li class="nav__item">
-    <label v-if="label" class="nav__label">{{label}}</label>
+    <label v-if="type=='label'" class="nav__label">
+      <slot />
+    </label>
     <s-button
-      v-if="$slots.default"
+      v-else-if="type=='button'"
       align="left"
       fluid
       shape="rectangle"
@@ -21,7 +23,11 @@ export default {
   inheritAttrs: false,
 
   props: {
-    label: String
+    label: String,
+    type: {
+      type: String,
+      default: "button"
+    }
   }
 };
 </script>

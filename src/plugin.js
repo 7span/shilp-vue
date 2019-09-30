@@ -9,11 +9,14 @@ const components = {
 
   //FORM
   SField: require("./components/Field").default,
+  SFieldValidate: require("./components/FieldValidate").default,
   STextbox: require("./components/Textbox").default,
   STextarea: require("./components/Textarea").default,
   SCheckbox: require("./components/Checkbox").default,
   SRadio: require("./components/Radio").default,
   SSelect: require("./components/Select").default,
+  SSelectPlus: require("./components/SelectPlus").default,
+  SFieldView: require("./components/FieldView").default,
 
   //NAV
   SNav: require("./components/Nav").default,
@@ -21,9 +24,12 @@ const components = {
 
   //CARD
   SCard: require("./components/Card").default,
+  SCardMedia: require("./components/CardMedia").default,
   SCardHeader: require("./components/CardHeader").default,
   SCardBody: require("./components/CardBody").default,
-  SCardFooter: require("./components/CardFooter").default
+  SCardFooter: require("./components/CardFooter").default,
+
+  SItem: require("./components/Item").default
 };
 
 const install = (Vue, options = {}) => {
@@ -36,6 +42,15 @@ const install = (Vue, options = {}) => {
   for (var iconName in options.vueMaterialDesignIcons) {
     Vue.component(iconName, options.vueMaterialDesignIcons[iconName]);
   }
+
+  //Provide Options
+  Vue.mixin({
+    provide() {
+      return {
+        AXIOS: options.axios
+      };
+    }
+  });
 };
 
 const plugin = {
@@ -61,9 +76,13 @@ export const {
   SNavItem,
   SNavGroup,
   SCard,
+  SCardMedia,
   SCardHeader,
   SCardBody,
-  SCardFooter
+  SCardFooter,
+  SSelectPlus,
+  SFieldView,
+  SItem
 } = components;
 
 if (typeof window !== "undefined" && window.Vue) {

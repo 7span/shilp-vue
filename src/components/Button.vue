@@ -24,6 +24,10 @@ export default {
       type: Boolean,
       default: false
     },
+    loaderColor: {
+      type: String,
+      default: "light"
+    },
     fluid: {
       type: Boolean,
       default: false
@@ -38,6 +42,9 @@ export default {
       if (this.href) {
         return "a";
       }
+      if (this.$attrs.for) {
+        return "label";
+      }
       return "button";
     },
 
@@ -49,7 +56,7 @@ export default {
       });
 
       if (this.fluid) classes.push("button--fluid");
-      if (this.loader) classes.push("loader");
+      if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
       if (this.loader && this.size) classes.push(`loader--${this.size}`);
 
       return classes;

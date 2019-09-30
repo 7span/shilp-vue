@@ -14,6 +14,10 @@ export default {
       type: Boolean,
       default: false
     },
+    split: {
+      type: Boolean,
+      default: false
+    },
     style_: String
   },
 
@@ -25,6 +29,7 @@ export default {
       });
 
       if (this.fluid) classes.push(`card--fluid`);
+      if (this.split) classes.push(`card--split`);
       return classes;
     }
   }
