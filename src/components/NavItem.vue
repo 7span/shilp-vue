@@ -3,14 +3,7 @@
     <label v-if="type=='label'" class="nav__label">
       <slot />
     </label>
-    <s-button
-      v-else-if="type=='button'"
-      align="left"
-      fluid
-      shape="rectangle"
-      class="nav__link"
-      v-bind="$attrs"
-    >
+    <s-button v-else align="left" fluid shape="rectangle" class="nav__link" v-bind="$attrs">
       <slot />
     </s-button>
     <slot name="nav"></slot>
