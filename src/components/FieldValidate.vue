@@ -13,6 +13,9 @@
 </template>
 
 <script>
+//TODO: Make this component optional and don't include in default plugin.
+import { ValidationProvider } from "vee-validate";
+
 export default {
   name: "s-field-validate",
   inheritAttrs: false,
