@@ -1,6 +1,6 @@
 {
   "name": "@7span/shilp-vue",
-  "version": "0.1.0-beta.13",
+  "version": "0.1.0-beta.15",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name shilp-vue src/plugin.js",
@@ -42,9 +42,7 @@
   "jsdelivr": "dist/shilp-vue.umd.min.js",
   "unpkg": "dist/shilp-vue.umd.min.js",
   "files": [
-    "dist/shilp-vue.common.js",
-    "dist/shilp-vue.umd.min.js",
-    "dist/shilp-vue.umd.js",
+    "dist",
     "src"
   ]
 }

@@ -42,6 +42,13 @@ export default {
       checked: this.value
     };
   },
+
+  watch: {
+    value(newValue) {
+      this.checked = newValue;
+    }
+  },
+
   props: {
     value: [String, Number, Boolean],
     options: Array,

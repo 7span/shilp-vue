@@ -1,5 +1,5 @@
 <template>
-  <div class="field" :class="classes">
+  <div class="field" :class="blockClasses">
     <label v-if="label!==null && label!==undefined">{{label==""?"&nbsp;":label}}</label>
     <slot name="before"></slot>
     <div class="field__group">
@@ -30,6 +30,7 @@
 export default {
   name: "s-field",
   inheritAttrs: false,
+  mixins: [require("../mixins/component.js").default],
 
   props: {
     label: String,
@@ -45,17 +46,18 @@ export default {
     successMessage: String
   },
 
+  data() {
+    return {
+      blockClass: "field",
+      variantClassProps: ["color", "size"]
+    };
+  },
+
   computed: {
-    classes() {
+    addBlockClasses() {
       const classes = [];
-
-      ["color", "size"].forEach(item => {
-        if (this[item]) classes.push(`field--${this[item]}`);
-      });
-
       if (this.errorMessage) classes.push("field--danger");
       if (this.successMessage) classes.push("field--success");
-
       return classes;
     }
   }

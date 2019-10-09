@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" class="button" :class="classes" :to="to" :href="href">
+  <component :is="component" class="button" :class="blockClasses" v-bind="$attrs">
     <s-icon v-if="icon" class="button__icon" :name="icon" />
     <span>
       <slot></slot>
@@ -10,6 +10,7 @@
 <script>
 export default {
   name: "s-button",
+  mixins: [require("../mixins/component.js").default],
 
   props: {
     color: String,
@@ -17,8 +18,6 @@ export default {
     shape: String,
     style_: String,
     align: String,
-    to: String,
-    href: String,
     icon: String,
     loader: {
       type: Boolean,
@@ -34,12 +33,20 @@ export default {
     }
   },
 
+  data() {
+    return {
+      blockClass: "button",
+      booleanClassProps: ["fluid"],
+      variantClassProps: ["color", "size", "shape", "style_", "align"]
+    };
+  },
+
   computed: {
     component() {
-      if (this.to) {
+      if (this.$attrs.to) {
         return "router-link";
       }
-      if (this.href) {
+      if (this.$attrs.href) {
         return "a";
       }
       if (this.$attrs.for) {
@@ -48,17 +55,10 @@ export default {
       return "button";
     },
 
-    classes() {
+    addBlockClasses() {
       const classes = [];
-
-      ["color", "size", "shape", "style_", "align"].forEach(item => {
-        if (this[item]) classes.push(`button--${this[item]}`);
-      });
-
-      if (this.fluid) classes.push("button--fluid");
       if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
       if (this.loader && this.size) classes.push(`loader--${this.size}`);
-
       return classes;
     }
   }

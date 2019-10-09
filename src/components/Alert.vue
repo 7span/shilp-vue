@@ -1,5 +1,5 @@
 <template>
-  <div class="alert" :class="classes">
+  <div class="alert" :class="blockClasses">
     <s-icon v-if="icon" class="alert__icon" :name="icon"></s-icon>
     <p class="alert__body">
       <slot></slot>
@@ -10,7 +10,14 @@
 <script>
 export default {
   name: "s-alert",
-
+  mixins: [require("../mixins/component.js").default],
+  data() {
+    return {
+      blockClass: "alert",
+      booleanClassProps: ["fluid"],
+      variantClassProps: ["color", "size", "shape", "style_"]
+    };
+  },
   props: {
     color: String,
     style_: String,
@@ -20,20 +27,6 @@ export default {
     fluid: {
       type: Boolean,
       default: false
-    }
-  },
-
-  computed: {
-    classes() {
-      const classes = [];
-
-      ["color", "size", "shape", "style_"].forEach(item => {
-        if (this[item]) classes.push(`alert--${this[item]}`);
-      });
-
-      if (this.fluid) classes.push("alert--fluid");
-
-      return classes;
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="buttons" :class="classes">
+  <div class="buttons" :class="blockClasses">
     <slot></slot>
   </div>
 </template>
@@ -7,6 +7,8 @@
 <script>
 export default {
   name: "s-buttons",
+  mixins: [require("../mixins/component.js").default],
+
   props: {
     stack: {
       type: Boolean,
@@ -18,15 +20,11 @@ export default {
     }
   },
 
-  computed: {
-    classes() {
-      let classes = [];
-      ["stack", "group"].forEach(item => {
-        if (this[item]) classes.push(`buttons--${item}`);
-      });
-
-      return classes;
-    }
+  data() {
+    return {
+      blockClass: "buttons",
+      booleanClassProps: ["stack", "group"]
+    };
   }
 };
 </script>

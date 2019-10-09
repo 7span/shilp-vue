@@ -1,5 +1,5 @@
 <template>
-  <div class="item" :class="classes">
+  <div class="item" :class="blockClasses">
     <div class="item__media">
       <slot name="media"></slot>
     </div>
@@ -15,6 +15,7 @@
 <script>
 export default {
   name: "s-item",
+  mixins: [require("../mixins/component.js").default],
 
   props: {
     title: String,
@@ -24,14 +25,12 @@ export default {
     },
     size: String
   },
-  computed: {
-    classes() {
-      const classes = [];
-      ["size"].forEach(item => {
-        if (this[item]) classes.push(`item--${this[item]}`);
-      });
-      return classes;
-    }
+
+  data() {
+    return {
+      blockClass: "item",
+      variantClassProps: ["size"]
+    };
   }
 };
 </script>

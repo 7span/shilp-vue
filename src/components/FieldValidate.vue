@@ -4,10 +4,10 @@
     class="field-validate"
     :name="name || $attrs.label"
     :rules="rules"
-    v-slot="{ errors }"
+    v-slot="props"
   >
-    <s-field v-bind="$attrs" :error-message="errors[0]">
-      <slot></slot>
+    <s-field v-bind="$attrs" :error-message="props.errors[0]">
+      <slot v-bind="props"></slot>
     </s-field>
   </validation-provider>
 </template>

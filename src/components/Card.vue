@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="classes">
+  <div class="card" :class="blockClasses">
     <slot></slot>
   </div>
 </template>
@@ -7,6 +7,7 @@
 <script>
 export default {
   name: "s-card",
+  mixins: [require("../mixins/component.js").default],
 
   props: {
     size: String,
@@ -21,17 +22,12 @@ export default {
     style_: String
   },
 
-  computed: {
-    classes() {
-      let classes = [];
-      ["size", "style_"].forEach(item => {
-        if (this[item]) classes.push(`card--${this[item]}`);
-      });
-
-      if (this.fluid) classes.push(`card--fluid`);
-      if (this.split) classes.push(`card--split`);
-      return classes;
-    }
+  data() {
+    return {
+      blockClass: "card",
+      booleanClassProps: ["fluid", "split"],
+      variantClassProps: ["size", "style_"]
+    };
   }
 };
 </script>

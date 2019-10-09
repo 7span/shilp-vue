@@ -25,20 +25,20 @@ export default {
 
     headerSize: {
       type: String,
-      default: "50px"
+      default: "48px"
     },
 
     asideSize: {
       type: String,
-      default: "250px"
+      default: "192px"
     }
   },
 
   computed: {
     setVariables() {
       let vars = {
-        "--aside-size": "200px",
-        "--header-size": "50px"
+        "--aside-size": this.asideSize,
+        "--header-size": this.headerSize
       };
       return vars;
     }

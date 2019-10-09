@@ -3,7 +3,7 @@
     <label v-if="type=='label'" class="nav__label">
       <slot />
     </label>
-    <s-button v-else align="left" fluid shape="rectangle" class="nav__link" v-bind="$attrs">
+    <s-button v-else class="nav__link" v-bind="{...$attrs,...parentProps}">
       <slot />
     </s-button>
     <slot name="nav"></slot>
@@ -20,6 +20,13 @@ export default {
     type: {
       type: String,
       default: "button"
+    }
+  },
+  computed: {
+    //Parent Propos will be passed down to all the child nav items
+    //To avoid declaration of props on each child items.
+    parentProps() {
+      return this.$parent.$props;
     }
   }
 };

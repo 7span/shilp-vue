@@ -1,5 +1,5 @@
 <template>
-  <div class="card__media" :class="classes">
+  <div class="card__media" :class="blockClasses">
     <slot></slot>
   </div>
 </template>
@@ -7,6 +7,7 @@
 <script>
 export default {
   name: "s-card-media",
+  mixins: [require("../mixins/component.js").default],
 
   props: {
     edge: {
@@ -15,12 +16,11 @@ export default {
     }
   },
 
-  computed: {
-    classes() {
-      let classes = [];
-      if (this.edge) classes.push(`card__media--edge`);
-      return classes;
-    }
+  data() {
+    return {
+      blockClass: "card__media",
+      booleanClassProps: ["edge"]
+    };
   }
 };
 </script>

@@ -8,6 +8,7 @@ const components = {
   SAlert: require("./components/Alert").default,
 
   //FORM
+  SForm: require("./components/Form").default,
   SField: require("./components/Field").default,
   STextbox: require("./components/Textbox").default,
   STextarea: require("./components/Textarea").default,
@@ -58,7 +59,13 @@ const plugin = {
 };
 
 export default plugin;
+if (typeof window !== "undefined" && window.Vue) {
+  window.Vue.use(plugin);
+}
 
+/**
+ * Export individual components
+ */
 export const {
   SLayout,
   SButton,
@@ -82,12 +89,37 @@ export const {
   SCardFooter,
   SSelectPlus,
   SFieldView,
-  SItem
+  SItem,
+  SForm
 } = components;
 
-//Manual Import Components
+/**
+ * Manual Import Components
+ */
 export const SFieldValidate = require("./components/FieldValidate").default;
+export const SFormValidate = require("./components/FormValidate").default;
 
-if (typeof window !== "undefined" && window.Vue) {
-  window.Vue.use(plugin);
-}
+/**
+ * Export Shilp Variables
+ */
+/**
+ * Colors
+ */
+export const brandColors = ["primary", "secondary", "accent"];
+export const statusColors = ["info", "success", "warning", "danger"];
+export const neutralColors = ["grey", "light", "dark"];
+export const colors = [...brandColors, ...statusColors, ...neutralColors];
+export const shades = [
+  "lightest",
+  "lighter",
+  "light",
+  "default",
+  "dark",
+  "darker",
+  "darkest"
+];
+
+/**
+ * Sizes
+ */
+export const sizes = ["xs", "sm", "md", "lg", "xl"];
