@@ -18,13 +18,13 @@ export default {
 
       if (this.gap) {
         if (typeof this.gap === "string") {
-          classes.push(`g--${this.gap}`);
+          classes.push(`blocks--${this.gap}`);
         } else if (typeof this.gap === "object") {
           for (var key in this.gap) {
             if (key == "phone") {
-              classes.push(`g--${this.gap[key]}`);
+              classes.push(`blocks--${this.gap[key]}`);
             } else {
-              classes.push(`g--${this.gap[key]}:${key}`);
+              classes.push(`blocks--${this.gap[key]}:${key}`);
             }
           }
         }
