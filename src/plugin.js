@@ -17,6 +17,7 @@ const components = {
   SSelect: require("./components/Select").default,
   SSelectPlus: require("./components/SelectPlus").default,
   SFieldView: require("./components/FieldView").default,
+  SFile: require("./components/File").default,
 
   //NAV
   SNav: require("./components/Nav").default,
@@ -90,7 +91,8 @@ export const {
   SSelectPlus,
   SFieldView,
   SItem,
-  SForm
+  SForm,
+  SFile
 } = components;
 
 /**

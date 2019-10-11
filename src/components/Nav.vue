@@ -1,6 +1,6 @@
 <template>
   <ul class="nav" :class="blockClasses">
-    <slot />
+    <slot></slot>
   </ul>
 </template>
 

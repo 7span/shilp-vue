@@ -43,13 +43,22 @@ export default {
     size: String,
     color: String,
     errorMessage: String,
-    successMessage: String
+    successMessage: String,
+    loader: {
+      type: Boolean,
+      default: false
+    },
+    optional: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {
     return {
       blockClass: "field",
-      variantClassProps: ["color", "size"]
+      variantClassProps: ["color", "size"],
+      booleanClassProps:["optional"]
     };
   },
 
@@ -58,6 +67,8 @@ export default {
       const classes = [];
       if (this.errorMessage) classes.push("field--danger");
       if (this.successMessage) classes.push("field--success");
+      if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
+      if (this.loader && this.size) classes.push(`loader--${this.size}`);
       return classes;
     }
   }
