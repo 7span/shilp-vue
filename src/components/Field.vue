@@ -1,9 +1,9 @@
 <template>
   <div class="field" :class="blockClasses">
     <label v-if="label!==null && label!==undefined">{{label==""?"&nbsp;":label}}</label>
-    <slot name="before"></slot>
-    <div class="field__group">
+    <div class="field__group" :class="fieldGroupClasses">
       <div v-if="before || beforeIcon" class="field__before">
+        <slot name="before"></slot>
         <template v-if="before">{{before}}</template>
         <div class="field__icon" v-if="beforeIcon">
           <s-icon :name="beforeIcon" />
@@ -17,12 +17,12 @@
         <div class="field__icon" v-if="afterIcon">
           <s-icon :name="afterIcon" />
         </div>
+        <slot name="after"></slot>
       </div>
     </div>
     <small v-if="desc">{{desc}}</small>
     <small class="field__danger" v-if="errorMessage">{{errorMessage || errors[0]}}</small>
     <small class="field__success" v-if="successMessage">{{successMessage}}</small>
-    <slot name="after"></slot>
   </div>
 </template>
 
@@ -58,7 +58,7 @@ export default {
     return {
       blockClass: "field",
       variantClassProps: ["color", "size"],
-      booleanClassProps:["optional"]
+      booleanClassProps: ["optional"]
     };
   },
 
@@ -67,6 +67,10 @@ export default {
       const classes = [];
       if (this.errorMessage) classes.push("field--danger");
       if (this.successMessage) classes.push("field--success");
+      return classes;
+    },
+    fieldGroupClasses() {
+      const classes = [];
       if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
       if (this.loader && this.size) classes.push(`loader--${this.size}`);
       return classes;

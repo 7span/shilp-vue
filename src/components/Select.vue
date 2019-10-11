@@ -2,7 +2,11 @@
   <div :class="{'select':custom, 'field-block':custom, 'native-select':!custom}">
     <select :class="{'field-block':!custom}" :value="value" @input="input">
       <option value :disabled="!deselect">{{placeholder}}</option>
-      <option v-for="option in options" :value="option.value">{{option.label}}</option>
+      <option
+        v-for="option in options"
+        :value="option.value"
+        :selected="value==option.value"
+      >{{option.label}}</option>
     </select>
   </div>
 </template>
@@ -25,12 +29,6 @@ export default {
     deselect: {
       type: Boolean,
       default: false
-    }
-  },
-  watch: {
-    options(newValue) {
-      let metaValue = newValue.find(item => item.value == this.value);
-      this.$emit("input", this.value, metaValue);
     }
   },
   methods: {
