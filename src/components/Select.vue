@@ -27,7 +27,12 @@ export default {
       default: false
     }
   },
-
+  watch: {
+    options(newValue) {
+      let metaValue = newValue.find(item => item.value == this.value);
+      this.$emit("input", this.value, metaValue);
+    }
+  },
   methods: {
     input(e) {
       let metaValue = this.options.find(item => item.value == e.target.value);

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+//TODO: Apply Props to Child Buttons
 export default {
   name: "s-buttons",
   mixins: [require("../mixins/component.js").default],
