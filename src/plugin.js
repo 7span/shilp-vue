@@ -1,3 +1,5 @@
+require("./scss/v-tooltip.scss");
+
 const components = {
   SLayout: require("./components/Layout").default,
   SButton: require("./components/Button").default,
