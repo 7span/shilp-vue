@@ -1,7 +1,7 @@
 <template>
   <div class="file field-block">
-    <input type="text" :placeholder="placeholder" v-model="fileName" readonly />
     <input type="file" v-bind="attrGroup.file" @change="input" />
+    <input type="text" :placeholder="placeholder" v-model="fileName" readonly />
     <s-button v-bind="attrGroup.button" :size="parentProps.size">{{buttonLabel}}</s-button>
   </div>
 </template>
@@ -57,6 +57,12 @@ export default {
       });
       this.fileName = fileName;
       this.$emit("input", files);
+
+      //Validate if the validation is provided.
+      //Why emit from parent : https://github.com/vuejs/vue/issues/4332#issuecomment-263444492
+      if (this.parentProps.hasValidation) {
+        this.$parent.$emit("validate");
+      }
     }
   }
 };

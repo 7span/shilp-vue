@@ -6,6 +6,7 @@ const components = {
   SBlock: require("./components/Block").default,
   SIcon: require("./components/Icon").default,
   SAlert: require("./components/Alert").default,
+  SText: require("./components/Text").default,
 
   //FORM
   SForm: require("./components/Form").default,
@@ -15,7 +16,7 @@ const components = {
   SCheckbox: require("./components/Checkbox").default,
   SRadio: require("./components/Radio").default,
   SSelect: require("./components/Select").default,
-  SSelectPlus: require("./components/SelectPlus").default,
+  SDropdown: require("./components/Dropdown").default,
   SFieldView: require("./components/FieldView").default,
   SFile: require("./components/File").default,
 
@@ -30,7 +31,9 @@ const components = {
   SCardBody: require("./components/CardBody").default,
   SCardFooter: require("./components/CardFooter").default,
 
-  SItem: require("./components/Item").default
+  SItem: require("./components/Item").default,
+  STabs: require("./components/Tabs").default,
+  STab: require("./components/Tab").default
 };
 
 const install = (Vue, options = {}) => {
@@ -88,11 +91,14 @@ export const {
   SCardHeader,
   SCardBody,
   SCardFooter,
-  SSelectPlus,
+  SDropdown,
   SFieldView,
   SItem,
   SForm,
-  SFile
+  SFile,
+  STabs,
+  STab,
+  SText
 } = components;
 
 /**

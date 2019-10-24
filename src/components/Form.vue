@@ -1,15 +1,13 @@
 <template>
-  <div class="form">
+  <form class="form" @submit.prevent="$emit('submit')">
     <header class="form__header">
-      <transition name="fade">
-        <s-alert
-          v-if="errorMessage"
-          class="mb--md"
-          color="danger"
-          style_="muted"
-          fluid
-        >{{errorMessage}}</s-alert>
-      </transition>
+      <s-alert
+        v-if="errorMessage"
+        class="mb--md"
+        color="danger"
+        style_="muted"
+        fluid
+      >{{errorMessage}}</s-alert>
       <slot name="header"></slot>
     </header>
     <div class="form__body">
@@ -18,7 +16,7 @@
     <footer class="form__footer">
       <slot name="footer"></slot>
     </footer>
-  </div>
+  </form>
 </template>
 
 <script>

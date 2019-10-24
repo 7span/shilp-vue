@@ -1,5 +1,5 @@
 <template>
-  <input class="field-block" :value="value" @input="input" />
+  <input class="field-block" :value="value" @input="input" :type="type" />
 </template>
 
 <script>
@@ -8,6 +8,21 @@ export default {
 
   props: {
     value: [String, Number]
+  },
+
+  computed: {
+    isPasswordVisible() {
+      return this.$parent.$data.isPasswordVisible;
+    },
+    type() {
+      if (
+        this.$attrs.type == "password" &&
+        this.$parent.$data.isPasswordVisible
+      ) {
+        return "text";
+      }
+      return this.$attrs.type;
+    }
   },
 
   methods: {

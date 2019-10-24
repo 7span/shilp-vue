@@ -5,8 +5,10 @@
       <option
         v-for="option in options"
         :value="option.value"
+        :key="option.value"
         :selected="value==option.value"
       >{{option.label}}</option>
+      <slot></slot>
     </select>
   </div>
 </template>
