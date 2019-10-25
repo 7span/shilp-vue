@@ -1,10 +1,8 @@
 <template>
-  <v-popover class="dropdown" v-bind="popoverProps">
+  <v-popover class="dropdown field-block" v-bind="popoverProps">
     <!-- TRIGGER -->
     <slot name="trigger">
-      <s-field v-bind="$attrs">
-        <div class="select field-block">{{placeholder}}</div>
-      </s-field>
+      <div class="select">{{placeholder}}</div>
     </slot>
 
     <!-- CONTENT -->
@@ -16,7 +14,7 @@
         </s-buttons>
       </template>
       <!-- SLOT -->
-      <slot v-else></slot>
+      <slot></slot>
     </template>
   </v-popover>
 </template>
@@ -58,9 +56,19 @@ export default {
       };
     },
     fixedPopoverProps() {
-      let options = {
-        popoverClass: ["dropdown-popover"]
-      };
+      let options = {};
+
+      //If popoverClass is defined, merge the default class
+      // Or add the class
+      if (this.popoverOptions) {
+        options.popoverClass = [
+          ...(this.popoverOptions.popoverClass || []),
+          ...["dropdown-popover"]
+        ];
+      } else {
+        options.popoverClass = ["dropdown-popover"];
+      }
+
       if (this.align) {
         if (this.align == "left") options.placement = "bottom-start";
         if (this.align == "right") options.placement = "bottom-end";
@@ -78,32 +86,15 @@ export default {
 };
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 .dropdown {
-  .trigger {
-    cursor: pointer;
-  }
+  padding: 0;
   .select {
-    padding: 0px 32px 0 --space(sm);
+    padding: 0 32px 0 var(--space--xs);
   }
   .field {
     margin-bottom: 0;
-  }
-}
-
-.tooltip.popover.dropdown-popover {
-  border: 1px solid --color(grey, light);
-  border-radius: --border-radius(sm);
-  background-color: #fff;
-  box-shadow: --box-shadow(xl);
-  .popover-inner {
-    background: transparent;
-    border-radius: 0;
-    padding: 0;
-    box-shadow: none;
-  }
-  .popover-arrow {
-    display: none !important;
   }
 }
 
@@ -112,6 +103,31 @@ export default {
     &:hover {
       background-color: --color(grey, lightest);
     }
+  }
+}
+</style>
+
+<style lang="scss">
+.dropdown {
+  .trigger {
+    display: block !important;
+    cursor: pointer;
+  }
+}
+.tooltip.popover.dropdown-popover {
+  border: 1px solid --color(grey, light);
+  border-radius: --border-radius(sm);
+  background-color: #fff;
+  box-shadow: --box-shadow(xl);
+
+  .popover-inner {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  .popover-arrow {
+    display: none !important;
   }
 }
 </style>

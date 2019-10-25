@@ -35,7 +35,8 @@ const components = {
 
   SItem: require("./components/Item").default,
   STabs: require("./components/Tabs").default,
-  STab: require("./components/Tab").default
+  STab: require("./components/Tab").default,
+  SColorPicker: require("./components/ColorPicker").default
 };
 
 const install = (Vue, options = {}) => {
@@ -100,7 +101,8 @@ export const {
   SFile,
   STabs,
   STab,
-  SText
+  SText,
+  SColorPicker
 } = components;
 
 /**
@@ -112,24 +114,4 @@ export const SFormValidate = require("./components/FormValidate").default;
 /**
  * Export Shilp Variables
  */
-/**
- * Colors
- */
-export const brandColors = ["primary", "secondary", "accent"];
-export const statusColors = ["info", "success", "warning", "danger"];
-export const neutralColors = ["grey", "light", "dark"];
-export const colors = [...brandColors, ...statusColors, ...neutralColors];
-export const shades = [
-  "lightest",
-  "lighter",
-  "light",
-  "default",
-  "dark",
-  "darker",
-  "darkest"
-];
-
-/**
- * Sizes
- */
-export const sizes = ["xs", "sm", "md", "lg", "xl"];
+export { colors, shades } from "./shilp";
