@@ -1,6 +1,11 @@
 <template>
   <div class="choices" :class="classes">
-    <div class="choice" :class="{'choice--custom':custom || component}" v-for="option in options">
+    <div
+      class="choice"
+      :class="{'choice--custom':custom || component}"
+      v-for="(option,index) in options"
+      :key="`option--${index}`"
+    >
       <input
         :name="name"
         type="radio"
@@ -82,7 +87,7 @@ export default {
   },
 
   methods: {
-    input(e) {
+    input() {
       let metaValue = this.options.find(item => item.value == this.checked);
       this.$emit("input", this.checked, metaValue);
     }

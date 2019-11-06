@@ -1,18 +1,29 @@
 <template>
-  <v-popover class="dropdown field-block" v-bind="popoverProps">
+  <v-popover class="dropdown" :class="{'field-block':select}" v-bind="popoverProps">
     <!-- TRIGGER -->
-    <slot name="trigger">
-      <div class="select">{{placeholder}}</div>
-    </slot>
+    <template v-if="select">
+      <div class="select">
+        <slot name="trigger">{{placeholder}}</slot>
+      </div>
+    </template>
+    <template v-else>
+      <slot name="trigger">{{placeholder}}</slot>
+    </template>
 
     <!-- CONTENT -->
     <template slot="popover">
       <!-- OPTIONS -->
       <template v-if="options">
         <s-buttons class="dropdown__options" stack group>
-          <s-button v-close-popover :align="align" v-for="option in options">{{option.label}}</s-button>
+          <s-button
+            v-close-popover
+            :align="align"
+            v-for="(option,index) in options"
+            :key="`option--${index}`"
+          >{{option.label}}</s-button>
         </s-buttons>
       </template>
+
       <!-- SLOT -->
       <slot></slot>
     </template>
@@ -30,6 +41,10 @@ export default {
     placeholder: {
       type: String,
       default: "Select"
+    },
+    select: {
+      type: Boolean,
+      default: false
     },
     align: {
       type: String,
@@ -92,6 +107,7 @@ export default {
   padding: 0;
   .select {
     padding: 0 32px 0 var(--space--xs);
+    line-height: initial;
   }
   .field {
     margin-bottom: 0;
@@ -110,8 +126,16 @@ export default {
 <style lang="scss">
 .dropdown {
   .trigger {
-    display: block !important;
+    display: flex !important;
     cursor: pointer;
+    width: 100%;
+    height: 100%;
+    .select {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 .tooltip.popover.dropdown-popover {

@@ -1,37 +1,22 @@
 <template>
   <component :is="component" class="button" :class="blockClasses" v-bind="$attrs">
-    <s-icon v-if="icon" class="button__icon" :name="icon" />
-    <span>
+    <slot name="icon">
+      <s-icon v-if="icon" class="button__icon" :name="icon" />
+    </slot>
+    <span class="button__label">
       <slot></slot>
     </span>
   </component>
 </template>
 
 <script>
+import props from "../props/button.js";
+
 export default {
   name: "s-button",
   mixins: [require("../mixins/component.js").default],
 
-  props: {
-    color: String,
-    size: String,
-    shape: String,
-    style_: String,
-    align: String,
-    icon: String,
-    loader: {
-      type: Boolean,
-      default: false
-    },
-    loaderColor: {
-      type: String,
-      default: "light"
-    },
-    fluid: {
-      type: Boolean,
-      default: false
-    }
-  },
+  props: props,
 
   data() {
     return {

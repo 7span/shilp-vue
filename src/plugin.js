@@ -1,4 +1,4 @@
-require("./scss/v-tooltip.scss");
+import "./scss/v-tooltip.scss";
 
 const components = {
   SLayout: require("./components/Layout").default,
@@ -36,7 +36,9 @@ const components = {
   SItem: require("./components/Item").default,
   STabs: require("./components/Tabs").default,
   STab: require("./components/Tab").default,
-  SColorPicker: require("./components/ColorPicker").default
+  SColorPicker: require("./components/ColorPicker").default,
+  SAvatar: require("./components/Avatar").default,
+  SPerson: require("./components/Person").default
 };
 
 const install = (Vue, options = {}) => {
@@ -102,7 +104,9 @@ export const {
   STabs,
   STab,
   SText,
-  SColorPicker
+  SColorPicker,
+  SPerson,
+  SAvatar
 } = components;
 
 /**

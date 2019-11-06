@@ -1,7 +1,7 @@
 <template>
   <!-- MULTIPLE CHECKBOX -->
   <div v-if="options" class="options" :class="`space space--${gap}`">
-    <div class="choice" v-for="option in options">
+    <div class="choice" v-for="(option,index) in options" :key="`option--${index}`">
       <input
         :name="name"
         type="checkbox"
@@ -59,7 +59,7 @@ export default {
   },
 
   methods: {
-    input(e) {
+    input() {
       let metaValue = this.options.filter(item =>
         this.checked.includes(item.value)
       );

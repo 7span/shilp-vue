@@ -1,15 +1,16 @@
 <template>
   <div class="color-picker" :style="{'--color-picker--size':size}">
-    <div class="color-picker__row" v-for="row in thePalette">
+    <div class="color-picker__row" v-for="(row,index) in thePalette" :key="`color-row--${index}`">
       <label class="color-picker__group">{{row.label}}</label>
       <div class="color-picker__colors">
         <button
           type="button"
           v-close-popover
-          v-for="color in row.colors"
+          v-for="(color,colorIndex) in row.colors"
           :style="{backgroundColor:color.hex}"
           :class="`color-picker__color--${color.value}`"
           :title="color.label"
+          :key="`color--${colorIndex}`"
           @click="input(color)"
         ></button>
       </div>
@@ -42,12 +43,11 @@ export default {
     }
   },
 
-  created() {},
-
   computed: {
     thePalette() {
       if (this.mode == "default") return this.defaultPalette;
       if (this.mode == "full") return this.fullPalette;
+      return [];
     },
 
     fullPalette() {
@@ -59,13 +59,16 @@ export default {
           const colorShades = [];
           shades.forEach(shade => {
             colorShades.push({
-              label: shade,
+              label:
+                this.capitalizeFirstLetter(color) +
+                " " +
+                this.capitalizeFirstLetter(shade),
               hex: this.getCSSValue(this.getCSSVar(color, shade)),
               value: `${color}--${shade}`
             });
           });
           palette.push({
-            label: color,
+            label: this.capitalizeFirstLetter(color),
             colors: colorShades
           });
         });
@@ -95,13 +98,13 @@ export default {
         const groupColors = [];
         group.forEach(color => {
           groupColors.push({
-            label: color,
+            label: this.capitalizeFirstLetter(color),
             hex: this.getCSSValue(this.getCSSVar(color, "default")),
             value: color
           });
         });
         palette.push({
-          label: groupName,
+          label: this.capitalizeFirstLetter(groupName),
           colors: groupColors
         });
       }
@@ -119,7 +122,10 @@ export default {
         : `--color--${color}--${shade}`;
     },
     input(color) {
-      this.$emit("input", color[this.valueKey]);
+      this.$emit("input", color[this.valueKey], color);
+    },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
     }
   }
 };
