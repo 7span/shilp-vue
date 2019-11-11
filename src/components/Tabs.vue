@@ -3,14 +3,11 @@
     <div class="tabs__list">
       <slot></slot>
     </div>
-    <template v-for="(tab,index) in $slots.default">
-      <component :is="tab" :key="`tab--${index}`"></component>
-    </template>
     <div class="tabs__content">
       <template v-for="slot in $slots.default">
         <div
           v-if="slot.componentOptions.propsData.name"
-          v-show="slot.componentOptions.propsData.name == active"
+          v-show="slot.componentOptions.propsData.name == activeTab"
           :key="`tab--${slot.componentOptions.propsData.name}`"
           class="tab-content"
           :class="`tab-content--${slot.componentOptions.propsData.name}`"
@@ -28,23 +25,43 @@ import buttonProps from "../props/button.js";
 export default {
   name: "s-tabs",
 
-  data() {
-    return {
-      tabs: []
-    };
-  },
   props: {
     ...buttonProps,
-    value: String
+    value: String,
+    active: String
+  },
+
+  data() {
+    return {
+      localActive: null
+    };
   },
 
   computed: {
-    active: {
+    defaultActiveTab() {
+      return this.$slots.default[0].componentOptions.propsData.name;
+    },
+    activeTab: {
       get() {
-        return (
-          this.value || this.$slots.default[0].componentOptions.propsData.name
-        );
+        if (this.active) {
+          return this.localActive || this.active || this.defaultActiveTab;
+        } else {
+          return this.value || this.defaultActiveTab;
+        }
+      },
+      set(tabName) {
+        if (this.active) {
+          this.localActive = tabName;
+        } else {
+          this.$emit("input", tabName);
+        }
       }
+    }
+  },
+
+  methods: {
+    change(name) {
+      this.activeTab = name;
     }
   }
 };

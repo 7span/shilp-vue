@@ -189,39 +189,41 @@ export default {
     font-weight: --font-weight(bold);
   }
 }
-.aside {
-  .nav {
-    margin: 0;
-  }
-  .button {
-    color: --color(grey, light);
-    letter-spacing: 1px;
-    font-size: --font-size(h5);
-    font-weight: --font-weight(regular);
-    border-radius: 0;
-    background-color: transparent;
-    &:hover {
-      color: #ffffff;
-      .button__icon {
+.layout {
+  .aside {
+    .nav {
+      margin: 0;
+    }
+    .button {
+      color: --color(grey, light);
+      letter-spacing: 1px;
+      font-size: --font-size(h5);
+      font-weight: --font-weight(regular);
+      border-radius: 0;
+      background-color: transparent;
+      &:hover {
         color: #ffffff;
+        .button__icon {
+          color: #ffffff;
+        }
       }
     }
-  }
-  .button__icon {
-    color: --color(grey);
-  }
-  .router-link-active {
-    background-color: --color(grey, darker);
-    color: #fff;
-    position: relative;
     .button__icon {
-      color: #fff;
+      color: --color(grey);
     }
-    &:after {
-      @include position(absolute);
-      content: "";
-      width: 5px;
-      background: gradient(primary, 0deg);
+    .router-link-active {
+      background-color: --color(grey, darker);
+      color: #fff;
+      position: relative;
+      .button__icon {
+        color: #fff;
+      }
+      &:after {
+        @include position(absolute);
+        content: "";
+        width: 5px;
+        background: gradient(primary, 0deg);
+      }
     }
   }
 }

@@ -24,7 +24,8 @@ export default {
   data() {
     return {
       blockClass: "buttons",
-      booleanClassProps: ["stack", "group"]
+      booleanClassProps: ["stack", "group"],
+      variantClassProps: []
     };
   }
 };

@@ -5,7 +5,7 @@
       <input
         :name="name"
         type="checkbox"
-        :id="option.id || option.value"
+        :id="optionId(option)"
         :value="option.value"
         :checked="option.selected"
         v-model="checkedArray"
@@ -14,9 +14,9 @@
       <label
         class="choice__label"
         :class="{'choice__label--checked':checkedArray.includes(option.value)}"
-        :for="option.id || option.value"
+        :for="optionId(option)"
       >
-        <slot :name="option.id">{{option.label}}</slot>
+        <slot :name="optionId(option)">{{option.label}}</slot>
       </label>
     </div>
   </div>
@@ -59,6 +59,9 @@ export default {
   },
 
   methods: {
+    optionId(option) {
+      return option.id || option.value;
+    },
     input() {
       let metaValue = this.options.filter(item =>
         this.checked.includes(item.value)

@@ -9,7 +9,7 @@
       <input
         :name="name"
         type="radio"
-        :id="option.id"
+        :id="optionId(option)"
         :value="option.value"
         :checked="option.selected"
         v-model="checked"
@@ -20,7 +20,7 @@
       <s-button
         v-if="component=='button'"
         v-bind="$attrs"
-        :for="option.id"
+        :for="optionId(option)"
         :style_="checked == option.value ? 'solid' : buttonInactiveStyle"
       >{{option.label}}</s-button>
 
@@ -29,9 +29,9 @@
         v-else
         class="choice__label"
         :class="{'choice__label--checked':checked == option.value}"
-        :for="option.id || option.value"
+        :for="optionId(option)"
       >
-        <slot :name="option.id" :option="option" :checked="checked == option.value">{{option.label}}</slot>
+        <slot :name="optionId(option)" :option="option" :checked="checked == option.value">{{option.label}}</slot>
       </label>
     </div>
   </div>
@@ -74,6 +74,7 @@ export default {
   },
 
   computed: {
+    
     classes() {
       const classes = [];
       if (!this.component && !this.custom) {
@@ -90,7 +91,11 @@ export default {
     input() {
       let metaValue = this.options.find(item => item.value == this.checked);
       this.$emit("input", this.checked, metaValue);
-    }
+    },
+
+    optionId(option){
+      return option.id || option.value
+    },
   }
 };
 </script>

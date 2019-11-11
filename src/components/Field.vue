@@ -55,12 +55,11 @@ export default {
 
   props: {
     label: String,
+    desc: String,
     before: String,
     beforeIcon: String,
-    afterIcon: String,
     after: String,
-    type: String,
-    desc: String,
+    afterIcon: String,
     size: String,
     color: String,
     errorMessage: String,
@@ -73,11 +72,7 @@ export default {
       type: Boolean,
       default: false
     },
-    hasValidation: {
-      type: Boolean,
-      default: false
-    },
-    passwordToggle:Object
+    passwordToggle: Object
   },
 
   data() {
