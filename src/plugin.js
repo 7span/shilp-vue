@@ -75,7 +75,7 @@ if (typeof window !== "undefined" && window.Vue) {
 export const {
   SLayout,
   SButton,
-  SButtons,
+  SList,
   SBlocks,
   SBlock,
   SIcon,

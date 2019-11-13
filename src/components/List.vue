@@ -1,13 +1,12 @@
 <template>
-  <div class="buttons" :class="blockClasses">
+  <div class="list" :class="blockClasses">
     <slot></slot>
   </div>
 </template>
 
 <script>
-//TODO: Apply Props to Child Buttons
 export default {
-  name: "s-buttons",
+  name: "s-list",
   mixins: [require("../mixins/component.js").default],
 
   props: {
@@ -18,14 +17,15 @@ export default {
     group: {
       type: Boolean,
       default: false
-    }
+    },
+    size: String
   },
 
   data() {
     return {
-      blockClass: "buttons",
+      blockClass: "list",
       booleanClassProps: ["stack", "group"],
-      variantClassProps: []
+      variantClassProps: ["size"]
     };
   }
 };

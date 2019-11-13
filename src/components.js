@@ -3,7 +3,7 @@ export default {
 
   //BUTTON
   SButton: require("./components/Button").default,
-  SButtons: require("./components/Buttons").default,
+  SList: require("./components/List").default,
 
   //BLOCKS
   SBlocks: require("./components/Blocks").default,

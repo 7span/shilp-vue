@@ -195,29 +195,22 @@ export default {
       margin: 0;
     }
     .button {
-      color: --color(grey, light);
+      --button--color: #{--color(grey, light)};
+      --button--hover-color: #{--color(light)};
       letter-spacing: 1px;
       font-size: --font-size(h5);
       font-weight: --font-weight(regular);
       border-radius: 0;
-      background-color: transparent;
       &:hover {
-        color: #ffffff;
-        .button__icon {
-          color: #ffffff;
-        }
+        --button--color: #{--color(light)};
       }
-    }
-    .button__icon {
-      color: --color(grey);
     }
     .router-link-active {
-      background-color: --color(grey, darker);
-      color: #fff;
+      --button--bg: #{--color(grey, darker)};
+      --button--hover-bg: #{--color(grey, darker)};
+      --button--color: #{--color(light)};
+      --button--hover-color: #{--color(light)};
       position: relative;
-      .button__icon {
-        color: #fff;
-      }
       &:after {
         @include position(absolute);
         content: "";
