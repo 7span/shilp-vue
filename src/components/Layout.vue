@@ -6,7 +6,7 @@
     </header>
 
     <!-- ASIDE -->
-    <aside class="aside" :class="{'aside--collapse':localAside.collapse}">
+    <aside class="aside" :class="{ 'aside--collapse': localAside.collapse }">
       <!-- LOGO -->
       <div class="logo">
         <img v-if="localAside.collapse" :src="asideOptions.logoCollapse" />
@@ -31,9 +31,9 @@
           class="aside__toggle"
           shape="square"
           size="lg"
-          @click.native="localAside.collapse=!localAside.collapse"
+          :icon="asideOptions.toggleIcon"
+          @click.native="localAside.collapse = !localAside.collapse"
         >
-          <s-icon slot="icon" :name="asideOptions.toggleIcon" :size="18"></s-icon>
         </s-button>
         <div v-if="!localAside.collapse" class="aside__note">v1.0.3-beta.0</div>
       </footer>

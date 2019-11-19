@@ -1,9 +1,14 @@
 <template>
-  <component :is="component" class="button" :class="blockClasses" v-bind="$attrs">
+  <component
+    :is="component"
+    class="button"
+    :class="blockClasses"
+    v-bind="$attrs"
+  >
     <slot name="icon">
       <s-icon v-if="icon" class="button__icon" :name="icon" />
     </slot>
-    <span class="button__label">
+    <span v-if="$scopedSlots.default" class="button__label">
       <slot></slot>
     </span>
   </component>

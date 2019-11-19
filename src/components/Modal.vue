@@ -64,10 +64,10 @@ export default {
     });
 
     this.$root.$on("shilp-modal-open", payload => {
-      const { id, data } = this.extractPayload(payload);
+      const { id, scope } = this.extractPayload(payload);
       if (!id) return;
       if (this.id == id) {
-        this.scope = data;
+        this.scope = scope;
         this.open = true;
       } else {
         this.scope = null;
@@ -76,7 +76,7 @@ export default {
     });
 
     this.$root.$on("shilp-modal-close", payload => {
-      const { id, data } = this.extractPayload(payload);
+      const { id, scope } = this.extractPayload(payload);
       if (id && this.id == id) {
         this.scope = null;
         this.open = false;
@@ -88,17 +88,17 @@ export default {
   },
 
   methods: {
-    extractPayload(data) {
-      if (typeof data === "object") {
-        return data;
+    extractPayload(payload) {
+      if (typeof payload === "object") {
+        return payload;
       }
-      if (typeof data === "string") {
+      if (typeof payload === "string") {
         return {
-          id: data,
-          data: null
+          id: payload,
+          scope: null
         };
       }
-      return { id: null, data: null };
+      return { id: null, scope: null };
     },
     overlayClose() {
       if (this.closeOnOverlay) this.open = false;

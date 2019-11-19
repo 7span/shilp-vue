@@ -3,9 +3,11 @@ import defaultOptions from "./default-options";
 import components from "./components";
 
 const install = (Vue, options) => {
-  const mergedOptions = {
-    ...defaultOptions,
-    ...options
+  const requestHandler =
+    options.requestHandler || defaultOptions.requestHandler;
+  const vueMaterialDesignIcons = {
+    ...defaultOptions.vueMaterialDesignIcons,
+    ...(options.vueMaterialDesignIcons || {})
   };
 
   //Register Components
@@ -14,15 +16,15 @@ const install = (Vue, options) => {
   }
 
   //Vue Material Design Icons
-  for (var iconName in options.vueMaterialDesignIcons) {
-    Vue.component(iconName, options.vueMaterialDesignIcons[iconName]);
+  for (var iconName in vueMaterialDesignIcons) {
+    Vue.component(iconName, vueMaterialDesignIcons[iconName]);
   }
 
   //Provide Options
   Vue.mixin({
     provide() {
       return {
-        requestHandler: mergedOptions.requestHandler
+        requestHandler: requestHandler
       };
     }
   });
@@ -34,13 +36,15 @@ const install = (Vue, options) => {
       const self = vnode.context;
       const id = binding.arg;
       let data = binding.expression;
-      try {
-        data = JSON.parse(data);
-      } catch (err) {
-        console.error(
-          "Invalid JSON provided in directive's expression. Expression should be valid JSON with double quotes",
-          err
-        );
+      if (data) {
+        try {
+          data = JSON.parse(data);
+        } catch (err) {
+          console.error(
+            "Invalid JSON provided in directive's expression. Expression should be valid JSON with double quotes",
+            err
+          );
+        }
       }
       el.addEventListener("click", () => {
         self.$root.$emit("shilp-modal-open", { id, data });

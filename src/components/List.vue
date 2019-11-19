@@ -14,6 +14,10 @@ export default {
       type: Boolean,
       default: false
     },
+    fluid: {
+      type: Boolean,
+      default: false
+    },
     group: {
       type: Boolean,
       default: false
@@ -24,7 +28,7 @@ export default {
   data() {
     return {
       blockClass: "list",
-      booleanClassProps: ["stack", "group"],
+      booleanClassProps: ["stack", "group", "fluid"],
       variantClassProps: ["size"]
     };
   }
