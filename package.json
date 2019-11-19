@@ -18,7 +18,7 @@
     "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@7span/shilp": "0.1.0-beta.9",
+    "@7span/shilp": "0.1.0-beta.10",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-e2e-nightwatch": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",
