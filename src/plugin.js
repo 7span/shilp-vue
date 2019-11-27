@@ -1,6 +1,11 @@
 import "./scss/v-tooltip.scss";
 import defaultOptions from "./default-options";
 import components from "./components";
+import {
+  open as modalOpenDirective,
+  close as modalCloseDirective
+} from "./directives/modal";
+import { loader as loaderDirective } from "./directives/loader";
 
 const install = (Vue, options) => {
   const requestHandler =
@@ -30,37 +35,9 @@ const install = (Vue, options) => {
   });
 
   //Directives
-  //Modal
-  Vue.directive("shilp-modal-open", {
-    bind: (el, binding, vnode) => {
-      const self = vnode.context;
-      const id = binding.arg;
-      let data = binding.expression;
-      if (data) {
-        try {
-          data = JSON.parse(data);
-        } catch (err) {
-          console.error(
-            "Invalid JSON provided in directive's expression. Expression should be valid JSON with double quotes",
-            err
-          );
-        }
-      }
-      el.addEventListener("click", () => {
-        self.$root.$emit("shilp-modal-open", { id, data });
-      });
-    }
-  });
-
-  Vue.directive("shilp-modal-close", {
-    bind: (el, binding, vnode) => {
-      const self = vnode.context;
-      const id = binding.arg;
-      el.addEventListener("click", () => {
-        self.$root.$emit("shilp-modal-close", id);
-      });
-    }
-  });
+  Vue.directive("shilp-modal-open", modalOpenDirective);
+  Vue.directive("shilp-modal-close", modalCloseDirective);
+  Vue.directive("shilp-loader", loaderDirective);
 };
 
 const plugin = {
@@ -78,6 +55,7 @@ if (typeof window !== "undefined" && window.Vue) {
  */
 export const {
   SLayout,
+  SApp,
   SButton,
   SList,
   SBlocks,
@@ -92,8 +70,8 @@ export const {
   SNav,
   SNavItem,
   SNavGroup,
+  SMedia,
   SCard,
-  SCardMedia,
   SCardHeader,
   SCardBody,
   SCardFooter,
@@ -109,7 +87,9 @@ export const {
   SPerson,
   SAvatar,
   SModal,
-  SModalContainer
+  SModalContainer,
+  SMediaUpload,
+  SGrid
 } = components;
 
 /**

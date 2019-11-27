@@ -1,114 +1,44 @@
 <template>
-  <div class="layout" :style="setVariables">
-    <!-- HEADER -->
-    <header class="header">
-      <slot name="header" />
-    </header>
-
-    <!-- ASIDE -->
-    <aside class="aside" :class="{ 'aside--collapse': localAside.collapse }">
-      <!-- LOGO -->
-      <div class="logo">
-        <img v-if="localAside.collapse" :src="asideOptions.logoCollapse" />
-        <img v-else :src="asideOptions.logo" />
-      </div>
-
-      <!-- USER -->
-      <div class="user">
-        <slot v-if="localAside.collapse" name="user-collapse"></slot>
-        <slot v-else name="user"></slot>
-      </div>
-
-      <!-- NAV -->
-      <div class="aside__nav">
-        <slot name="nav" />
-      </div>
-
-      <!-- ASIDE FOOTER -->
-
-      <footer class="aside__footer">
-        <s-button
-          class="aside__toggle"
-          shape="square"
-          size="lg"
-          :icon="asideOptions.toggleIcon"
-          @click.native="localAside.collapse = !localAside.collapse"
-        >
-        </s-button>
-        <div v-if="!localAside.collapse" class="aside__note">v1.0.3-beta.0</div>
-      </footer>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-      <slot name="main" />
-    </main>
-    <slot />
+  <div class="layout" :class="classes">
+    <div class="layout__top" v-if="$scopedSlots.top">
+      <slot name="top"></slot>
+    </div>
+    <div class="layout__left" v-if="$scopedSlots.left">
+      <slot name="left"></slot>
+    </div>
+    <div class="layout__content">
+      <slot></slot>
+    </div>
+    <div class="layout__bottom" v-if="$scopedSlots.bottom">
+      <slot name="bottom"></slot>
+    </div>
+    <div class="layout__right" v-if="$scopedSlots.right">
+      <slot name="right"></slot>
+    </div>
   </div>
 </template>
 
 <script>
-const header = {
-  size: "48px"
-};
-
-const aside = {
-  collapse: false,
-  size: "192px",
-  collapsedSize: "48px",
-  toggleIcon: "ArrowExpandLeft"
-};
-
 export default {
   name: "s-layout",
-
   props: {
-    aside: {
-      type: Object,
-      default: () => ({})
-    },
-    header: {
-      type: Object,
-      default: () => ({})
-    },
-    options: {
-      type: Object,
-      default: () => ({})
-    }
+    pushTop: Boolean,
+    pushBottom: Boolean,
+    pullTop: Boolean,
+    pullBottom: Boolean
   },
-
-  data() {
-    return {
-      localAside: {
-        collapse: false
-      }
-    };
-  },
-
   computed: {
-    headerOptions() {
-      return {
-        ...header,
-        ...this.header
-      };
-    },
-    asideOptions() {
-      return {
-        ...aside,
-        ...this.aside,
-        ...this.localAside
-      };
-    },
-
-    setVariables() {
-      let vars = {
-        "--aside--size": this.localAside.collapse
-          ? this.asideOptions.collapsedSize
-          : this.asideOptions.size,
-        "--header--size": this.headerOptions.size,
-        "--aside--collapse-size": this.asideOptions.collapsedSize
-      };
-      return vars;
+    classes() {
+      const classes = [];
+      if (this.$scopedSlots.top) classes.push(`layout--top`);
+      if (this.$scopedSlots.right) classes.push(`layout--right`);
+      if (this.$scopedSlots.bottom) classes.push(`layout--bottom`);
+      if (this.$scopedSlots.left) classes.push(`layout--left`);
+      if (this.pushTop) classes.push(`layout--push-top`);
+      if (this.pushBottom) classes.push(`layout--push-bottom`);
+      if (this.pullTop) classes.push(`layout--pull-top`);
+      if (this.pullBottom) classes.push(`layout--pull-bottom`);
+      return classes;
     }
   }
 };
@@ -116,122 +46,105 @@ export default {
 
 <style lang="scss" scoped>
 .layout {
-  translate: all 0.3s ease 0s;
-  height: 100vh;
   display: grid;
-  grid-template-columns: var(--aside--size) auto;
-  grid-template-rows: var(--header--size) auto;
-  transition: all 0.3s ease 0s;
+  grid-template-rows: max-content auto max-content;
+  grid-template-columns: max-content auto max-content;
 }
-
-.aside {
+.layout__content {
+  grid-column: 1 / 4;
+  grid-row: 1 / 4;
+}
+.layout__top {
+  grid-column: 1 / 4;
+  grid-row: 1 / 2;
+}
+.layout__bottom {
+  grid-column: 1 / 4;
+  grid-row: 3 / 4;
+}
+.layout__left {
   grid-column: 1 / 2;
-  grid-row: 1 / 3;
-  display: flex;
-  flex-direction: column;
+  grid-row: 1 / 4;
 }
-.header {
-  grid-column: 2 / 3;
-}
-.main {
-  grid-column: 2 / 3;
+.layout__right {
+  grid-column: 3 / 4;
+  grid-row: 1 / 4;
 }
 
-.logo {
-  height: var(--header--size);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  img {
-    height: 25px;
-  }
-}
+// ALL
 
-.user {
-  padding: --space(sm);
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-}
-
-.aside__nav {
-  flex: 1 1 auto;
-}
-.aside__footer {
-  background-color: rgba(0, 0, 0, 0.2);
-  margin: auto;
-  flex: 0 0 var(--aside--collapse-size);
-  display: flex;
-  width: 100%;
-  align-items: center;
-}
-.aside__note {
-  flex: 1 1 auto;
-  color: --color(grey);
-  text-align: right;
-  padding-right: --space(sm);
-}
-
-.aside--collapse {
-  .user {
-    padding: --space(xs);
-  }
-  .aside__toggle {
-    transform: rotate(180deg);
-  }
-}
-</style>
-
-<style lang="scss">
-.user {
-  .person__name {
-    color: --color(grey, light);
-    font-weight: --font-weight(bold);
-  }
-}
 .layout {
-  .aside {
-    .nav {
-      margin: 0;
+  $this: &;
+  &--top {
+    .layout__content {
+      grid-row-start: 2;
     }
-    .button {
-      --button--color: #{--color(grey, light)};
-      --button--hover-color: #{--color(light)};
-      letter-spacing: 1px;
-      font-size: --font-size(h5);
-      font-weight: --font-weight(regular);
-      border-radius: 0;
-      &:hover {
-        --button--color: #{--color(light)};
+    &#{$this}--right {
+      .layout__right {
+        grid-row-start: 2;
       }
     }
-    .router-link-active {
-      --button--bg: #{--color(grey, darker)};
-      --button--hover-bg: #{--color(grey, darker)};
-      --button--color: #{--color(light)};
-      --button--hover-color: #{--color(light)};
-      position: relative;
-      &:after {
-        @include position(absolute);
-        content: "";
-        width: 5px;
-        background: gradient(primary, 0deg);
+    &#{$this}--left {
+      .layout__left {
+        grid-row-start: 2;
+      }
+    }
+    &#{$this}--push-top {
+      .layout__left {
+        grid-row-start: 1;
+      }
+      .layout__top {
+        grid-column-start: 2;
+      }
+    }
+    &#{$this}--pull-top {
+      .layout__right {
+        grid-row-start: 1;
+      }
+      .layout__top {
+        grid-column-end: 3;
       }
     }
   }
-}
-
-.aside--collapse {
-  .button {
-    padding: 0;
-    justify-content: center;
-    transition: all 0.3s ease 0s;
-    .button__icon {
-      margin: 0;
-      transition: all 0.3s ease 0s;
+  &--bottom {
+    .layout__content {
+      grid-row-end: 3;
     }
-    .button__label {
-      display: none;
+    &#{$this}--right {
+      .layout__right {
+        grid-row-end: 3;
+      }
+    }
+    &#{$this}--left {
+      .layout__left {
+        grid-row-end: 3;
+      }
+    }
+    &#{$this}--push-bottom {
+      .layout__left {
+        grid-row-end: 4;
+      }
+      .layout__bottom {
+        grid-column-start: 2;
+      }
+    }
+    &#{$this}--pull-bottom {
+      .layout__right {
+        grid-row-end: 4;
+      }
+      .layout__bottom {
+        grid-column-end: 3;
+      }
+    }
+  }
+  &--left {
+    .layout__content {
+      grid-column-start: 2;
+    }
+  }
+  &--right {
+    .layout__content {
+      grid-column-end: 3;
     }
   }
 }

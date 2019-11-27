@@ -1,5 +1,5 @@
 export default {
-  SLayout: require("./components/Layout").default,
+  SApp: require("./components/App").default,
 
   //BUTTON
   SButton: require("./components/Button").default,
@@ -8,6 +8,7 @@ export default {
   //BLOCKS
   SBlocks: require("./components/Blocks").default,
   SBlock: require("./components/Block").default,
+  SGrid: require("./components/Grid").default,
 
   //FORM
   SForm: require("./components/Form").default,
@@ -27,7 +28,6 @@ export default {
 
   //CARD
   SCard: require("./components/Card").default,
-  SCardMedia: require("./components/CardMedia").default,
   SCardHeader: require("./components/CardHeader").default,
   SCardBody: require("./components/CardBody").default,
   SCardFooter: require("./components/CardFooter").default,
@@ -41,11 +41,14 @@ export default {
   SModalContainer: require("./components/ModalContainer").default,
 
   //OTHERS
+  SMedia: require("./components/Media").default,
   SIcon: require("./components/Icon").default,
   SAlert: require("./components/Alert").default,
   SText: require("./components/Text").default,
   SItem: require("./components/Item").default,
   SColorPicker: require("./components/ColorPicker").default,
   SAvatar: require("./components/Avatar").default,
-  SPerson: require("./components/Person").default
+  SPerson: require("./components/Person").default,
+  SLayout: require("./components/Layout").default,
+  SMediaUpload: require("./components/MediaUpload").default
 };

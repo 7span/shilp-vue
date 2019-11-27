@@ -12,6 +12,8 @@ export default {
   props: {
     color: String,
     size: String,
+    shade: String,
+    weight: String,
     tag: {
       type: String,
       default: "p"
@@ -29,8 +31,13 @@ export default {
   computed: {
     addBlockClasses() {
       const classes = [];
-      if (this.color) classes.push(`color--${this.color}`);
+      if (this.color) {
+        let className = `color--${this.color}`;
+        if (this.shade) className += "--" + this.shade;
+        classes.push(className);
+      }
       if (this.size) classes.push(`${this.size}`);
+      if (this.weight) classes.push(`fw--${this.weight}`);
       return classes;
     }
   }
