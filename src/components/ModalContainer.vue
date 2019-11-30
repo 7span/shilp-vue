@@ -16,7 +16,7 @@ export default {
     };
   },
   methods: {
-    handleUpdate(newContent, oldContent) {
+    handleUpdate(newContent) {
       this.open = newContent;
     }
   }

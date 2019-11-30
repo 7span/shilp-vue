@@ -47,8 +47,8 @@ export default {
 <style lang="scss" scoped>
 .layout {
   display: grid;
-  grid-template-rows: max-content auto max-content;
-  grid-template-columns: max-content auto max-content;
+  grid-template-rows: minmax(0,max-content) auto minmax(0,max-content);
+  grid-template-columns: minmax(0,max-content) auto minmax(0,max-content);
 }
 .layout__content {
   grid-column: 1 / 4;

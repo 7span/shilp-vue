@@ -3,9 +3,9 @@
     :class="{'select':custom, 'field-block':custom, 'native-select':!custom, 'loader loader--dark':loader}"
   >
     <select v-bind="$attrs" :class="{'field-block':!custom, }" :value="value" @input="input">
-      <option value :disabled="!deselect">{{placeholder}}</option>
+      <option value>{{placeholder}}</option>
       <option
-        v-for="option in (request ? optionsFromRequest : options)"
+        v-for="option in serializedOptions"
         :value="option.value"
         :key="option.value"
         :selected="value==option.value"
@@ -53,6 +53,21 @@ export default {
     this.refresh();
   },
 
+  computed: {
+    serializedOptions() {
+      const options = this.request ? this.optionsFromRequest : this.options;
+      return options.map(item => {
+        if (typeof item !== "object") {
+          return {
+            label: item,
+            value: item
+          };
+        }
+        return item;
+      });
+    }
+  },
+
   methods: {
     input(e) {
       let options = this.request ? this.optionsFromRequest : this.options;
@@ -69,7 +84,7 @@ export default {
             this.loader = false;
             this.optionsFromRequest = res;
           })
-          .catch(err => {
+          .catch(() => {
             this.loader = false;
           });
       }
@@ -81,7 +96,7 @@ export default {
             this.loader = false;
             this.optionsFromRequest = res;
           })
-          .catch(err => {
+          .catch(() => {
             this.loader = false;
           });
       }

@@ -43,6 +43,7 @@ export default {
   computed: {
     isExternalLink() {
       if (this.to && this.to.startsWith("http")) return true;
+      return false;
     },
     link() {
       if (!this.to) return;

@@ -76,7 +76,7 @@ export default {
     });
 
     this.$root.$on("shilp-modal-close", payload => {
-      const { id, scope } = this.extractPayload(payload);
+      const { id } = this.extractPayload(payload);
       if (id && this.id == id) {
         this.scope = null;
         this.open = false;

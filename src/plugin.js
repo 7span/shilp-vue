@@ -88,7 +88,7 @@ export const {
   SAvatar,
   SModal,
   SModalContainer,
-  SMediaUpload,
+  // SMediaUpload,
   SGrid
 } = components;
 

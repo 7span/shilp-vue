@@ -22,14 +22,14 @@ export default {
       type: Boolean,
       default: false
     },
-    size: String
+    gap: String
   },
 
   data() {
     return {
       blockClass: "list",
       booleanClassProps: ["stack", "group", "fluid"],
-      variantClassProps: ["size"]
+      variantClassProps: ["gap"]
     };
   }
 };

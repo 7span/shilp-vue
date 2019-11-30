@@ -31,14 +31,14 @@ export default {
   },
   computed: {
     initialsValue() {
-      if (this.initials === false) return;
+      if (this.initials === false) return "";
       else if (this.initials) return this.initials;
       else if (this.name) {
         return this.name
           .split(" ")
           .map(word => word.charAt(0))
           .join("");
-      } else return;
+      } else return "";
     }
   }
 };

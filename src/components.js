@@ -49,6 +49,6 @@ export default {
   SColorPicker: require("./components/ColorPicker").default,
   SAvatar: require("./components/Avatar").default,
   SPerson: require("./components/Person").default,
-  SLayout: require("./components/Layout").default,
-  SMediaUpload: require("./components/MediaUpload").default
+  SLayout: require("./components/Layout").default
+  // SMediaUpload: require("./components/MediaUpload").default
 };
