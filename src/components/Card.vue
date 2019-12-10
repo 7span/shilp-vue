@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       blockClass: "card",
-      booleanClassProps: ["fluid", "split"],
+      booleanClassProps: ["fluid", "split", "round"],
       variantClassProps: ["size", "style_"]
     };
   }

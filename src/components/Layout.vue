@@ -1,18 +1,22 @@
 <template>
-  <div class="layout" :class="classes">
-    <div class="layout__top" v-if="$scopedSlots.top">
+  <div class="layout" :class="classes" :style="styles">
+    <div class="layout__top" :class="childClasses" v-if="$scopedSlots.top">
       <slot name="top"></slot>
     </div>
-    <div class="layout__left" v-if="$scopedSlots.left">
+    <div class="layout__left" :class="childClasses" v-if="$scopedSlots.left">
       <slot name="left"></slot>
     </div>
-    <div class="layout__content">
+    <div class="layout__content" :class="childClasses">
       <slot></slot>
     </div>
-    <div class="layout__bottom" v-if="$scopedSlots.bottom">
+    <div
+      class="layout__bottom"
+      :class="childClasses"
+      v-if="$scopedSlots.bottom"
+    >
       <slot name="bottom"></slot>
     </div>
-    <div class="layout__right" v-if="$scopedSlots.right">
+    <div class="layout__right" :class="childClasses" v-if="$scopedSlots.right">
       <slot name="right"></slot>
     </div>
   </div>
@@ -25,7 +29,18 @@ export default {
     pushTop: Boolean,
     pushBottom: Boolean,
     pullTop: Boolean,
-    pullBottom: Boolean
+    pullBottom: Boolean,
+    fullHeight: {
+      type: Boolean,
+      default: false
+    },
+    gap: String,
+    childRadius: String
+  },
+  watch: {
+    $scopedSlots(nv) {
+      console.log(nv);
+    }
   },
   computed: {
     classes() {
@@ -38,7 +53,18 @@ export default {
       if (this.pushBottom) classes.push(`layout--push-bottom`);
       if (this.pullTop) classes.push(`layout--pull-top`);
       if (this.pullBottom) classes.push(`layout--pull-bottom`);
+      if (this.fullHeight) classes.push("h--100");
       return classes;
+    },
+    childClasses() {
+      const classes = [];
+      if (this.childRadius) classes.push(`radius--${this.childRadius}`);
+      return classes;
+    },
+    styles() {
+      const styles = {};
+      if (this.gap) styles["gap"] = `var(--space--${this.gap})`;
+      return styles;
     }
   }
 };
@@ -47,8 +73,16 @@ export default {
 <style lang="scss" scoped>
 .layout {
   display: grid;
-  grid-template-rows: minmax(0,max-content) auto minmax(0,max-content);
-  grid-template-columns: minmax(0,max-content) auto minmax(0,max-content);
+  grid-template-rows: minmax(0, max-content) auto minmax(0, max-content);
+  grid-template-columns: minmax(0, max-content) auto minmax(0, max-content);
+
+  &.h--100 {
+    .layout__content,
+    .layout__left,
+    .layout__right {
+      overflow: auto;
+    }
+  }
 }
 .layout__content {
   grid-column: 1 / 4;

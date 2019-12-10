@@ -1,10 +1,5 @@
 <template>
-  <component
-    :is="component"
-    class="button"
-    :class="blockClasses"
-    v-bind="$attrs"
-  >
+  <component :is="component" class="button" :class="blockClasses" v-bind="$attrs">
     <slot name="icon">
       <s-icon v-if="icon" class="button__icon" :name="icon" />
     </slot>
@@ -33,6 +28,9 @@ export default {
 
   computed: {
     component() {
+      if (this.label) {
+        return "label";
+      }
       if (this.$attrs.to) {
         return "router-link";
       }
