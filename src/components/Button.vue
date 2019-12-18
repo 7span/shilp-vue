@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       blockClass: "button",
-      booleanClassProps: ["fluid"],
+      booleanClassProps: ["fluid","active"],
       variantClassProps: ["color", "size", "shape", "style_", "align"]
     };
   },

@@ -1,9 +1,9 @@
 <template>
-  <div class="choices" :class="classes">
+  <s-list group :class="classes">
     <div
       class="choice"
-      :class="{'choice--custom':custom || component}"
-      v-for="(option,index) in options"
+      :class="{ 'choice--custom': custom || component }"
+      v-for="(option, index) in options"
       :key="`option--${index}`"
     >
       <input
@@ -18,23 +18,27 @@
 
       <!-- STYLE: BUTTON -->
       <s-button
-        v-if="component=='button'"
+        v-if="component == 'button'"
         v-bind="$attrs"
         :for="optionId(option)"
-        :style_="checked == option.value ? 'solid' : buttonInactiveStyle"
-      >{{option.label}}</s-button>
+        :active="checked == option.value"
+      >{{ option.label }}</s-button>
 
       <!-- STYLE: NATIVE OR CUSTOM -->
       <label
         v-else
         class="choice__label"
-        :class="{'choice__label--checked':checked == option.value}"
+        :class="{ 'choice__label--checked': checked == option.value }"
         :for="optionId(option)"
       >
-        <slot :name="optionId(option)" :option="option" :checked="checked == option.value">{{option.label}}</slot>
+        <slot
+          :name="optionId(option)"
+          :option="option"
+          :checked="checked == option.value"
+        >{{ option.label }}</slot>
       </label>
     </div>
-  </div>
+  </s-list>
 </template>
 
 <script>
@@ -74,12 +78,8 @@ export default {
   },
 
   computed: {
-    
     classes() {
       const classes = [];
-      if (!this.component && !this.custom) {
-        classes.push("space", `space--${this.gap}`);
-      }
       if (this.component == "button") {
         classes.push("buttons", `buttons--group`);
       }
@@ -93,9 +93,9 @@ export default {
       this.$emit("input", this.checked, metaValue);
     },
 
-    optionId(option){
-      return option.id || option.value
-    },
+    optionId(option) {
+      return option.id || option.value;
+    }
   }
 };
 </script>

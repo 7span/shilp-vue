@@ -1,5 +1,5 @@
 <template>
-  <div class="layout" :class="classes" :style="styles">
+  <div class="layout" :class="classes()" :style="styles">
     <div class="layout__top" :class="childClasses" v-if="$scopedSlots.top">
       <slot name="top"></slot>
     </div>
@@ -37,12 +37,23 @@ export default {
     gap: String,
     childRadius: String
   },
-  watch: {
-    $scopedSlots(nv) {
-      console.log(nv);
+
+  computed: {
+    childClasses() {
+      const classes = [];
+      if (this.childRadius) classes.push(`radius--${this.childRadius}`);
+      return classes;
+    },
+    styles() {
+      const styles = {};
+      if (this.gap) styles["gap"] = `var(--space--${this.gap})`;
+      return styles;
     }
   },
-  computed: {
+  methods: {
+    // Using method instead of computed propery here
+    // because reactivity of $scopedSlots do not work
+    // when values are cached in computed properties
     classes() {
       const classes = [];
       if (this.$scopedSlots.top) classes.push(`layout--top`);
@@ -55,16 +66,6 @@ export default {
       if (this.pullBottom) classes.push(`layout--pull-bottom`);
       if (this.fullHeight) classes.push("h--100");
       return classes;
-    },
-    childClasses() {
-      const classes = [];
-      if (this.childRadius) classes.push(`radius--${this.childRadius}`);
-      return classes;
-    },
-    styles() {
-      const styles = {};
-      if (this.gap) styles["gap"] = `var(--space--${this.gap})`;
-      return styles;
     }
   }
 };

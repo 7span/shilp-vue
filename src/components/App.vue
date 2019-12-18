@@ -215,7 +215,7 @@ export default {
         @include position(absolute);
         content: "";
         width: 5px;
-        background: gradient(primary, 0deg);
+        background: create-gradient(primary, 0deg);
       }
     }
   }

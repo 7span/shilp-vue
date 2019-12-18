@@ -14,6 +14,10 @@ export default {
       type: Boolean,
       default: false
     },
+    group: {
+      type: Boolean,
+      default: false
+    },
     color: String,
     size: String,
     shape: String,
@@ -28,7 +32,7 @@ export default {
   data() {
     return {
       blockClass: "nav",
-      booleanClassProps: ["stack", "fluid"],
+      booleanClassProps: ["stack", "fluid", "group"],
       variantClassProps: ["color", "size", "shape", "style_", "align"]
     };
   }

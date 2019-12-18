@@ -7,7 +7,7 @@
       <option
         v-for="option in serializedOptions"
         :value="option.value"
-        :key="option.value"
+        :key="uniqueId +'--'+ option.value"
         :selected="value==option.value"
       >{{option.label}}</option>
       <slot></slot>
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { uid } from "../utils";
+
 export default {
   name: "s-select",
   inject: ["requestHandler"],
@@ -54,6 +56,9 @@ export default {
   },
 
   computed: {
+    uniqueId() {
+      return uid();
+    },
     serializedOptions() {
       const options = this.request ? this.optionsFromRequest : this.options;
       return options.map(item => {

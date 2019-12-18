@@ -1,13 +1,21 @@
 <template>
-  <div class="color-picker" :style="{'--color-picker--size':size}">
-    <div class="color-picker__row" v-for="(row,index) in thePalette" :key="`color-row--${index}`">
-      <label class="color-picker__group">{{row.label}}</label>
+  <div class="color-picker" ref="colorPicker" :style="{ '--color-picker--size': size }">
+    <div
+      class="color-picker__row"
+      v-for="(row, index) in paletteToShow"
+      :key="`color-row--${index}`"
+    >
+      <label class="color-picker__group">{{ row.label }}</label>
       <div class="color-picker__colors">
         <button
           type="button"
           v-close-popover
-          v-for="(color,colorIndex) in row.colors"
-          :style="{backgroundColor:color.hex}"
+          v-for="(color, colorIndex) in row.colors"
+          :style="{
+            backgroundColor: palette
+              ? color.hex
+              : `var(--color--${color.value})`
+          }"
           :class="`color-picker__color--${color.value}`"
           :title="color.label"
           :key="`color--${colorIndex}`"
@@ -25,8 +33,7 @@ export default {
   name: "s-color-picker",
   props: {
     palette: {
-      type: Array,
-      default: () => []
+      type: Array
     },
     size: {
       type: String,
@@ -40,11 +47,13 @@ export default {
     mode: {
       type: String,
       default: "default"
-    }
+    },
+    source: String
   },
 
   computed: {
-    thePalette() {
+    paletteToShow() {
+      if (this.palette) return this.palette;
       if (this.mode == "default") return this.defaultPalette;
       if (this.mode == "full") return this.fullPalette;
       return [];
@@ -64,7 +73,7 @@ export default {
                 " " +
                 this.capitalizeFirstLetter(shade),
               hex: this.getCSSValue(this.getCSSVar(color, shade)),
-              value: `${color}--${shade}`
+              value: shade == "default" ? `${color}` : `${color}--${shade}`
             });
           });
           palette.push({
@@ -114,7 +123,11 @@ export default {
 
   methods: {
     getCSSValue(varName) {
-      return getComputedStyle(document.body).getPropertyValue(varName);
+      let source = document.body;
+      if (this.source == "self") {
+        source = this.$refs.colorPicker;
+      }
+      return getComputedStyle(source).getPropertyValue(varName);
     },
     getCSSVar(color, shade) {
       return shade == "default"
