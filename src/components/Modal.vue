@@ -1,7 +1,7 @@
 <template>
   <portal to="modal-container" slim>
     <transition>
-      <div v-if="open" class="modal" :class="blockClasses" v-bind="$attrs">
+      <div v-if="open" :id="id" class="modal" :class="blockClasses" v-bind="$attrs">
         <div class="modal__overlay" :class="overlayClasses"></div>
         <div class="modal__wrapper" @click.self="overlayClose">
           <slot v-bind="scope"></slot>

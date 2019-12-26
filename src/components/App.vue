@@ -33,8 +33,7 @@
           size="lg"
           :icon="asideOptions.toggleIcon"
           @click.native="localAside.collapse = !localAside.collapse"
-        >
-        </s-button>
+        ></s-button>
         <div v-if="!localAside.collapse" class="aside__note">v1.0.3-beta.0</div>
       </footer>
     </aside>
@@ -148,7 +147,7 @@ export default {
 }
 
 .user {
-  padding: --space(sm);
+  padding: --space(3);
   background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
@@ -169,12 +168,12 @@ export default {
   flex: 1 1 auto;
   color: --color(grey);
   text-align: right;
-  padding-right: --space(sm);
+  padding-right: --space(3);
 }
 
 .aside--collapse {
   .user {
-    padding: --space(xs);
+    padding: --space(2);
   }
   .aside__toggle {
     transform: rotate(180deg);
@@ -186,7 +185,7 @@ export default {
 .user {
   .person__name {
     color: --color(grey, light);
-    font-weight: --font-weight(bold);
+    font-weight: --text(bold);
   }
 }
 .app {
@@ -198,8 +197,8 @@ export default {
       --button--color: #{--color(grey, light)};
       --button--hover-color: #{--color(light)};
       letter-spacing: 1px;
-      font-size: --font-size(h5);
-      font-weight: --font-weight(regular);
+      font-size: --text(h5);
+      font-weight: --text(regular);
       border-radius: 0;
       &:hover {
         --button--color: #{--color(light)};

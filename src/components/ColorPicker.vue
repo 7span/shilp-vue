@@ -147,7 +147,7 @@ export default {
 <style lang="scss" scoped>
 .color-picker__row {
   + .color-picker__row {
-    margin-top: --space(sm);
+    margin-top: --space(3);
   }
 }
 .color-picker__colors {
@@ -160,7 +160,7 @@ export default {
     transition: all 0.1s ease 0s;
     cursor: pointer;
     + button {
-      margin-left: --space(xxs);
+      margin-left: --space(1);
     }
     &:hover {
       transform: scale(0.8);
@@ -169,7 +169,7 @@ export default {
 }
 .color-picker__group {
   text-transform: uppercase;
-  font-size: --font-size(h6);
+  font-size: --text(h6);
   letter-spacing: 2px;
   color: --color(grey);
   display: block;

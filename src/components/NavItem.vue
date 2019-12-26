@@ -1,9 +1,9 @@
 <template>
-  <li class="nav__item" :class="{'nav__item--active':isActive}">
+  <li class="nav__item" :class="{ 'nav__item--active': isActive }">
     <label v-if="type == 'label'" class="nav__label">
       <slot />
     </label>
-    <s-button v-else class="nav__link" v-bind="mergedProps">
+    <s-button v-else class="nav__link" v-bind="mergedProps" :active="isActive">
       <slot />
     </s-button>
     <slot name="nav"></slot>

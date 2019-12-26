@@ -10,7 +10,7 @@ export default {
   mixins: [require("../mixins/component.js").default],
 
   props: {
-    size: String,
+    gap: String,
     fluid: {
       type: Boolean,
       default: false
@@ -26,7 +26,7 @@ export default {
     return {
       blockClass: "card",
       booleanClassProps: ["fluid", "split", "round"],
-      variantClassProps: ["size", "style_"]
+      variantClassProps: ["gap", "style_"]
     };
   }
 };

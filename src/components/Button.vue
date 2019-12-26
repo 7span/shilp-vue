@@ -21,20 +21,31 @@ export default {
   data() {
     return {
       blockClass: "button",
-      booleanClassProps: ["fluid","active"],
+      booleanClassProps: ["fluid", "active"],
       variantClassProps: ["color", "size", "shape", "style_", "align"]
     };
   },
 
   computed: {
+    isDisabled() {
+      return (
+        this.$attrs.disabled &&
+        (this.$attrs.disabled == "disabled" || this.$attrs.disabled === true)
+      );
+    },
+
+    test() {
+      return this.$attrs.disabled;
+    },
+
     component() {
       if (this.label) {
         return "label";
       }
-      if (this.$attrs.to) {
+      if (this.$attrs.to && !this.isDisabled) {
         return "router-link";
       }
-      if (this.$attrs.href) {
+      if (this.$attrs.href && !this.isDisabled) {
         return "a";
       }
       if (this.$attrs.for) {

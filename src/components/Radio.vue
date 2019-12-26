@@ -2,7 +2,7 @@
   <s-list group :class="classes">
     <div
       class="choice"
-      :class="{ 'choice--custom': custom || component }"
+      :class="{ 'choice--custom': custom, 'choice--native': native }"
       v-for="(option, index) in options"
       :key="`option--${index}`"
     >
@@ -68,6 +68,10 @@ export default {
       default: "md"
     },
     custom: {
+      type: Boolean,
+      default: false
+    },
+    native: {
       type: Boolean,
       default: false
     },

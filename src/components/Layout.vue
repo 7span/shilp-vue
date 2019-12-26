@@ -1,22 +1,26 @@
 <template>
   <div class="layout" :class="classes()" :style="styles">
-    <div class="layout__top" :class="childClasses" v-if="$scopedSlots.top">
+    <div class="layout__top" :class="[...topClasslist, ...childClasses]" v-if="$scopedSlots.top">
       <slot name="top"></slot>
     </div>
-    <div class="layout__left" :class="childClasses" v-if="$scopedSlots.left">
+    <div class="layout__left" :class="[...topClasslist, ...childClasses]" v-if="$scopedSlots.left">
       <slot name="left"></slot>
     </div>
-    <div class="layout__content" :class="childClasses">
+    <div class="layout__content" :class="[...contentClasslist, ...childClasses]">
       <slot></slot>
     </div>
     <div
       class="layout__bottom"
-      :class="childClasses"
+      :class="[...bottomClasslist, ...childClasses]"
       v-if="$scopedSlots.bottom"
     >
       <slot name="bottom"></slot>
     </div>
-    <div class="layout__right" :class="childClasses" v-if="$scopedSlots.right">
+    <div
+      class="layout__right"
+      :class="[...rightClasslist, ...childClasses]"
+      v-if="$scopedSlots.right"
+    >
       <slot name="right"></slot>
     </div>
   </div>
@@ -35,14 +39,35 @@ export default {
       default: false
     },
     gap: String,
-    childRadius: String
+    childClasslist: {
+      type: Array,
+      default: () => []
+    },
+    topClasslist: {
+      type: Array,
+      default: () => []
+    },
+    rightClasslist: {
+      type: Array,
+      default: () => []
+    },
+    bottomClasslist: {
+      type: Array,
+      default: () => []
+    },
+    leftClasslist: {
+      type: Array,
+      default: () => []
+    },
+    contentClasslist: {
+      type: Array,
+      default: () => []
+    }
   },
 
   computed: {
     childClasses() {
-      const classes = [];
-      if (this.childRadius) classes.push(`radius--${this.childRadius}`);
-      return classes;
+      return this.childClasslist;
     },
     styles() {
       const styles = {};

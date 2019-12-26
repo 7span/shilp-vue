@@ -2,7 +2,11 @@
   <header class="card__header">
     <slot name="header">
       <s-icon v-if="icon" class="card__icon" :name="icon"></s-icon>
-      <h3 v-if="title" class="card__title">{{ title }}</h3>
+      <component :is="titleTag" v-if="title" class="card__title">
+        {{
+        title
+        }}
+      </component>
       <div v-if="$slots.actions" class="card__actions">
         <slot name="actions"></slot>
       </div>

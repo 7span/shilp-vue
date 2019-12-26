@@ -1,15 +1,20 @@
 <template>
   <div
-    :class="{'select':custom, 'field-block':custom, 'native-select':!custom, 'loader loader--dark':loader}"
+    :class="{
+      select: custom,
+      'field-block': custom,
+      'native-select': !custom,
+      'loader loader--dark': loader
+    }"
   >
-    <select v-bind="$attrs" :class="{'field-block':!custom, }" :value="value" @input="input">
-      <option value>{{placeholder}}</option>
+    <select v-bind="$attrs" :class="{ 'field-block': !custom }" :value="value" @input="input">
+      <option value>{{ placeholder }}</option>
       <option
         v-for="option in serializedOptions"
         :value="option.value"
-        :key="uniqueId +'--'+ option.value"
-        :selected="value==option.value"
-      >{{option.label}}</option>
+        :key="uniqueId + '--' + option.value"
+        :selected="value == option.value"
+      >{{ option.label }}</option>
       <slot></slot>
     </select>
   </div>
@@ -24,7 +29,10 @@ export default {
   inheritAttrs: false,
 
   props: {
-    options: Array,
+    options: {
+      type: Array,
+      default: () => []
+    },
     value: [String, Number],
     placeholder: {
       type: String,
@@ -47,7 +55,7 @@ export default {
   data() {
     return {
       loader: false,
-      optionsFromRequest: null
+      optionsFromRequest: []
     };
   },
 
