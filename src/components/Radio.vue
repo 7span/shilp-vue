@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { uid } from "../utils";
+
 export default {
   name: "s-radio",
   inheritAttrs: false,
@@ -82,6 +84,9 @@ export default {
   },
 
   computed: {
+    uniqueId() {
+      return uid();
+    },
     classes() {
       const classes = [];
       if (this.component == "button") {
@@ -98,7 +103,7 @@ export default {
     },
 
     optionId(option) {
-      return option.id || option.value;
+      return option.id || this.uniqueId + option.value;
     }
   }
 };

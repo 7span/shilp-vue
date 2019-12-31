@@ -1,5 +1,5 @@
 <template>
-  <div class="grid" :class="blockClasses" :style="inlineCss">
+  <div class="grid" :class="blockClasses">
     <slot></slot>
   </div>
 </template>
@@ -18,16 +18,16 @@ export default {
     return {
       blockClass: "grid",
       booleanClassProps: [],
-      variantClassProps: ["gap"]
+      variantClassProps: ["gap", "size"]
     };
   },
 
   computed: {
-    inlineCss() {
-      const css = {};
-      if (this.size) css["--grid--size"] = this.size;
-      return css;
-    }
+    // inlineCss() {
+    //   const css = {};
+    //   if (this.size) css["--grid--size"] = this.size;
+    //   return css;
+    // }
   }
 };
 </script>

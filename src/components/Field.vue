@@ -1,11 +1,14 @@
 <template>
   <div class="field" :class="blockClasses">
-    <label v-if="label!==null && label!==undefined">{{label==""?"&nbsp;":label}}</label>
+    <label
+      class="field__label"
+      v-if="label !== null && label !== undefined"
+    >{{ label == "" ? "&nbsp;" : label }}</label>
     <div class="field__group" :class="fieldGroupClasses">
       <!-- BEFORE -->
       <div v-if="before || beforeIcon" class="field__before">
         <slot name="before"></slot>
-        <template v-if="before">{{before}}</template>
+        <template v-if="before">{{ before }}</template>
         <div class="field__icon" v-if="beforeIcon">
           <s-icon :name="beforeIcon" />
         </div>
@@ -29,7 +32,7 @@
 
       <!-- AFTER -->
       <div v-if="after || afterIcon" class="field__after">
-        <template v-if="after">{{after}}</template>
+        <template v-if="after">{{ after }}</template>
         <template v-if="afterIcon">
           <!-- ICON -->
           <div class="field__icon">
@@ -41,9 +44,8 @@
     </div>
 
     <!-- MESSAGES -->
-    <small v-if="desc">{{desc}}</small>
-    <small class="field__danger" v-if="errorMessage">{{errorMessage || errors[0]}}</small>
-    <small class="field__success" v-if="successMessage">{{successMessage}}</small>
+    <small class="field__desc" v-if="desc">{{ desc }}</small>
+    <small class="field__message" v-if="message">{{ message }}</small>
   </div>
 </template>
 
@@ -62,8 +64,8 @@ export default {
     afterIcon: String,
     size: String,
     color: String,
-    errorMessage: String,
-    successMessage: String,
+    style_: String,
+    message: [String, Boolean],
     loader: {
       type: Boolean,
       default: false
@@ -78,7 +80,7 @@ export default {
   data() {
     return {
       blockClass: "field",
-      variantClassProps: ["color", "size"],
+      variantClassProps: ["color", "size", "style_"],
       booleanClassProps: ["optional"],
       isPasswordVisible: false
     };
@@ -87,8 +89,6 @@ export default {
   computed: {
     addBlockClasses() {
       const classes = [];
-      if (this.errorMessage) classes.push("field--danger");
-      if (this.successMessage) classes.push("field--success");
       return classes;
     },
     fieldGroupClasses() {

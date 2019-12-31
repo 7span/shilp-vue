@@ -62,7 +62,11 @@ export default {
     contentClasslist: {
       type: Array,
       default: () => []
-    }
+    },
+    leftSize: String,
+    topSize: String,
+    rightSize: String,
+    bottomSize: String
   },
 
   computed: {
@@ -72,6 +76,10 @@ export default {
     styles() {
       const styles = {};
       if (this.gap) styles["gap"] = `var(--space--${this.gap})`;
+      if (this.topSize) styles["--layout--top-size"] = this.topSize;
+      if (this.rightSize) styles["--layout--right-size"] = this.rightSize;
+      if (this.bottomSize) styles["--layout--bottom-size"] = this.bottomSize;
+      if (this.leftSize) styles["--layout--left-size"] = this.leftSize;
       return styles;
     }
   },
@@ -99,13 +107,17 @@ export default {
 <style lang="scss" scoped>
 .layout {
   display: grid;
-  grid-template-rows: minmax(0, max-content) auto minmax(0, max-content);
-  grid-template-columns: minmax(0, max-content) auto minmax(0, max-content);
+  grid-template-rows:
+    var(--layout--top-size, minmax(0, max-content))
+    auto var(--layout--bottom-size, minmax(0, max-content));
+  grid-template-columns:
+    var(--layout--left-size, minmax(0, max-content))
+    auto var(--layout--right-size, minmax(0, max-content));
 
   &.h--100 {
-    .layout__content,
-    .layout__left,
-    .layout__right {
+    > .layout__content,
+    > .layout__left,
+    > .layout__right {
       overflow: auto;
     }
   }
@@ -136,74 +148,74 @@ export default {
 .layout {
   $this: &;
   &--top {
-    .layout__content {
+    > .layout__content {
       grid-row-start: 2;
     }
     &#{$this}--right {
-      .layout__right {
+      > .layout__right {
         grid-row-start: 2;
       }
     }
     &#{$this}--left {
-      .layout__left {
+      > .layout__left {
         grid-row-start: 2;
       }
     }
     &#{$this}--push-top {
-      .layout__left {
+      > .layout__left {
         grid-row-start: 1;
       }
-      .layout__top {
+      > .layout__top {
         grid-column-start: 2;
       }
     }
     &#{$this}--pull-top {
-      .layout__right {
+      > .layout__right {
         grid-row-start: 1;
       }
-      .layout__top {
+      > .layout__top {
         grid-column-end: 3;
       }
     }
   }
   &--bottom {
-    .layout__content {
+    > .layout__content {
       grid-row-end: 3;
     }
     &#{$this}--right {
-      .layout__right {
+      > .layout__right {
         grid-row-end: 3;
       }
     }
     &#{$this}--left {
-      .layout__left {
+      > .layout__left {
         grid-row-end: 3;
       }
     }
     &#{$this}--push-bottom {
-      .layout__left {
+      > .layout__left {
         grid-row-end: 4;
       }
-      .layout__bottom {
+      > .layout__bottom {
         grid-column-start: 2;
       }
     }
     &#{$this}--pull-bottom {
-      .layout__right {
+      > .layout__right {
         grid-row-end: 4;
       }
-      .layout__bottom {
+      > .layout__bottom {
         grid-column-end: 3;
       }
     }
   }
   &--left {
-    .layout__content {
+    > .layout__content {
       grid-column-start: 2;
     }
   }
   &--right {
-    .layout__content {
+    > .layout__content {
       grid-column-end: 3;
     }
   }

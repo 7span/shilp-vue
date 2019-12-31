@@ -1,37 +1,39 @@
 <template>
   <div class="media" :class="blockClasses" :style="inlineCss">
-    <!-- BASE64 PREVIEW -->
-    <img v-if="preview" :src="preview" />
+    <div class="media__wrap" :class="mediaRatio">
+      <!-- BASE64 PREVIEW -->
+      <img v-if="preview" :src="preview" />
 
-    <!-- URL -->
-    <template v-else-if="value && value.url">
-      <div v-if="waitToLoad && mediaLoading" class="media__loading" v-shilp-loader="true"></div>
-      <img v-else :src="value.url" alt />
-    </template>
+      <!-- URL -->
+      <template v-else-if="value">
+        <div v-if="waitToLoad && mediaLoading" class="media__loading" v-shilp-loader="true"></div>
+        <img v-else :src="src" alt />
+      </template>
 
-    <!-- SELECT -->
-    <div v-else-if="!readonly" class="media__select">
-      <s-icon name="ImagePlus"></s-icon>
-      <input type="file" :accept="accept" @change="select($event)" />
-    </div>
+      <!-- SELECT -->
+      <div v-else-if="!readonly" class="media__select">
+        <s-icon name="ImagePlus"></s-icon>
+        <input type="file" :accept="accept" @change="select($event)" />
+      </div>
 
-    <!-- FALLBACK -->
-    <div v-else class="media__placeholder">
-      <s-icon name="ImageIcon"></s-icon>
-    </div>
+      <!-- FALLBACK -->
+      <div v-else class="media__placeholder">
+        <s-icon name="ImageIcon"></s-icon>
+      </div>
 
-    <!-- REMOVE BUTTON -->
-    <div class="media__remove" v-if="value && !readonly">
-      <slot name="remove">
-        <s-button
-          style_="muted"
-          @click.native="remove"
-          color="danger"
-          size="sm"
-          icon="Close"
-          shape="circle"
-        ></s-button>
-      </slot>
+      <!-- REMOVE BUTTON -->
+      <div class="media__remove" v-if="value && !readonly">
+        <slot name="remove">
+          <s-button
+            style_="muted"
+            @click.native="remove"
+            color="danger"
+            size="sm"
+            icon="Close"
+            shape="circle"
+          ></s-button>
+        </slot>
+      </div>
     </div>
   </div>
 </template>
@@ -45,7 +47,9 @@ export default {
     fit: String,
     position: String,
     ratio: String,
-    value: [Object, File],
+    value: [String, Object, File],
+    width: String,
+    height: String,
     readonly: {
       type: Boolean,
       default: true
@@ -99,16 +103,29 @@ export default {
   },
 
   computed: {
+    src() {
+      if (typeof this.value === "object") {
+        return this.value.url;
+      } else {
+        return this.value;
+      }
+    },
+
     isUploaded() {
       if (!this.value) return false;
       return !(this.value instanceof File);
     },
 
-    addBlockClasses() {
+    mediaRatio() {
       const classes = [];
       if (this.ratio) classes.push("ratio", `ratio--${this.ratio}`);
       if (!this.ratio && (!this.value || this.mediaLoading))
         classes.push("ratio", "ratio--16x9");
+      return classes;
+    },
+
+    addBlockClasses() {
+      const classes = [];
       if (!this.value) classes.push("media--select");
       return classes;
     },
@@ -117,6 +134,8 @@ export default {
       const css = {};
       if (this.fit) css["--media--fit"] = this.fit;
       if (this.position) css["--media--position"] = this.position;
+      if (this.width) css["width"] = this.width;
+      if (this.height) css["height"] = this.height;
       return css;
     }
   },

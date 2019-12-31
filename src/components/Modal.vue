@@ -22,9 +22,9 @@ export default {
       type: String,
       default: "md"
     },
-    fix: {
+    fullHeight: {
       type: Boolean,
-      default: true
+      default: false
     },
     overlay: {
       type: [String, Boolean],
@@ -44,12 +44,17 @@ export default {
       open: false,
       scope: null,
       blockClass: "modal",
-      booleanClassProps: ["fix"],
+      booleanClassProps: [],
       variantClassProps: ["size"]
     };
   },
 
   computed: {
+    addBlockClasses() {
+      const classes = [];
+      if (this.fullHeight) classes.push(`modal--full-height`);
+      return classes;
+    },
     overlayClasses() {
       if (this.overlay === false) return;
       return ["overlay", `overlay--${this.overlay}`];
@@ -59,7 +64,7 @@ export default {
   mounted() {
     document.addEventListener("keyup", e => {
       if (e.keyCode === 27 && this.closeOnEsc) {
-        this.open = false;
+        this.close();
       }
     });
 
@@ -73,21 +78,27 @@ export default {
         this.scope = null;
         this.open = false;
       }
+      this.$emit("open");
     });
 
     this.$root.$on("shilp-modal-close", payload => {
       const { id } = this.extractPayload(payload);
-      if (id && this.id == id) {
-        this.scope = null;
-        this.open = false;
+      if (id) {
+        if (this.id == id) {
+          this.close();
+        }
       } else {
-        this.scope = null;
-        this.open = false;
+        this.close();
       }
     });
   },
 
   methods: {
+    close() {
+      this.scope = null;
+      this.open = false;
+      this.$emit("close");
+    },
     extractPayload(payload) {
       if (typeof payload === "object") {
         return payload;
@@ -101,7 +112,9 @@ export default {
       return { id: null, scope: null };
     },
     overlayClose() {
-      if (this.closeOnOverlay) this.open = false;
+      if (this.closeOnOverlay) {
+        this.close();
+      }
     }
   }
 };

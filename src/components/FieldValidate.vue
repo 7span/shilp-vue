@@ -12,12 +12,13 @@
     -->
     <s-field
       v-bind="$attrs"
-      :error-message="props.errors[0]"
+      :message="props.errors[0]"
+      :style_="props.errors[0] ? 'danger' : ''"
       has-validation
       @validate="props.validate()"
     >
       <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
-        <slot :name="slot" v-bind="{...scope,...props}" />
+        <slot :name="slot" v-bind="{ ...scope, ...props }" />
       </template>
       <slot v-bind="props"></slot>
     </s-field>
