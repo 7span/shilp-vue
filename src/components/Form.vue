@@ -1,5 +1,5 @@
 <template>
-  <form class="form" @submit.prevent="$emit('submit')">
+  <form ref="form" class="form" @submit.prevent="$emit('submit')">
     <header class="form__header">
       <s-alert
         v-if="errorMessage"

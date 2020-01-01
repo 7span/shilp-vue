@@ -1,10 +1,11 @@
 <template>
   <div class="field" :class="blockClasses">
-    <label
-      class="field__label"
-      v-if="label !== null && label !== undefined"
-    >{{ label == "" ? "&nbsp;" : label }}</label>
-    <div class="field__group" :class="fieldGroupClasses">
+    <label class="field__label" v-if="label !== null && label !== undefined">
+      {{
+      label == "" ? "&nbsp;" : label
+      }}
+    </label>
+    <div class="field__group">
       <!-- BEFORE -->
       <div v-if="before || beforeIcon" class="field__before">
         <slot name="before"></slot>
@@ -90,13 +91,13 @@ export default {
     addBlockClasses() {
       const classes = [];
       return classes;
-    },
-    fieldGroupClasses() {
-      const classes = [];
-      if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
-      if (this.loader && this.size) classes.push(`loader--${this.size}`);
-      return classes;
     }
+    // fieldGroupClasses() {
+    //   const classes = [];
+    //   if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
+    //   if (this.loader && this.size) classes.push(`loader--${this.size}`);
+    //   return classes;
+    // }
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <s-list group :class="classes">
+  <div class="choices" :class="classes">
     <div
       class="choice"
       :class="{ 'choice--custom': custom, 'choice--native': native }"
@@ -18,7 +18,7 @@
 
       <!-- STYLE: BUTTON -->
       <s-button
-        v-if="component == 'button'"
+        v-if="optionComponent == 'button'"
         v-bind="$attrs"
         :for="optionId(option)"
         :active="checked == option.value"
@@ -31,14 +31,14 @@
         :class="{ 'choice__label--checked': checked == option.value }"
         :for="optionId(option)"
       >
-        <slot
-          :name="optionId(option)"
-          :option="option"
-          :checked="checked == option.value"
-        >{{ option.label }}</slot>
+        <slot :option="option" :checked="checked == option.value">
+          {{
+          option.label
+          }}
+        </slot>
       </label>
     </div>
-  </s-list>
+  </div>
 </template>
 
 <script>
@@ -64,11 +64,7 @@ export default {
     value: [String, Number, Boolean],
     options: Array,
     name: String,
-    component: String,
-    gap: {
-      type: String,
-      default: "md"
-    },
+    optionComponent: String,
     custom: {
       type: Boolean,
       default: false
