@@ -1,14 +1,12 @@
 <template>
   <div class="field" :class="blockClasses">
     <label class="field__label" v-if="label !== null && label !== undefined">
-      {{
-      label == "" ? "&nbsp;" : label
-      }}
+      {{ label == "" ? "&nbsp;" : label }}
     </label>
     <div class="field__group">
       <!-- BEFORE -->
+      <slot name="before"></slot>
       <div v-if="before || beforeIcon" class="field__before">
-        <slot name="before"></slot>
         <template v-if="before">{{ before }}</template>
         <div class="field__icon" v-if="beforeIcon">
           <s-icon :name="beforeIcon" />
@@ -40,8 +38,8 @@
             <s-icon :name="afterIcon" />
           </div>
         </template>
-        <slot name="after"></slot>
       </div>
+      <slot name="after"></slot>
     </div>
 
     <!-- MESSAGES -->

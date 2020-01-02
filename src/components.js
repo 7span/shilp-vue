@@ -33,22 +33,24 @@ export default {
   SCardFooter: require("./components/CardFooter").default,
 
   //TAB
-  STabs: require("./components/Tabs").default,
   STab: require("./components/Tab").default,
+  STabItem: require("./components/TabItem").default,
 
   //MODAL
   SModal: require("./components/Modal").default,
   SModalContainer: require("./components/ModalContainer").default,
 
   //OTHERS
-  SMedia: require("./components/Media").default,
   SIcon: require("./components/Icon").default,
   SAlert: require("./components/Alert").default,
-  SText: require("./components/Text").default,
   SItem: require("./components/Item").default,
   SColorPicker: require("./components/ColorPicker").default,
   SAvatar: require("./components/Avatar").default,
   SPerson: require("./components/Person").default,
-  SLayout: require("./components/Layout").default
-  // SMediaUpload: require("./components/MediaUpload").default
+  SLayout: require("./components/Layout").default,
+
+  //CORE
+  SMedia: require("./components/Media").default,
+  SText: require("./components/Text").default,
+  SContainer: require("./components/Container").default
 };

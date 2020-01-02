@@ -80,16 +80,16 @@ export const {
   SItem,
   SForm,
   SFile,
-  STabs,
   STab,
+  STabItem,
   SText,
   SColorPicker,
   SPerson,
   SAvatar,
   SModal,
   SModalContainer,
-  // SMediaUpload,
-  SGrid
+  SGrid,
+  SContainer
 } = components;
 
 /**

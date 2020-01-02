@@ -6,7 +6,15 @@
 
       <!-- URL -->
       <template v-else-if="value">
-        <div v-if="waitToLoad && mediaLoading" class="media__loading" v-shilp-loader="true"></div>
+        <div
+          v-if="waitToLoad && loading"
+          class="media__loading"
+          v-shilp-loader="true"
+        ></div>
+        <!-- ERROR -->
+        <div v-else-if="error" class="media__placeholder">
+          <s-icon name="ImageBroken"></s-icon>
+        </div>
         <img v-else :src="src" alt />
       </template>
 
@@ -75,7 +83,10 @@ export default {
       meta: null,
       blockClass: "media",
       booleanClassProps: [],
-      mediaLoading: false
+      variantClassProps: ["fit"],
+      loading: false,
+      loaded: false,
+      error: false
     };
   },
 
@@ -83,28 +94,30 @@ export default {
     value: {
       deep: true,
       handler(newValue, oldValue) {
-        if (
-          (!oldValue && newValue && newValue.url) ||
-          (oldValue &&
-            oldValue.url &&
-            newValue &&
-            newValue.url &&
-            newValue.url != oldValue.url)
-        ) {
-          this.loadMedia(newValue.url);
+        if (newValue) {
+          this.loadMedia();
         }
+        // if (
+        //   (!oldValue && newValue && newValue.url) ||
+        //   (oldValue &&
+        //     oldValue.url &&
+        //     newValue &&
+        //     newValue.url &&
+        //     newValue.url != oldValue.url)
+        // ) {
+
+        // }
       }
     }
   },
 
   created() {
-    if (this.value && this.value.url && this.waitToLoad)
-      this.loadMedia(this.value.url);
+    if (this.src && this.waitToLoad) this.loadMedia();
   },
 
   computed: {
     src() {
-      if (typeof this.value === "object") {
+      if (this.value && typeof this.value === "object" && this.value.url) {
         return this.value.url;
       } else {
         return this.value;
@@ -119,7 +132,7 @@ export default {
     mediaRatio() {
       const classes = [];
       if (this.ratio) classes.push("ratio", `ratio--${this.ratio}`);
-      if (!this.ratio && (!this.value || this.mediaLoading))
+      if (!this.ratio && (!this.value || this.loading))
         classes.push("ratio", "ratio--16x9");
       return classes;
     },
@@ -132,7 +145,6 @@ export default {
 
     inlineCss() {
       const css = {};
-      if (this.fit) css["--media--fit"] = this.fit;
       if (this.position) css["--media--position"] = this.position;
       if (this.width) css["width"] = this.width;
       if (this.height) css["height"] = this.height;
@@ -141,12 +153,24 @@ export default {
   },
 
   methods: {
-    loadMedia(url) {
-      this.mediaLoading = true;
+    loadMedia() {
+      if (!this.src) return;
+
+      this.loading = true;
+      this.loaded = false;
+      this.error = false;
       var img = new Image();
-      img.src = url;
+      img.src = this.src;
       img.onload = () => {
-        this.mediaLoading = false;
+        this.loading = false;
+        this.loaded = true;
+        this.$emit("load");
+      };
+      img.onerror = () => {
+        this.loading = false;
+        this.loaded = false;
+        this.error = true;
+        this.$emit("error");
       };
     },
     select(e) {
@@ -179,9 +203,21 @@ export default {
 
     renderPreview() {
       var reader = new FileReader();
+      this.loading = true;
       reader.onload = e => {
+        this.loading = false;
+        this.loaded = true;
+        this.$emit("load");
         this.preview = e.target.result;
       };
+
+      reader.onerror = () => {
+        this.loading = false;
+        this.loaded = false;
+        this.error = true;
+        this.$emit("error");
+      };
+
       reader.readAsDataURL(this.fileObject);
     }
   }
