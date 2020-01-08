@@ -1,36 +1,33 @@
 <template>
-  <div class="block" :class="classes">
+  <component :is="tag" :class="classList" :style="styleSet">
     <slot></slot>
-  </div>
+  </component>
 </template>
-
 <script>
 export default {
   name: "s-block",
-
   props: {
-    size: [String, Number, Object]
+    tag: {
+      type: String,
+      default: "div"
+    },
+    bg: String,
+    bgImage: String,
+    shadow: String
   },
-
   computed: {
-    classes() {
-      const classes = [];
-
-      if (this.size) {
-        if (typeof this.size === "number" || typeof this.size === "string") {
-          classes.push(`block--${this.size}`);
-        } else if (typeof this.size === "object") {
-          for (var key in this.size) {
-            if (key == "phone") {
-              classes.push(`block--${this.size[key]}`);
-            } else {
-              classes.push(`block--${this.size[key]}:${key}`);
-            }
-          }
-        }
-      }
-
+    classList() {
+      const classes = ["block"];
+      if (this.bg) classes.push(`bg--${this.bg}`);
+      if (this.shadow) classes.push(`shadow--${this.shadow}`);
+      if (this.radius) classes.push(`radius--${this.shadow}`);
+      // if (this.bgImage) classes.push(`block--cover`);
       return classes;
+    },
+    styleSet() {
+      const styles = {};
+      if (this.bgImage) styles.backgroundImage = `url(${this.bgImage})`;
+      return styles;
     }
   }
 };

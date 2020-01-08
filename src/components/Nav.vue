@@ -1,13 +1,19 @@
 <template>
-  <ul class="nav" :class="blockClasses">
+  <ul class="nav" :class="blockClassList">
     <slot></slot>
   </ul>
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-nav",
-  mixins: [require("../mixins/component.js").default],
+  shilp: {
+    block: "nav",
+    boolean: ["stack", "fluid", "group"],
+    variant: ["color", "size", "shape", "theme", "align"]
+  },
+  mixins: [component],
 
   props: {
     stack: {
@@ -21,20 +27,12 @@ export default {
     color: String,
     size: String,
     shape: String,
-    style_: String,
+    theme: String,
     align: String,
     fluid: {
       type: Boolean,
       default: false
     }
-  },
-
-  data() {
-    return {
-      blockClass: "nav",
-      booleanClassProps: ["stack", "fluid", "group"],
-      variantClassProps: ["color", "size", "shape", "style_", "align"]
-    };
   }
 };
 </script>

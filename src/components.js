@@ -2,12 +2,13 @@ export default {
   SApp: require("./components/App").default,
 
   //BUTTON
+  SButtonGroup: require("./components/ButtonGroup").default,
   SButton: require("./components/Button").default,
   SList: require("./components/List").default,
 
   //BLOCKS
-  SBlocks: require("./components/Blocks").default,
-  SBlock: require("./components/Block").default,
+  SRow: require("./components/Row").default,
+  SColumn: require("./components/Column").default,
   SGrid: require("./components/Grid").default,
 
   //FORM
@@ -52,5 +53,5 @@ export default {
   //CORE
   SMedia: require("./components/Media").default,
   SText: require("./components/Text").default,
-  SContainer: require("./components/Container").default
+  SBlock: require("./components/Block").default
 };

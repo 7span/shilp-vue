@@ -1,25 +1,23 @@
 <template>
-  <div class="grid" :class="blockClasses">
+  <div class="grid" :class="blockClassList">
     <slot></slot>
   </div>
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-grid",
-  mixins: [require("../mixins/component.js").default],
+  shilp: {
+    block: "grid",
+    boolean: [],
+    variant: ["gap", "size"]
+  },
+  mixins: [component],
 
   props: {
     size: String,
     gap: String
-  },
-
-  data() {
-    return {
-      blockClass: "grid",
-      booleanClassProps: [],
-      variantClassProps: ["gap", "size"]
-    };
   },
 
   computed: {

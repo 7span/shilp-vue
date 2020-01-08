@@ -204,7 +204,7 @@ export default {
         --button--color: #{--color(light)};
       }
     }
-    .router-link-active {
+    .button--active {
       --button--bg: #{--color(grey, darker)};
       --button--hover-bg: #{--color(grey, darker)};
       --button--color: #{--color(light)};
@@ -214,7 +214,7 @@ export default {
         @include position(absolute);
         content: "";
         width: 5px;
-        background: create-gradient(primary, 0deg);
+        background: --color(primary);
       }
     }
   }

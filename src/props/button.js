@@ -2,7 +2,7 @@ export default {
   color: String,
   size: String,
   shape: String,
-  style_: String,
+  theme: String,
   align: String,
   icon: String,
   loader: {
@@ -24,5 +24,11 @@ export default {
   label: {
     type: Boolean,
     default: false
+  },
+  rounded: {
+    type: Boolean,
+    default: false
   }
+  // to: [Object, String],
+  // href: String
 };

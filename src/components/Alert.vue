@@ -1,5 +1,5 @@
 <template>
-  <div class="alert" :class="blockClasses">
+  <div class="alert" :class="blockClassList">
     <s-icon v-if="icon" class="alert__icon" :name="icon"></s-icon>
     <p class="alert__body">
       <slot></slot>
@@ -8,19 +8,18 @@
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-alert",
-  mixins: [require("../mixins/component.js").default],
-  data() {
-    return {
-      blockClass: "alert",
-      booleanClassProps: ["fluid"],
-      variantClassProps: ["color", "size", "shape", "style_"]
-    };
+  shilp: {
+    block: "alert",
+    boolean: ["fluid"],
+    string: ["color", "size", "shape", "theme"]
   },
+  mixins: [component],
   props: {
     color: String,
-    style_: String,
+    theme: String,
     shape: String,
     size: String,
     icon: String,

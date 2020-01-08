@@ -1,22 +1,26 @@
 <template>
-  <component :is="tag" v-bind="link" class="person" :class="blockClasses">
+  <component :is="tag" v-bind="link" class="person" :class="blockClassList">
     <slot name="avatar">
       <s-avatar name="John Cena"></s-avatar>
     </slot>
     <p class="person__name">
-      <slot name="name">{{name}}</slot>
+      <slot name="name">{{ name }}</slot>
     </p>
     <small class="person__message">
-      <slot name="message">{{message}}</slot>
+      <slot name="message">{{ message }}</slot>
     </small>
   </component>
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-person",
+  shilp: {
+    block: "person"
+  },
   inheritAttrs: false,
-  mixins: [require("../mixins/component.js").default],
+  mixins: [component],
 
   props: {
     name: {
@@ -30,14 +34,6 @@ export default {
     to: {
       type: String
     }
-  },
-
-  data() {
-    return {
-      blockClass: "person",
-      booleanClassProps: [""],
-      variantClassProps: [""]
-    };
   },
 
   computed: {

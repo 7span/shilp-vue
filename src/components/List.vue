@@ -1,13 +1,19 @@
 <template>
-  <div class="list" :class="blockClasses">
+  <div class="list" :class="blockClassList">
     <slot></slot>
   </div>
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-list",
-  mixins: [require("../mixins/component.js").default],
+  shilp: {
+    block: "list",
+    boolean: ["stack", "group", "fluid"],
+    variant: ["gap"]
+  },
+  mixins: [component],
 
   props: {
     stack: {
@@ -23,14 +29,6 @@ export default {
       default: false
     },
     gap: String
-  },
-
-  data() {
-    return {
-      blockClass: "list",
-      booleanClassProps: ["stack", "group", "fluid"],
-      variantClassProps: ["gap"]
-    };
   }
 };
 </script>

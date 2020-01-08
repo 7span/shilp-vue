@@ -1,7 +1,9 @@
 <template>
-  <div class="field" :class="blockClasses">
+  <div class="field" :class="blockClassList">
     <label class="field__label" v-if="label !== null && label !== undefined">
-      {{ label == "" ? "&nbsp;" : label }}
+      {{
+      label == "" ? "&nbsp;" : label
+      }}
     </label>
     <div class="field__group">
       <!-- BEFORE -->
@@ -49,10 +51,16 @@
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-field",
+  shilp: {
+    block: "field",
+    variant: ["color", "size", "theme"],
+    boolean: ["optional"]
+  },
   inheritAttrs: false,
-  mixins: [require("../mixins/component.js").default],
+  mixins: [component],
 
   props: {
     label: String,
@@ -63,7 +71,7 @@ export default {
     afterIcon: String,
     size: String,
     color: String,
-    style_: String,
+    theme: String,
     message: [String, Boolean],
     loader: {
       type: Boolean,
@@ -78,15 +86,12 @@ export default {
 
   data() {
     return {
-      blockClass: "field",
-      variantClassProps: ["color", "size", "style_"],
-      booleanClassProps: ["optional"],
       isPasswordVisible: false
     };
   },
 
   computed: {
-    addBlockClasses() {
+    classList() {
       const classes = [];
       return classes;
     }

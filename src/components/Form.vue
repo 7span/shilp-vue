@@ -5,7 +5,7 @@
         v-if="errorMessage"
         class="mb--4"
         color="danger"
-        style_="muted"
+        theme="muted"
         fluid
       >{{ errorMessage }}</s-alert>
       <slot name="header"></slot>

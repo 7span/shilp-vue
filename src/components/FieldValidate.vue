@@ -13,7 +13,7 @@
     <s-field
       v-bind="$attrs"
       :message="$attrs.message || props.errors[0]"
-      :style_="props.errors[0] ? 'danger' : ''"
+      :theme="props.errors[0] ? 'danger' : ''"
       has-validation
       @validate="props.validate()"
     >

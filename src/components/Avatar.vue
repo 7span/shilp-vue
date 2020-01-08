@@ -1,21 +1,19 @@
 <template>
-  <div class="avatar" :class="blockClasses" :data-initials="initialsValue">
+  <div class="avatar" :class="blockClassList" :data-initials="initialsValue">
     <img v-if="url" :src="url" />
   </div>
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-avatar",
-  mixins: [require("../mixins/component.js").default],
-
-  data() {
-    return {
-      blockClass: "avatar",
-      booleanClassProps: [""],
-      variantClassProps: ["size"]
-    };
+  shilp: {
+    block: "avatar",
+    boolean: [""],
+    variant: ["size"]
   },
+  mixins: [component],
 
   props: {
     url: String,

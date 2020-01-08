@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       fileName: null,
-      buttonProps: ["color", "shape", "size", "style_", "align", "icon"]
+      buttonProps: ["color", "shape", "size", "theme", "align", "icon"]
     };
   },
   computed: {

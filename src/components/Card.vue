@@ -1,13 +1,19 @@
 <template>
-  <div class="card" :class="blockClasses">
+  <div class="card" :class="blockClassList">
     <slot></slot>
   </div>
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-card",
-  mixins: [require("../mixins/component.js").default],
+  shilp: {
+    block: "card",
+    boolean: ["fluid", "split", "round"],
+    variant: ["gap", "theme"]
+  },
+  mixins: [component],
 
   props: {
     gap: String,
@@ -19,15 +25,7 @@ export default {
       type: Boolean,
       default: false
     },
-    style_: String
-  },
-
-  data() {
-    return {
-      blockClass: "card",
-      booleanClassProps: ["fluid", "split", "round"],
-      variantClassProps: ["gap", "style_"]
-    };
+    theme: String
   }
 };
 </script>

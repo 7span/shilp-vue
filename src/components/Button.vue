@@ -1,5 +1,25 @@
 <template>
-  <component :is="component" class="button" :class="blockClasses" v-bind="$attrs">
+  <!-- ROUTER LINK -->
+  <router-link v-if="$attrs.to" :to="$attrs.to" v-slot="{ href, isActive, isExactActive }">
+    <a
+      :href="href"
+      class="button"
+      :class="[
+        ...routerLinkClassList({ isActive, isExactActive }),
+        ...blockClassList
+      ]"
+    >
+      <slot name="icon">
+        <s-icon v-if="icon" class="button__icon" :name="icon" />
+      </slot>
+      <span v-if="$scopedSlots.default" class="button__label">
+        <slot></slot>
+      </span>
+    </a>
+  </router-link>
+
+  <!-- BUTTON -->
+  <component v-else :is="component" class="button" :class="blockClassList" v-bind="$attrs">
     <slot name="icon">
       <s-icon v-if="icon" class="button__icon" :name="icon" />
     </slot>
@@ -10,32 +30,27 @@
 </template>
 
 <script>
-import props from "../props/button.js";
+import buttonProps from "../props/button.js";
+import { cloneDeep } from "lodash";
+import component from "../mixins/component.js";
+import childComponent from "../mixins/childComponent";
 
 export default {
   name: "s-button",
-  mixins: [require("../mixins/component.js").default],
-
-  props: props,
-
-  data() {
-    return {
-      blockClass: "button",
-      booleanClassProps: ["fluid", "active"],
-      variantClassProps: ["color", "size", "shape", "style_", "align"]
-    };
+  shilp: {
+    block: "button",
+    boolean: ["fluid", "active", "rounded"],
+    variant: ["color", "size", "shape", "theme", "align"],
+    inheritPropsFrom: "s-button-group"
   },
-
+  mixins: [component, childComponent],
+  props: cloneDeep(buttonProps),
   computed: {
     isDisabled() {
       return (
         this.$attrs.disabled &&
         (this.$attrs.disabled == "disabled" || this.$attrs.disabled === true)
       );
-    },
-
-    test() {
-      return this.$attrs.disabled;
     },
 
     component() {
@@ -54,10 +69,31 @@ export default {
       return "button";
     },
 
-    addBlockClasses() {
+    classList() {
       const classes = [];
       if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
       if (this.loader && this.size) classes.push(`loader--${this.size}`);
+      return classes;
+    }
+  },
+
+  methods: {
+    routerLinkClassList(scope) {
+      const { isActive, isExactActive } = scope;
+      const classes = [];
+      if (isActive) {
+        classes.push("button--active");
+        this.$emit("active", true);
+      } else {
+        this.$emit("active", false);
+      }
+      if (isExactActive) {
+        classes.push("button--exact-active");
+        this.$emit("exact-active", true);
+      } else {
+        this.$emit("exact-active", false);
+      }
+
       return classes;
     }
   }

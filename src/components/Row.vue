@@ -1,12 +1,12 @@
 <template>
-  <div class="blocks" :class="classes">
+  <div class="row" :class="classes">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: "s-blocks",
+  name: "s-row",
 
   props: {
     gap: [Number, String, Object]
@@ -17,16 +17,16 @@ export default {
       const classes = [];
 
       if (this.gap) {
-        if (typeof this.gap === "string") {
-          classes.push(`blocks--${this.gap}`);
-        } else if (typeof this.gap === "object") {
+        if (typeof this.gap === "object") {
           for (var key in this.gap) {
             if (key == "phone") {
-              classes.push(`blocks--${this.gap[key]}`);
+              classes.push(`row--${this.gap[key]}`);
             } else {
-              classes.push(`blocks--${this.gap[key]}:${key}`);
+              classes.push(`row--${this.gap[key]}:${key}`);
             }
           }
+        } else {
+          classes.push(`row--${this.gap}`);
         }
       }
 

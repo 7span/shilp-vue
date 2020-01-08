@@ -58,8 +58,8 @@ export const {
   SApp,
   SButton,
   SList,
-  SBlocks,
-  SBlock,
+  SRow,
+  SColumn,
   SIcon,
   SField,
   STextbox,
@@ -89,7 +89,8 @@ export const {
   SModal,
   SModalContainer,
   SGrid,
-  SContainer
+  SBlock,
+  SButtonGroup
 } = components;
 
 /**

@@ -1,13 +1,19 @@
 <template>
-  <component :is="tag" :class="blockClasses">
+  <component :is="tag" :class="blockClassList">
     <slot></slot>
   </component>
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-text",
-  mixins: [require("../mixins/component.js").default],
+  shilp: {
+    block: "text",
+    boolean: ["italic", "underline"],
+    variant: ["size", "weight", "color", "align"]
+  },
+  mixins: [component],
 
   props: {
     color: String,
@@ -20,14 +26,6 @@ export default {
       type: String,
       default: "p"
     }
-  },
-
-  data() {
-    return {
-      blockClass: "text",
-      booleanClassProps: ["italic", "underline"],
-      variantClassProps: ["size", "weight", "color", "align"]
-    };
   }
 };
 </script>

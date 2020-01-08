@@ -1,7 +1,7 @@
 <template>
   <portal to="modal-container" slim>
     <transition>
-      <div v-if="open" :id="id" class="modal" :class="blockClasses" v-bind="$attrs">
+      <div v-if="open" :id="id" class="modal" :class="blockClassList" v-bind="$attrs">
         <div class="modal__overlay" :class="overlayClasses"></div>
         <div class="modal__wrapper" @click.self="overlayClose">
           <slot v-bind="scope"></slot>
@@ -12,9 +12,15 @@
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-modal",
-  mixins: [require("../mixins/component.js").default],
+  shilp: {
+    block: "modal",
+    boolean: [],
+    variant: ["size"]
+  },
+  mixins: [component],
   inheritAttrs: false,
   props: {
     id: String,
@@ -42,15 +48,12 @@ export default {
   data() {
     return {
       open: false,
-      scope: null,
-      blockClass: "modal",
-      booleanClassProps: [],
-      variantClassProps: ["size"]
+      scope: null
     };
   },
 
   computed: {
-    addBlockClasses() {
+    classList() {
       const classes = [];
       if (this.fullHeight) classes.push(`modal--full-height`);
       return classes;

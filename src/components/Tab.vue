@@ -1,5 +1,5 @@
 <template>
-  <div class="tab" :class="blockClasses">
+  <div class="tab" :class="blockClassList">
     <div class="tab__items">
       <slot></slot>
     </div>
@@ -20,10 +20,14 @@
 
 <script>
 import buttonProps from "../props/button.js";
+import component from "../mixins/component";
 
 export default {
   name: "s-tab",
-  mixins: [require("../mixins/component.js").default],
+  shilp: {
+    block: "tab"
+  },
+  mixins: [component],
 
   props: {
     ...buttonProps,
@@ -33,15 +37,12 @@ export default {
 
   data() {
     return {
-      blockClass: "tab",
-      booleanClassProps: [],
-      variantClassProps: [],
       localActiveTab: null
     };
   },
 
   computed: {
-    addBlockClasses() {
+    classList() {
       const classes = [];
       if (this.fullHeight) classes.push("tab--full-height");
       return classes;

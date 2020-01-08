@@ -16,7 +16,7 @@
 
           <!-- REMOVE BUTTONS -->
           <s-button
-            style_="muted"
+            theme="muted"
             class="media-upload__remove"
             v-if="isUploaded(n) !== null"
             @click.native="remove(n, isUploaded(n))"

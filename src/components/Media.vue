@@ -1,16 +1,12 @@
 <template>
-  <div class="media" :class="blockClasses" :style="inlineCss">
+  <div class="media" :class="blockClassList" :style="inlineCss">
     <div class="media__wrap" :class="mediaRatio">
       <!-- BASE64 PREVIEW -->
       <img v-if="preview" :src="preview" />
 
       <!-- URL -->
       <template v-else-if="value">
-        <div
-          v-if="waitToLoad && loading"
-          class="media__loading"
-          v-shilp-loader="true"
-        ></div>
+        <div v-if="waitToLoad && loading" class="media__loading" v-shilp-loader="true"></div>
         <!-- ERROR -->
         <div v-else-if="error" class="media__placeholder">
           <s-icon name="ImageBroken"></s-icon>
@@ -33,7 +29,7 @@
       <div class="media__remove" v-if="value && !readonly">
         <slot name="remove">
           <s-button
-            style_="muted"
+            theme="muted"
             @click.native="remove"
             color="danger"
             size="sm"
@@ -47,10 +43,15 @@
 </template>
 
 <script>
+import component from "../mixins/component";
 export default {
   name: "s-media",
-  mixins: [require("../mixins/component.js").default],
-
+  shilp: {
+    block: "media",
+    boolean: [],
+    variant: ["fit"]
+  },
+  mixins: [component],
   props: {
     fit: String,
     position: String,
@@ -81,9 +82,6 @@ export default {
       preview: null,
       fileObject: null,
       meta: null,
-      blockClass: "media",
-      booleanClassProps: [],
-      variantClassProps: ["fit"],
       loading: false,
       loaded: false,
       error: false
@@ -137,7 +135,7 @@ export default {
       return classes;
     },
 
-    addBlockClasses() {
+    classList() {
       const classes = [];
       if (!this.value) classes.push("media--select");
       return classes;
