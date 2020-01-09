@@ -49,6 +49,7 @@ export default {
   SAvatar: require("./components/Avatar").default,
   SPerson: require("./components/Person").default,
   SLayout: require("./components/Layout").default,
+  SSwitch: require("./components/Switch").default,
 
   //CORE
   SMedia: require("./components/Media").default,

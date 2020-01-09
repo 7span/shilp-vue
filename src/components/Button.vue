@@ -1,6 +1,10 @@
 <template>
   <!-- ROUTER LINK -->
-  <router-link v-if="$attrs.to" :to="$attrs.to" v-slot="{ href, isActive, isExactActive }">
+  <router-link
+    v-if="$attrs.to"
+    :to="$attrs.to"
+    v-slot="{ href, isActive, isExactActive }"
+  >
     <a
       :href="href"
       class="button"
@@ -10,7 +14,7 @@
       ]"
     >
       <slot name="icon">
-        <s-icon v-if="icon" class="button__icon" :name="icon" />
+        <s-icon title="" v-if="icon" class="button__icon" :name="icon" />
       </slot>
       <span v-if="$scopedSlots.default" class="button__label">
         <slot></slot>
@@ -19,9 +23,16 @@
   </router-link>
 
   <!-- BUTTON -->
-  <component v-else :is="component" class="button" :class="blockClassList" v-bind="$attrs">
+  <component
+    v-else
+    :is="component"
+    class="button"
+    :type="type"
+    :class="blockClassList"
+    v-bind="$attrs"
+  >
     <slot name="icon">
-      <s-icon v-if="icon" class="button__icon" :name="icon" />
+      <s-icon title="" v-if="icon" class="button__icon" :name="icon" />
     </slot>
     <span v-if="$scopedSlots.default" class="button__label">
       <slot></slot>

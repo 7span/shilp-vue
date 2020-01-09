@@ -90,7 +90,8 @@ export const {
   SModalContainer,
   SGrid,
   SBlock,
-  SButtonGroup
+  SButtonGroup,
+  SSwitch
 } = components;
 
 /**

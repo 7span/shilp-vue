@@ -1,5 +1,12 @@
 <template>
-  <component class="icon" v-if="name" :is="name" :size="size" :fillColor="color" :title="title" />
+  <component
+    class="icon"
+    v-if="name"
+    :is="name"
+    :size="size"
+    :fillColor="color"
+    :title="title"
+  />
 </template>
 
 <script>

@@ -6,7 +6,11 @@
 
       <!-- URL -->
       <template v-else-if="value">
-        <div v-if="waitToLoad && loading" class="media__loading" v-shilp-loader="true"></div>
+        <div
+          v-if="waitToLoad && loading"
+          class="media__loading"
+          v-shilp-loader="true"
+        ></div>
         <!-- ERROR -->
         <div v-else-if="error" class="media__placeholder">
           <s-icon name="ImageBroken"></s-icon>
@@ -91,9 +95,11 @@ export default {
   watch: {
     value: {
       deep: true,
-      handler(newValue, oldValue) {
+      handler(newValue) {
         if (newValue) {
           this.loadMedia();
+        } else {
+          this.preview = this.meta = this.fileObject = null;
         }
         // if (
         //   (!oldValue && newValue && newValue.url) ||
@@ -138,6 +144,7 @@ export default {
     classList() {
       const classes = [];
       if (!this.value) classes.push("media--select");
+      if (this.preview) classes.push("media--preview");
       return classes;
     },
 
@@ -226,7 +233,8 @@ export default {
 .media {
   position: relative;
 }
-.media--select {
+.media--select,
+.media--preview {
   border: 2px dotted --color(grey, lighter);
 }
 .media__select,

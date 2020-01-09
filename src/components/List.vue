@@ -28,7 +28,7 @@ export default {
       type: Boolean,
       default: false
     },
-    gap: String
+    gap: [String, Number]
   }
 };
 </script>

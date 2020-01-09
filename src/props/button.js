@@ -28,6 +28,10 @@ export default {
   rounded: {
     type: Boolean,
     default: false
+  },
+  type: {
+    type: String,
+    default: "button"
   }
   // to: [Object, String],
   // href: String
