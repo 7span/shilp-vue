@@ -32,7 +32,7 @@ export default {
   type: {
     type: String,
     default: "button"
-  }
-  // to: [Object, String],
+  },
+  to: [Object, String]
   // href: String
 };

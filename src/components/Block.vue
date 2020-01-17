@@ -11,22 +11,26 @@ export default {
       type: String,
       default: "div"
     },
-    bg: String,
+    bgColor: String,
     bgImage: String,
+    bgImageOpacity: [String, Number],
     shadow: String
   },
   computed: {
     classList() {
       const classes = ["block"];
-      if (this.bg) classes.push(`bg--${this.bg}`);
       if (this.shadow) classes.push(`shadow--${this.shadow}`);
       if (this.radius) classes.push(`radius--${this.shadow}`);
-      // if (this.bgImage) classes.push(`block--cover`);
+      if (this.bgImage || this.bgColor) classes.push(`block--bg`);
       return classes;
     },
     styleSet() {
       const styles = {};
-      if (this.bgImage) styles.backgroundImage = `url(${this.bgImage})`;
+      if (this.bgColor)
+        styles["--block--bg-color"] = `var(--color--${this.bgColor})`;
+      if (this.bgImage) styles["--block--bg-image"] = `url(${this.bgImage})`;
+      if (this.bgImageOpacity)
+        styles["--block--bg-opacity"] = this.bgImageOpacity;
       return styles;
     }
   }

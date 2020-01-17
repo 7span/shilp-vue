@@ -1,9 +1,7 @@
 <template>
   <div class="field" :class="blockClassList">
     <label class="field__label" v-if="label !== null && label !== undefined">
-      {{
-      label == "" ? "&nbsp;" : label
-      }}
+      {{ label == "" ? "&nbsp;" : label }}
     </label>
     <div class="field__group">
       <!-- BEFORE -->
@@ -45,8 +43,16 @@
     </div>
 
     <!-- MESSAGES -->
-    <small class="field__desc" v-if="desc">{{ desc }}</small>
-    <small class="field__message" v-if="message">{{ message }}</small>
+    <small class="field__desc" v-if="desc || $scopedSlots.desc">
+      <slot name="desc">
+        {{ desc }}
+      </slot>
+    </small>
+    <small class="field__message" v-if="message || $scopedSlots.message">
+      <slot name="message">
+        {{ message }}
+      </slot>
+    </small>
   </div>
 </template>
 

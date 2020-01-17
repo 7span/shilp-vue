@@ -43,7 +43,7 @@ export default {
     };
   },
   created() {
-    if (this.parentName != "s-nav") {
+    if (this.parentComponent != "s-nav") {
       console.warn(
         "SHILP-VUE: The <s-nav-item> should be used as a child of <s-nav>"
       );

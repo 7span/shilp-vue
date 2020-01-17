@@ -7,14 +7,21 @@
       'loader loader--dark': loader
     }"
   >
-    <select v-bind="$attrs" :class="{ 'field-block': !custom }" :value="value" @input="input">
+    <select
+      v-bind="$attrs"
+      :class="{ 'field-block': !custom }"
+      :value="value"
+      @input="input"
+    >
       <option value>{{ placeholder }}</option>
       <option
         v-for="option in serializedOptions"
         :value="option.value"
         :key="uniqueId + '--' + option.value"
         :selected="value == option.value"
-      >{{ option.label }}</option>
+        :disabled="option.disabled"
+        >{{ option.label }}</option
+      >
       <slot></slot>
     </select>
   </div>

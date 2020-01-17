@@ -84,6 +84,18 @@ export default {
     };
   },
 
+  created() {
+    this.$root.$on("shilp-aside-toggle", () => {
+      this.localAside.collapse = !this.localAside.collapse;
+    });
+    this.$root.$on("shilp-aside-collapse", () => {
+      this.localAside.collapse = true;
+    });
+    this.$root.$on("shilp-aside-expand", () => {
+      this.localAside.collapse = false;
+    });
+  },
+
   computed: {
     headerOptions() {
       return {

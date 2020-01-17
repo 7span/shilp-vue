@@ -1,12 +1,13 @@
 <template>
   <!-- ROUTER LINK -->
   <router-link
-    v-if="$attrs.to"
-    :to="$attrs.to"
-    v-slot="{ href, isActive, isExactActive }"
+    v-if="to && !isDisabled"
+    :to="to"
+    v-slot="{ href, isActive, isExactActive, navigate }"
   >
     <a
       :href="href"
+      @click="navigate"
       class="button"
       :class="[
         ...routerLinkClassList({ isActive, isExactActive }),
@@ -14,7 +15,7 @@
       ]"
     >
       <slot name="icon">
-        <s-icon title="" v-if="icon" class="button__icon" :name="icon" />
+        <s-icon title v-if="icon" class="button__icon" :name="icon" />
       </slot>
       <span v-if="$scopedSlots.default" class="button__label">
         <slot></slot>
@@ -32,7 +33,7 @@
     v-bind="$attrs"
   >
     <slot name="icon">
-      <s-icon title="" v-if="icon" class="button__icon" :name="icon" />
+      <s-icon title v-if="icon" class="button__icon" :name="icon" />
     </slot>
     <span v-if="$scopedSlots.default" class="button__label">
       <slot></slot>
@@ -67,9 +68,6 @@ export default {
     component() {
       if (this.label) {
         return "label";
-      }
-      if (this.$attrs.to && !this.isDisabled) {
-        return "router-link";
       }
       if (this.$attrs.href && !this.isDisabled) {
         return "a";

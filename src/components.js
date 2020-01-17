@@ -50,6 +50,7 @@ export default {
   SPerson: require("./components/Person").default,
   SLayout: require("./components/Layout").default,
   SSwitch: require("./components/Switch").default,
+  SBreadcrumbs: require("./components/Breadcrumbs").default,
 
   //CORE
   SMedia: require("./components/Media").default,

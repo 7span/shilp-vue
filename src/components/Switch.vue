@@ -31,17 +31,17 @@ export default {
     size: String,
     shape: String,
     theme: String,
-    checkedValue: {
+    onValue: {
       default: null
     },
-    uncheckedValue: {
+    offValue: {
       default: null
     }
   },
   computed: {
     isChecked() {
-      if (this.checkedValue) {
-        return this.value == this.checkedValue;
+      if (this.onValue) {
+        return this.value == this.onValue;
       }
       return this.value;
     }
@@ -49,9 +49,9 @@ export default {
   methods: {
     input(value) {
       if (value) {
-        this.$emit("input", this.checkedValue || value);
+        this.$emit("input", this.onValue || value);
       } else {
-        this.$emit("input", this.uncheckedValue || value);
+        this.$emit("input", this.offValue || value);
       }
     }
   }

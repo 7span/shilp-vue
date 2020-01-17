@@ -14,7 +14,7 @@ export default {
   shilp: {
     block: "alert",
     boolean: ["fluid"],
-    string: ["color", "size", "shape", "theme"]
+    variant: ["color", "size", "shape", "theme"]
   },
   mixins: [component],
   props: {

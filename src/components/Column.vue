@@ -21,11 +21,11 @@ export default {
         if (typeof this.size === "number" || typeof this.size === "string") {
           classes.push(`column--${this.size}`);
         } else if (typeof this.size === "object") {
-          for (var key in this.size) {
-            if (key == "phone") {
-              classes.push(`column--${this.size[key]}`);
+          for (var size in this.size) {
+            if (size == "phone") {
+              classes.push(`column--${this.size[size]}`);
             } else {
-              classes.push(`column--${this.size[key]}:${key}`);
+              classes.push(`column--${this.size[size]}:${size}`);
             }
           }
         }
@@ -35,11 +35,11 @@ export default {
         if (typeof this.order === "number" || typeof this.order === "string") {
           classes.push(`o-${this.order}`);
         } else if (typeof this.order === "object") {
-          for (var key in this.order) {
-            if (key == "phone") {
-              classes.push(`o-${this.order[key]}`);
+          for (var order in this.order) {
+            if (order == "phone") {
+              classes.push(`o-${this.order[order]}`);
             } else {
-              classes.push(`o-${this.order[key]}:${key}`);
+              classes.push(`o-${this.order[order]}:${order}`);
             }
           }
         }

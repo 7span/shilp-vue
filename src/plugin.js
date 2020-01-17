@@ -91,7 +91,8 @@ export const {
   SGrid,
   SBlock,
   SButtonGroup,
-  SSwitch
+  SSwitch,
+  SBreadcrumbs
 } = components;
 
 /**
