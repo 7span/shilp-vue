@@ -1,9 +1,10 @@
 <template>
-  <div class="alert" :class="blockClassList">
+  <div class="alert" :class="blockClassList" v-if="$scopedSlots.default">
     <s-icon v-if="icon" class="alert__icon" :name="icon"></s-icon>
-    <p class="alert__body">
+    <p class="alert__title">{{ title }}</p>
+    <div class="alert__body">
       <slot></slot>
-    </p>
+    </div>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
   },
   mixins: [component],
   props: {
+    title: String,
     color: String,
     theme: String,
     shape: String,

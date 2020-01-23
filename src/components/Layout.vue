@@ -1,12 +1,23 @@
 <template>
   <div class="layout" :class="classes()" :style="styles">
-    <div class="layout__top" :class="[...topClasslist, ...childClasses]" v-if="$scopedSlots.top">
+    <div
+      class="layout__top"
+      :class="[...topClasslist, ...childClasses]"
+      v-if="$scopedSlots.top"
+    >
       <slot name="top"></slot>
     </div>
-    <div class="layout__left" :class="[...topClasslist, ...childClasses]" v-if="$scopedSlots.left">
+    <div
+      class="layout__left"
+      :class="[...topClasslist, ...childClasses]"
+      v-if="$scopedSlots.left"
+    >
       <slot name="left"></slot>
     </div>
-    <div class="layout__content" :class="[...contentClasslist, ...childClasses]">
+    <div
+      class="layout__content"
+      :class="[...contentClasslist, ...childClasses]"
+    >
       <slot></slot>
     </div>
     <div

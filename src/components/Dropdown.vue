@@ -1,13 +1,17 @@
 <template>
-  <v-popover class="dropdown" :class="{'field-block':select}" v-bind="popoverProps">
+  <v-popover
+    class="dropdown"
+    :class="{ 'field-block': select }"
+    v-bind="popoverProps"
+  >
     <!-- TRIGGER -->
     <template v-if="select">
       <div class="select">
-        <slot name="trigger">{{placeholder}}</slot>
+        <slot name="trigger">{{ placeholder }}</slot>
       </div>
     </template>
     <template v-else>
-      <slot name="trigger">{{placeholder}}</slot>
+      <slot name="trigger">{{ placeholder }}</slot>
     </template>
 
     <!-- CONTENT -->
@@ -18,9 +22,10 @@
           <s-button
             v-close-popover
             :align="align"
-            v-for="(option,index) in options"
+            v-for="(option, index) in options"
             :key="`option--${index}`"
-          >{{option.label}}</s-button>
+            >{{ option.label }}</s-button
+          >
         </s-buttons>
       </template>
 
@@ -101,7 +106,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 .dropdown {
   padding: 0;
@@ -140,9 +144,9 @@ export default {
 }
 .tooltip.popover.dropdown-popover {
   border: 1px solid --color(grey, light);
-  border-radius: --border-radius(sm);
+  border-radius: --radius(3);
   background-color: #fff;
-  box-shadow: --box-shadow(xl);
+  box-shadow: --shadow(4);
 
   .popover-inner {
     background: transparent;

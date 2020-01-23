@@ -41,6 +41,10 @@ export default {
   SModal: require("./components/Modal").default,
   SModalContainer: require("./components/ModalContainer").default,
 
+  //Layout
+  SLayout: require("./components/Layout").default,
+  SLayoutLeft: require("./components/LayoutLeft").default,
+
   //OTHERS
   SIcon: require("./components/Icon").default,
   SAlert: require("./components/Alert").default,
@@ -48,9 +52,9 @@ export default {
   SColorPicker: require("./components/ColorPicker").default,
   SAvatar: require("./components/Avatar").default,
   SPerson: require("./components/Person").default,
-  SLayout: require("./components/Layout").default,
   SSwitch: require("./components/Switch").default,
   SBreadcrumbs: require("./components/Breadcrumbs").default,
+  SNotificationContainer: require("./components/NotificationContainer").default,
 
   //CORE
   SMedia: require("./components/Media").default,

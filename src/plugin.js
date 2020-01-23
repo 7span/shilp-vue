@@ -92,7 +92,9 @@ export const {
   SBlock,
   SButtonGroup,
   SSwitch,
-  SBreadcrumbs
+  SBreadcrumbs,
+  SLayoutLeft,
+  SNotificationContainer
 } = components;
 
 /**

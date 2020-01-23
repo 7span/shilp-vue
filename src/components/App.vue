@@ -127,7 +127,6 @@ export default {
 
 <style lang="scss" scoped>
 .app {
-  translate: all 0.3s ease 0s;
   height: 100vh;
   display: grid;
   grid-template-columns: var(--aside--size) auto;
