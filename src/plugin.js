@@ -7,6 +7,8 @@ import {
 } from "./directives/modal";
 import { loader as loaderDirective } from "./directives/loader";
 
+export let events = null;
+
 const install = (Vue, options) => {
   const requestHandler =
     options.requestHandler || defaultOptions.requestHandler;
@@ -31,6 +33,11 @@ const install = (Vue, options) => {
       return {
         requestHandler: requestHandler
       };
+    },
+    created() {
+      Vue.prototype.$notify = payload => {
+        this.$root.$emit("shilp-notify", payload);
+      };
     }
   });
 
@@ -46,6 +53,7 @@ const plugin = {
 };
 
 export default plugin;
+
 if (typeof window !== "undefined" && window.Vue) {
   window.Vue.use(plugin);
 }

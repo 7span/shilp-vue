@@ -1,7 +1,13 @@
 <template>
   <portal to="modal-container" slim>
     <transition>
-      <div v-if="open" :id="id" class="modal" :class="blockClassList" v-bind="$attrs">
+      <div
+        v-if="open"
+        :id="id"
+        class="modal"
+        :class="blockClassList"
+        v-bind="$attrs"
+      >
         <div class="modal__overlay" :class="overlayClasses"></div>
         <div class="modal__wrapper" @click.self="overlayClose">
           <slot v-bind="scope"></slot>
@@ -123,14 +129,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.modal__wrapper {
-  cursor: zoom-out;
-  > .card {
-    cursor: initial;
-  }
-}
-</style>
 <style lang="scss" scoped>
 .v-enter {
   opacity: 0;

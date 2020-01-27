@@ -1,3 +1,7 @@
+<!--
+NOTE:
+This component requires vue-router version to be 3.1.0+
+-->
 <template>
   <!-- ROUTER LINK -->
   <router-link
@@ -17,6 +21,7 @@
       <slot name="icon">
         <s-icon title v-if="icon" class="button__icon" :name="icon" />
       </slot>
+
       <span v-if="$scopedSlots.default" class="button__label">
         <slot></slot>
       </span>
@@ -35,8 +40,9 @@
     <slot name="icon">
       <s-icon title v-if="icon" class="button__icon" :name="icon" />
     </slot>
-    <span v-if="$scopedSlots.default" class="button__label">
-      <slot></slot>
+
+    <span v-if="$scopedSlots.default" class="button__label"
+      ><slot></slot>
     </span>
   </component>
 </template>

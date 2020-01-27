@@ -16,7 +16,7 @@
       @exact-active="exactActive = $event"
       v-bind="{ ...$attrs, ...propsWithParent }"
     >
-      <slot />
+      <slot></slot>
     </s-button>
     <slot name="nav"></slot>
   </li>
@@ -50,6 +50,9 @@ export default {
     }
   },
   computed: {
+    test() {
+      return "HelloHi";
+    },
     isActive() {
       if (this.$attrs.to) {
         const currentRoute = this.$route.fullPath;

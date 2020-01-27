@@ -15,6 +15,14 @@
       size="lg"
       :to="{ name: backRoute }"
     ></s-button>
+    <!-- HOME BUTTON -->
+    <s-button
+      v-else-if="icon && breadcrumbs[0].meta.icon"
+      class="breadcrumbs__icon"
+      :icon="breadcrumbs[0].meta.icon"
+      shape="square"
+      size="lg"
+    ></s-button>
 
     <!-- ROUTES -->
     <template v-for="(route, index) in breadcrumbs">
@@ -45,6 +53,10 @@ export default {
       default: 15
     },
     back: {
+      type: Boolean,
+      default: true
+    },
+    icon: {
       type: Boolean,
       default: true
     }
@@ -124,10 +136,12 @@ export default {
   align-items: center;
 }
 .breadcrumbs__back {
-  color: --color(grey);
-  &:hover {
-    color: --color(primary);
-  }
+  --button--color: #{--color(grey)};
+  --button--hover-color: #{--color(primary)};
+}
+.breadcrumbs__icon {
+  --button--color: #{--color(grey)};
+  --button--hover-color: #{--color(grey)};
 }
 .breadcrumbs__item {
   font-size: --text(sm);

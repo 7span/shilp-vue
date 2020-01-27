@@ -1,17 +1,24 @@
 <template>
   <div class="field" :class="blockClassList">
-    <label class="field__label" v-if="label !== null && label !== undefined">
+    <label
+      class="field__label"
+      v-if="label !== false && label !== null && label !== undefined"
+    >
       {{ label == "" ? "&nbsp;" : label }}
     </label>
+
+    <slot name="start"></slot>
+
     <div class="field__group">
       <!-- BEFORE -->
-      <slot name="before"></slot>
+
       <div v-if="before || beforeIcon" class="field__before">
         <template v-if="before">{{ before }}</template>
         <div class="field__icon" v-if="beforeIcon">
           <s-icon :name="beforeIcon" />
         </div>
       </div>
+      <slot v-else name="before"></slot>
 
       <slot></slot>
 
@@ -32,14 +39,14 @@
       <!-- AFTER -->
       <div v-if="after || afterIcon" class="field__after">
         <template v-if="after">{{ after }}</template>
-        <template v-if="afterIcon">
+        <template v-else-if="afterIcon">
           <!-- ICON -->
           <div class="field__icon">
             <s-icon :name="afterIcon" />
           </div>
         </template>
       </div>
-      <slot name="after"></slot>
+      <slot v-else name="after"></slot>
     </div>
 
     <!-- MESSAGES -->
@@ -53,6 +60,8 @@
         {{ message }}
       </slot>
     </small>
+
+    <slot name="end"></slot>
   </div>
 </template>
 
@@ -69,7 +78,7 @@ export default {
   mixins: [component],
 
   props: {
-    label: String,
+    label: [String, Boolean],
     desc: String,
     before: String,
     beforeIcon: String,

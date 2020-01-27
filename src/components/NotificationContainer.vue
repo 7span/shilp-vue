@@ -16,6 +16,18 @@
 <script>
 import { uid } from "./../utils";
 
+const icons = {
+  info: "Information",
+  success: "CheckCircle",
+  warning: "Alert",
+  danger: "CloseOctagon"
+};
+const defaults = {
+  type: "info",
+  icon: icons["info"],
+  duration: 3000
+};
+
 export default {
   name: "s-notification-container",
   data() {
@@ -25,7 +37,7 @@ export default {
   },
   created() {
     this.$root.$on("shilp-notify", payload => {
-      this.push(payload);
+      this.push({ ...defaults, ...payload });
     });
   },
   methods: {
@@ -33,7 +45,6 @@ export default {
       if (data.duration) {
         const nid = uid();
         data.uid = nid;
-
         setTimeout(() => {
           const removeIndex = this.notifications.find((notification, index) => {
             if (notification.uid == nid) return index;
