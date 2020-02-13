@@ -22,8 +22,8 @@ export default {
     default: false
   },
   label: {
-    type: Boolean,
-    default: false
+    type: String,
+    default: null
   },
   rounded: {
     type: Boolean,

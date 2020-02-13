@@ -1,6 +1,6 @@
 {
   "name": "@7span/shilp-vue",
-  "version": "0.1.0-beta.33",
+  "version": "0.1.0-beta.36",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name shilp-vue src/plugin.js",
@@ -13,8 +13,8 @@
     "access": "public"
   },
   "dependencies": {
+    "@7span/shilp": "0.1.0-beta.22",
     "core-js": "^2.6.5",
-    "vee-validate": "^3.0.8",
     "vue": "^2.6.11"
   },
   "devDependencies": {
@@ -36,9 +36,6 @@
     "prettier": "^1.19.1",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.11"
-  },
-  "peerDependencies": {
-    "@7span/shilp": "0.1.0-beta.20"
   },
   "main": "dist/shilp-vue.common.js",
   "jsdelivr": "dist/shilp-vue.umd.min.js",

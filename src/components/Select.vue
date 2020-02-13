@@ -32,7 +32,6 @@ import { uid } from "../utils";
 
 export default {
   name: "s-select",
-  inject: ["requestHandler"],
   inheritAttrs: false,
 
   props: {
@@ -96,18 +95,6 @@ export default {
     },
     getOptions() {
       this.loader = true;
-
-      //Handle request in plugin initialization
-      if (typeof this.request === "object") {
-        this.requestHandler(this.request, this.$attrs)
-          .then(res => {
-            this.loader = false;
-            this.optionsFromRequest = res;
-          })
-          .catch(() => {
-            this.loader = false;
-          });
-      }
 
       //Handle request from function provided in props
       if (typeof this.request === "function") {

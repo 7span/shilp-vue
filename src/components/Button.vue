@@ -22,8 +22,9 @@ This component requires vue-router version to be 3.1.0+
         <s-icon title v-if="icon" class="button__icon" :name="icon" />
       </slot>
 
-      <span v-if="$scopedSlots.default" class="button__label">
-        <slot></slot>
+      <span v-if="label || $scopedSlots.default" class="button__label">
+        <template v-if="label">{{ label }}</template>
+        <slot v-else></slot>
       </span>
     </a>
   </router-link>
@@ -41,8 +42,9 @@ This component requires vue-router version to be 3.1.0+
       <s-icon title v-if="icon" class="button__icon" :name="icon" />
     </slot>
 
-    <span v-if="$scopedSlots.default" class="button__label"
-      ><slot></slot>
+    <span v-if="label || $scopedSlots.default" class="button__label">
+      <template v-if="label">{{ label }}</template>
+      <slot v-else></slot>
     </span>
   </component>
 </template>
@@ -72,9 +74,6 @@ export default {
     },
 
     component() {
-      if (this.label) {
-        return "label";
-      }
       if (this.$attrs.href && !this.isDisabled) {
         return "a";
       }

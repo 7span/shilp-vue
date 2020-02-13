@@ -14,7 +14,7 @@ export default {
   name: "s-icon",
   props: {
     name: String,
-    title: String,
+    title: { type: String, default: null },
     size: {
       type: Number,
       default: 24

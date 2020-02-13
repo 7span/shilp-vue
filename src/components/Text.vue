@@ -10,7 +10,7 @@ export default {
   name: "s-text",
   shilp: {
     block: "text",
-    boolean: ["italic", "underline"],
+    boolean: ["italic", "underline", "strikethrough"],
     variant: ["size", "weight", "color", "align"]
   },
   mixins: [component],
@@ -22,6 +22,7 @@ export default {
     italic: Boolean,
     underline: Boolean,
     align: String,
+    strikethrough: Boolean,
     tag: {
       type: String,
       default: "p"

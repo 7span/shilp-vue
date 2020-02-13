@@ -17,6 +17,7 @@ export default {
     classes() {
       const classes = [];
 
+      //TODO: Add a special string format: 12|6|3
       if (this.size) {
         if (typeof this.size === "number" || typeof this.size === "string") {
           classes.push(`column--${this.size}`);

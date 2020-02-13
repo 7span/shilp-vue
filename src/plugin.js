@@ -10,8 +10,6 @@ import { loader as loaderDirective } from "./directives/loader";
 export let events = null;
 
 const install = (Vue, options) => {
-  const requestHandler =
-    options.requestHandler || defaultOptions.requestHandler;
   const vueMaterialDesignIcons = {
     ...defaultOptions.vueMaterialDesignIcons,
     ...(options.vueMaterialDesignIcons || {})
@@ -30,9 +28,7 @@ const install = (Vue, options) => {
   //Provide Options
   Vue.mixin({
     provide() {
-      return {
-        requestHandler: requestHandler
-      };
+      return {};
     },
     created() {
       Vue.prototype.$notify = payload => {
@@ -115,3 +111,13 @@ export const SFormValidate = require("./components/FormValidate").default;
  * Export Shilp Variables
  */
 export { colors, shades } from "./shilp";
+
+/**
+ * Export Plugins
+ */
+export const FormPlugin = require("./plugins/form/install").default;
+export const ListPlugin = require("./plugins/list/install").default;
+export const SpListGridTable = require("./plugins/list/layouts/GridTable")
+  .default;
+export const SpListMasnory = require("./plugins/list/layouts/Masnory").default;
+export const SpListTable = require("./plugins/list/layouts/Table").default;

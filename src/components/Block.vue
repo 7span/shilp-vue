@@ -14,13 +14,15 @@ export default {
     bgColor: String,
     bgImage: String,
     bgImageOpacity: [String, Number],
-    shadow: String
+    shadow: String,
+    align: String
   },
   computed: {
     classList() {
       const classes = ["block"];
       if (this.shadow) classes.push(`shadow--${this.shadow}`);
       if (this.radius) classes.push(`radius--${this.shadow}`);
+      if (this.align) classes.push(`text--${this.align}`);
       if (this.bgImage || this.bgColor) classes.push(`block--bg`);
       return classes;
     },

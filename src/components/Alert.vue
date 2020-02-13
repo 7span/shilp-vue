@@ -1,5 +1,5 @@
 <template>
-  <div class="alert" :class="blockClassList" v-if="$scopedSlots.default">
+  <div class="alert" :class="blockClassList">
     <s-icon v-if="icon" class="alert__icon" :name="icon"></s-icon>
     <p class="alert__title">{{ title }}</p>
     <div class="alert__body">

@@ -62,6 +62,7 @@ export default {
     classList() {
       const classes = [];
       if (this.fullHeight) classes.push(`modal--full-height`);
+      if (this.open) classes.push(`modal--show`);
       return classes;
     },
     overlayClasses() {
@@ -78,7 +79,8 @@ export default {
     });
 
     this.$root.$on("shilp-modal-open", payload => {
-      const { id, scope } = this.extractPayload(payload);
+      let { id, scope } = this.extractPayload(payload);
+      console.log(id, scope);
       if (!id) return;
       if (this.id == id) {
         this.scope = scope;
