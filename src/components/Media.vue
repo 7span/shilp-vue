@@ -53,10 +53,11 @@ export default {
   shilp: {
     block: "media",
     boolean: [],
-    variant: ["fit"]
+    variant: ["fit", "size"]
   },
   mixins: [component],
   props: {
+    size: Number,
     fit: String,
     position: String,
     ratio: String,

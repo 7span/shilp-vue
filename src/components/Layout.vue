@@ -108,7 +108,7 @@ export default {
       if (this.pushBottom) classes.push(`layout--push-bottom`);
       if (this.pullTop) classes.push(`layout--pull-top`);
       if (this.pullBottom) classes.push(`layout--pull-bottom`);
-      if (this.fullHeight) classes.push("h--100");
+      if (this.fullHeight) classes.push("h-100");
       return classes;
     }
   }
@@ -125,7 +125,7 @@ export default {
     var(--layout--left-size, minmax(0, max-content))
     auto var(--layout--right-size, minmax(0, max-content));
 
-  &.h--100 {
+  &.h-100 {
     > .layout__content,
     > .layout__left,
     > .layout__right {

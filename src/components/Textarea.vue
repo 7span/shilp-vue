@@ -1,5 +1,5 @@
 <template>
-  <textarea class="field-block" :value="value" @input="input"></textarea>
+  <textarea class="field-block" v-model="mValue"></textarea>
 </template>
 
 <script>
@@ -10,11 +10,16 @@ export default {
     value: [String, Number]
   },
 
-  methods: {
-    input(e) {
-      this.$emit("input", e.target.value, {
-        value: e.target.value
-      });
+  computed: {
+    mValue: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit("input", value, {
+          value: value
+        });
+      }
     }
   }
 };

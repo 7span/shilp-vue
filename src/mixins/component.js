@@ -1,3 +1,5 @@
+import { kebabCase } from "lodash";
+
 export default {
   computed: {
     blockClassList() {
@@ -29,6 +31,24 @@ export default {
         this.$options.shilp.variant.forEach(prop => {
           if (propSource[prop]) {
             classList.push(`${this.$options.shilp.block}--${propSource[prop]}`);
+          }
+        });
+      }
+
+      // Non BEM Utility Booleans
+      if (this.$options.shilp.utilityBoolean) {
+        this.$options.shilp.utilityBoolean.forEach(prop => {
+          if (propSource[prop]) {
+            classList.push(`${this.$options.shilp.block}-${prop}`);
+          }
+        });
+      }
+
+      // Non BEM Utility Variants
+      if (this.$options.shilp.utilityVariant) {
+        this.$options.shilp.utilityVariant.forEach(prop => {
+          if (propSource[prop]) {
+            classList.push(`${this.$options.shilp.block}-${propSource[prop]}`);
           }
         });
       }

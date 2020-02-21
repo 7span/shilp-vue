@@ -46,7 +46,7 @@
           >
             <slot name="repeater-remove" :index="i" :remove="removeRepeat">
               <s-button
-                class="p--0"
+                class="p-0"
                 color="danger"
                 theme="muted"
                 shape="square"
@@ -238,7 +238,6 @@ export default {
      * @param {Array} args[1] The array of changed fields and its values.
      */
     input(args, index) {
-      let value = args[0];
       let changed = [...args[1]];
 
       // Merging the original value

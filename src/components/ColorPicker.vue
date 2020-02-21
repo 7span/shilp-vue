@@ -1,5 +1,9 @@
 <template>
-  <div class="color-picker" ref="colorPicker" :style="{ '--color-picker--size': size }">
+  <div
+    class="color-picker"
+    ref="colorPicker"
+    :style="{ '--color-picker--size': size }"
+  >
     <div
       class="color-picker__row"
       v-for="(row, index) in paletteToShow"
@@ -14,7 +18,7 @@
           :style="{
             backgroundColor: palette
               ? color.hex
-              : `var(--color--${color.value})`
+              : `var(--color--${color.cssVar})`
           }"
           :class="`color-picker__color--${color.value}`"
           :title="color.label"
@@ -73,7 +77,8 @@ export default {
                 " " +
                 this.capitalizeFirstLetter(shade),
               hex: this.getCSSValue(this.getCSSVar(color, shade)),
-              value: shade == "default" ? `${color}` : `${color}--${shade}`
+              value: shade == "default" ? `${color}` : `${color}-${shade}`,
+              cssVar: shade == "default" ? `${color}` : `${color}--${shade}`
             });
           });
           palette.push({

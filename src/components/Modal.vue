@@ -1,20 +1,22 @@
 <template>
-  <portal to="modal-container" slim>
-    <transition>
-      <div
-        v-if="open"
-        :id="id"
-        class="modal"
-        :class="blockClassList"
-        v-bind="$attrs"
-      >
-        <div class="modal__overlay" :class="overlayClasses"></div>
-        <div class="modal__wrapper" @click.self="overlayClose">
-          <slot v-bind="scope"></slot>
+  <div class="mdoalll">
+    <portal to="modal-container" slim>
+      <transition>
+        <div
+          v-show="open"
+          :id="id"
+          class="modal"
+          :class="blockClassList"
+          v-bind="$attrs"
+        >
+          <div class="modal__overlay" :class="overlayClasses"></div>
+          <div class="modal__wrapper" @click.self="overlayClose">
+            <slot v-bind="scope"></slot>
+          </div>
         </div>
-      </div>
-    </transition>
-  </portal>
+      </transition>
+    </portal>
+  </div>
 </template>
 
 <script>
@@ -80,7 +82,6 @@ export default {
 
     this.$root.$on("shilp-modal-open", payload => {
       let { id, scope } = this.extractPayload(payload);
-      console.log(id, scope);
       if (!id) return;
       if (this.id == id) {
         this.scope = scope;
@@ -130,21 +131,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.v-enter {
-  opacity: 0;
-}
-.v-enter-to {
-  opacity: 1;
-}
-.v-leave-to {
-  opacity: 0;
-}
-.v-enter-active {
-  transition: all 0.3s ease 0s;
-}
-.v-leave-active {
-  transition: all 0.3s ease 0s;
-}
-</style>

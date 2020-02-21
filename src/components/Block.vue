@@ -20,16 +20,15 @@ export default {
   computed: {
     classList() {
       const classes = ["block"];
-      if (this.shadow) classes.push(`shadow--${this.shadow}`);
-      if (this.radius) classes.push(`radius--${this.shadow}`);
-      if (this.align) classes.push(`text--${this.align}`);
+      if (this.shadow) classes.push(`shadow-${this.shadow}`);
+      if (this.radius) classes.push(`radius-${this.shadow}`);
+      if (this.align) classes.push(`text-${this.align}`);
+      if (this.bgColor) classes.push(`bg-${this.bgColor}`);
       if (this.bgImage || this.bgColor) classes.push(`block--bg`);
       return classes;
     },
     styleSet() {
       const styles = {};
-      if (this.bgColor)
-        styles["--block--bg-color"] = `var(--color--${this.bgColor})`;
       if (this.bgImage) styles["--block--bg-image"] = `url(${this.bgImage})`;
       if (this.bgImageOpacity)
         styles["--block--bg-opacity"] = this.bgImageOpacity;

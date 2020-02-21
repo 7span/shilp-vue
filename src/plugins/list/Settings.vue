@@ -10,7 +10,7 @@
     <!-- LIMIT, PER PAGE RESULTS -->
     <s-field
       v-if="currentPerPageOptions.length > 0"
-      class="list__limit m--0"
+      class="list__limit m-0"
       label="Per Page"
       size="sm"
     >

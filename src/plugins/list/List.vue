@@ -77,7 +77,7 @@
         :count="count"
         @change="currentPage = $event"
       />
-      <metadata :items="items" :count="count" />
+      <meta-data :items="items" :count="count" />
     </footer>
   </div>
 </template>
@@ -88,7 +88,7 @@ import { debounce } from "lodash";
 export default {
   components: {
     Pagination: require("./Pagination").default,
-    Metadata: require("./MetaData").default,
+    MetaData: require("./MetaData").default,
     Settings: require("./Settings").default
   },
 
@@ -183,7 +183,7 @@ export default {
     },
 
     params: {
-      handler(newValue) {
+      handler() {
         //Changing page to 1 will automatically call getData with latest params due to watcher
         this.currentPage = 1;
       },
@@ -261,7 +261,7 @@ export default {
 
     getData(debounceValue = this.debounce) {
       debounce(
-        function(e) {
+        function() {
           this.loading = true;
           const params = {
             ...(this.params || {}),
@@ -297,7 +297,7 @@ export default {
               }
               this.loading = this.initial = false;
             })
-            .catch(err => {
+            .catch(() => {
               this.loading = this.initial = false;
             });
         },

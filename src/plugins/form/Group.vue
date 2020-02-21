@@ -154,7 +154,7 @@ export default {
      * Sets the grid size of ss-cols
      * If not defined, gets it from default configs
      */
-    blockClasses(name, config) {
+    blockClasses(name) {
       let classes = [`block--${name}`];
       return classes;
     },

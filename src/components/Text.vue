@@ -10,8 +10,10 @@ export default {
   name: "s-text",
   shilp: {
     block: "text",
-    boolean: ["italic", "underline", "strikethrough"],
-    variant: ["size", "weight", "color", "align"]
+    boolean: [], // Uses block name as prefix and key as suffix
+    variant: [], // Uses block name as prefix and value as suffix
+    utilityBoolean: ["italic", "underline", "strikethrough", "uppercase"],
+    utilityVariant: ["size", "color", "weight", "align"]
   },
   mixins: [component],
 
@@ -23,6 +25,9 @@ export default {
     underline: Boolean,
     align: String,
     strikethrough: Boolean,
+    lineHeight: String,
+    uppercase: Boolean,
+    numeric: Boolean,
     tag: {
       type: String,
       default: "p"

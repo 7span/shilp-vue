@@ -22,12 +22,8 @@ export default {
     default: false
   },
   label: {
-    type: String,
+    type: [Number, String],
     default: null
-  },
-  rounded: {
-    type: Boolean,
-    default: false
   },
   type: {
     type: String,
