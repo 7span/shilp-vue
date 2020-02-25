@@ -9,7 +9,7 @@
     </div>
     <div
       class="layout__left"
-      :class="[...topClasslist, ...childClasses]"
+      :class="[...leftClasslist, ...childClasses]"
       v-if="$scopedSlots.left"
     >
       <slot name="left"></slot>
@@ -49,7 +49,7 @@ export default {
       type: Boolean,
       default: false
     },
-    gap: String,
+    gap: Number,
     childClasslist: {
       type: Array,
       default: () => []

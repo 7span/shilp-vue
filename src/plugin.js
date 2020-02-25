@@ -27,8 +27,8 @@ const install = (Vue, options) => {
 
   //Provide Options
   Vue.mixin({
-    provide() {
-      return {};
+    provide: {
+      REQUEST: options.requestHandler
     },
     created() {
       Vue.prototype.$notify = payload => {

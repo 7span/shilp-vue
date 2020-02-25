@@ -93,12 +93,14 @@ export default {
           {
             label: "dark",
             hex: this.getCSSValue(this.getCSSVar("dark", "default")),
-            value: "dark"
+            value: "dark",
+            cssVar: "dark"
           },
           {
             label: "light",
             hex: this.getCSSValue(this.getCSSVar("light", "default")),
-            value: "light"
+            value: "light",
+            cssVar: "light"
           }
         ]
       });
@@ -114,7 +116,8 @@ export default {
           groupColors.push({
             label: this.capitalizeFirstLetter(color),
             hex: this.getCSSValue(this.getCSSVar(color, "default")),
-            value: color
+            value: color,
+            cssVar: color
           });
         });
         palette.push({

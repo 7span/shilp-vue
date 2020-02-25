@@ -13,7 +13,7 @@
       icon="ArrowLeftCircleOutline"
       shape="square"
       size="lg"
-      :to="{ name: backRoute }"
+      :to="{ name: backRoute, params: params[backRoute] }"
     ></s-button>
     <!-- HOME BUTTON -->
     <s-button
@@ -34,7 +34,7 @@
       >
       <router-link
         v-else
-        :to="{ name: route.name }"
+        :to="{ name: route.name, params: params[route.name] }"
         class="breadcrumbs__item"
         :key="`breadcrumbs--${index}`"
         >{{ routeLabel(route) }}</router-link
@@ -65,7 +65,8 @@ export default {
     return {
       //If a route name is added to this and has a value,
       // This value will be used instead of provided in router meta
-      labels: {}
+      labels: {},
+      params: {}
     };
   },
 
@@ -88,6 +89,11 @@ export default {
     //Update the label of route
     this.$root.$on("shilp-breadcrumbs-label", (key, value) => {
       this.$set(this.labels, key, value);
+    });
+
+    //Update the params of route
+    this.$root.$on("shilp-breadcrumbs-params", (key, value) => {
+      this.$set(this.params, key, value);
     });
   },
 

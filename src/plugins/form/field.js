@@ -71,19 +71,23 @@ export default {
     slotsToRender() {
       const slots = [];
       for (var key in this.$scopedSlots) {
-        const [destination, field, index] = key.split(":");
+        const [destination, field] = key.split(":");
         if (field == this.name) {
           const slot = {
             destination,
             key
           };
-          if (this.index != undefined) {
-            if (parseInt(this.index) == parseInt(index)) {
-              slots.push(slot);
-            }
-          } else {
-            slots.push(slot);
-          }
+          slots.push(slot);
+          //NOTE: Removed Index Specific Slots
+          //The conditional index slots should be handled when passing it/
+          //Scope already has index key to determine
+          // if (this.index != undefined) {
+          //   if (parseInt(this.index) == parseInt(index)) {
+          //     slots.push(slot);
+          //   }
+          // } else {
+          //   slots.push(slot);
+          // }
         }
       }
       return slots;

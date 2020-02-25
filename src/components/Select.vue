@@ -33,7 +33,7 @@ import { uid } from "../utils";
 export default {
   name: "s-select",
   inheritAttrs: false,
-
+  inject: ["REQUEST"],
   props: {
     options: {
       type: Array,
@@ -95,18 +95,28 @@ export default {
     },
     getOptions() {
       this.loader = true;
-
+      let request;
       //Handle request from function provided in props
       if (typeof this.request === "function") {
-        this.request()
-          .then(res => {
-            this.loader = false;
-            this.optionsFromRequest = res;
-          })
-          .catch(() => {
-            this.loader = false;
-          });
+        request = this.request();
       }
+      //Else use global requst resolver
+      else {
+        request = this.REQUEST({
+          name: this.$attrs.name,
+          method: "get",
+          endpoint: this.request.url,
+          params: this.request.params
+        });
+      }
+      request
+        .then(res => {
+          this.loader = false;
+          this.optionsFromRequest = res;
+        })
+        .catch(() => {
+          this.loader = false;
+        });
     },
     refresh() {
       if (this.request) this.getOptions();

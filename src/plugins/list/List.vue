@@ -7,7 +7,7 @@
   >
     <!-- HEADER -->
     <header class="v-list__header" v-if="header">
-      <div class="v-list__title">{{ title }}</div>
+      <h5 class="v-list__title">{{ title }}</h5>
       <!-- <div class="v-list__filters">
         <s-button size="sm" color="secondary" shape="pill" label>Active</s-button>
         <s-button size="sm" color="secondary" shape="pill" label>Pro Users</s-button>
@@ -20,14 +20,20 @@
         shape="square"
       >
         <s-button
+          v-if="settingsPane"
           icon="Settings"
           @click.native="toggleSidebar('settings')"
         ></s-button>
         <s-button
+          v-if="filterPane"
           icon="FilterIcon"
           @click.native="toggleSidebar('filters')"
         ></s-button>
-        <s-button icon="Refresh" @click.native="refresh()"></s-button>
+        <s-button
+          v-if="!data && allowRefresh"
+          icon="Refresh"
+          @click.native="refresh()"
+        ></s-button>
         <slot name="actions"></slot>
       </s-button-group>
     </header>
@@ -148,6 +154,18 @@ export default {
     loader: {
       type: Boolean,
       default: true
+    },
+    settingsPane: {
+      type: Boolean,
+      default: true
+    },
+    filterPane: {
+      type: Boolean,
+      default: false
+    },
+    allowRefresh: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -157,7 +175,7 @@ export default {
     return {
       sidebarContent: false,
       isFilters: false,
-      items: [],
+      items: self.data || [],
       count: 0,
       loading: false,
       initial: true,
@@ -169,6 +187,9 @@ export default {
   },
 
   watch: {
+    data(newValue) {
+      this.items = newValue;
+    },
     filters: {
       deep: true,
       handler() {
@@ -347,7 +368,7 @@ export default {
   //border-bottom: 1px solid --color(grey, lightest);
   align-items: center;
   background-color: --color(grey, lightest);
-  padding: 8px;
+  padding: var(--space--1) var(--space--3);
 }
 .v-list__sidebar {
   display: none;
@@ -366,8 +387,8 @@ export default {
 
 .v-list__title {
   margin: 0;
-  font-size: 16px;
   flex: 0 0 auto;
+  color: --color(grey, dark);
 }
 
 .v-list__filters {
