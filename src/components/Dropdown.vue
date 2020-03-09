@@ -1,7 +1,7 @@
 <template>
   <v-popover
     class="dropdown"
-    :class="{ 'field-block': select }"
+    :class="{ 'field-block dropdown--select': select }"
     v-bind="popoverProps"
   >
     <!-- TRIGGER -->
@@ -77,16 +77,22 @@ export default {
     },
     fixedPopoverProps() {
       let options = {};
+      let defaultClasses = [];
+      if (this.select) {
+        defaultClasses.push("select-popover");
+      } else {
+        defaultClasses.push("dropdown-popover");
+      }
 
       //If popoverClass is defined, merge the default class
       // Or add the class
       if (this.popoverOptions) {
         options.popoverClass = [
           ...(this.popoverOptions.popoverClass || []),
-          ...["dropdown-popover"]
+          ...defaultClasses
         ];
       } else {
-        options.popoverClass = ["dropdown-popover"];
+        options.popoverClass = defaultClasses;
       }
 
       if (this.align) {
@@ -108,7 +114,7 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown {
-  padding: 0;
+  padding-right: 0;
   .select {
     padding: 0 32px 0 var(--space--xs);
     line-height: initial;
@@ -143,6 +149,23 @@ export default {
   }
 }
 .tooltip.popover.dropdown-popover {
+  border: 1px solid --color(grey, light);
+  border-radius: --radius(3);
+  background-color: #fff;
+  box-shadow: --shadow(4);
+
+  .popover-inner {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  .popover-arrow {
+    display: none !important;
+  }
+}
+
+.tooltip.popover.select-popover {
   border: 1px solid --color(grey, light);
   border-radius: --radius(3);
   background-color: #fff;

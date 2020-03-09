@@ -20,13 +20,13 @@ export default {
         if (typeof this.gap === "object") {
           for (var key in this.gap) {
             if (key == "phone") {
-              classes.push(`row--${this.gap[key]}`);
+              classes.push(`g-${this.gap[key]}`);
             } else {
-              classes.push(`row--${this.gap[key]}:${key}`);
+              classes.push(`g-${this.gap[key]}:${key}`);
             }
           }
         } else {
-          classes.push(`row--${this.gap}`);
+          classes.push(`g-${this.gap}`);
         }
       }
 

@@ -286,7 +286,7 @@ export default {
           this.loading = true;
           const params = {
             ...(this.params || {}),
-            [this.pageKey]: this.page || undefined,
+            [this.pageKey]: this.localPage || undefined,
             [this.perPageKey]: this.currentPerPage || undefined,
             sort_by: this.localSortBy,
             sort_order: this.localSortOrder

@@ -3,7 +3,7 @@ module.exports = {
     extract: true,
     loaderOptions: {
       sass: {
-        data: '@import "@7span/shilp/scss/_globals.scss";'
+        data: '@import "shilp/scss/_globals.scss";'
       }
     }
   },

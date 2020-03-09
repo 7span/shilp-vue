@@ -32,6 +32,14 @@ export default {
       type: String,
       default: "p"
     }
+  },
+
+  computed: {
+    classList() {
+      const classlist = [];
+      if (this.lineHeight) classlist.push(`lh-${this.lineHeight}`);
+      return classlist;
+    }
   }
 };
 </script>

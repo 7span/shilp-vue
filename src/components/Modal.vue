@@ -1,22 +1,14 @@
 <template>
-  <div class="mdoalll">
-    <portal to="modal-container" slim>
-      <transition>
-        <div
-          v-show="open"
-          :id="id"
-          class="modal"
-          :class="blockClassList"
-          v-bind="$attrs"
-        >
-          <div class="modal__overlay" :class="overlayClasses"></div>
-          <div class="modal__wrapper" @click.self="overlayClose">
-            <slot v-bind="scope"></slot>
-          </div>
+  <portal v-if="open" to="modal-container" slim>
+    <transition>
+      <div :id="id" class="modal" :class="blockClassList" v-bind="$attrs">
+        <div class="modal__overlay" :class="overlayClasses"></div>
+        <div class="modal__wrapper" @click.self="overlayClose">
+          <slot v-bind="scope"></slot>
         </div>
-      </transition>
-    </portal>
-  </div>
+      </div>
+    </transition>
+  </portal>
 </template>
 
 <script>
@@ -25,7 +17,7 @@ export default {
   name: "s-modal",
   shilp: {
     block: "modal",
-    boolean: [],
+    boolean: ["fullscreen"],
     variant: ["size"]
   },
   mixins: [component],
@@ -36,7 +28,7 @@ export default {
       type: String,
       default: "md"
     },
-    fullHeight: {
+    fullscreen: {
       type: Boolean,
       default: false
     },
@@ -63,7 +55,6 @@ export default {
   computed: {
     classList() {
       const classes = [];
-      if (this.fullHeight) classes.push(`modal--full-height`);
       if (this.open) classes.push(`modal--show`);
       return classes;
     },

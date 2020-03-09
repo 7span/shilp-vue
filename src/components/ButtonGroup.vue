@@ -13,15 +13,14 @@ export default {
   name: "s-button-group",
   shilp: {
     block: "button-group",
-    boolean: ["fluid", "stack", "rounded"]
+    boolean: ["fluid", "stack"]
   },
   mixins: [component],
 
   props: {
     ...cloneDeep(props),
     fluid: Boolean,
-    stack: Boolean,
-    rounded: Boolean
+    stack: Boolean
   }
 };
 </script>

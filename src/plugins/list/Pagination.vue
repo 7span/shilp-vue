@@ -1,45 +1,36 @@
 <template>
   <div class="v-list__pagination" v-if="count > perPage">
-    <s-list group>
+    <s-button-group size="sm" color="primary" shape="square">
       <!-- PREV -->
       <s-button
         v-if="isPrev"
         icon="chevron-left"
-        color="primary"
-        shape="square"
         @click.native="changePage(page - 1)"
-      ></s-button>
+      />
 
       <!-- PAGES -->
       <template v-for="n in paginationButtonCount">
         <s-button
           v-if="n == page"
-          color="primary"
-          shape="square"
           class="button--active"
           :key="`page--${n}`"
-          label
-          >{{ n }}</s-button
-        >
+          :label="n"
+        />
         <s-button
           v-else
-          color="primary"
-          shape="square"
           :key="`page--${n}`"
           @click.native="changePage(n)"
-          >{{ n }}</s-button
-        >
+          :label="n"
+        />
       </template>
 
       <!-- NEXT -->
       <s-button
         v-if="isNext"
         icon="chevron-right"
-        color="primary"
-        shape="square"
         @click.native="changePage(page + 1)"
-      ></s-button>
-    </s-list>
+      />
+    </s-button-group>
 
     <template v-if="totalPages > this.maxPagingLinks">
       <select @change="changePage($event.target.value)" :value="page">

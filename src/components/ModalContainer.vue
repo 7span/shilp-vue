@@ -1,11 +1,10 @@
 <template>
   <portal-target
-    v-show="open"
     class="modal-container"
     @change="handleUpdate"
     name="modal-container"
   ></portal-target>
-</template> 
+</template>
 
 <script>
 export default {

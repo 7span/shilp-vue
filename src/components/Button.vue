@@ -59,7 +59,7 @@ export default {
   name: "s-button",
   shilp: {
     block: "button",
-    boolean: ["fluid", "active", "rounded"],
+    boolean: ["fluid", "active"],
     variant: ["color", "size", "shape", "theme", "align"],
     inheritPropsFrom: "s-button-group"
   },

@@ -75,10 +75,6 @@ export const {
   SNavItem,
   SNavGroup,
   SMedia,
-  SCard,
-  SCardHeader,
-  SCardBody,
-  SCardFooter,
   SDropdown,
   SFieldView,
   SItem,
@@ -98,14 +94,15 @@ export const {
   SSwitch,
   SBreadcrumbs,
   SLayoutLeft,
-  SNotificationContainer
+  SNotificationContainer,
+  SRadioButton
 } = components;
 
 /**
  * Manual Import Components
  */
-export const SFieldValidate = require("./components/FieldValidate").default;
-export const SFormValidate = require("./components/FormValidate").default;
+export const FieldValidate = require("./components/FieldValidate").default;
+export const FormValidate = require("./components/FormValidate").default;
 
 /**
  * Export Shilp Variables
@@ -117,7 +114,7 @@ export { colors, shades } from "./shilp";
  */
 export const FormPlugin = require("./plugins/form/install").default;
 export const ListPlugin = require("./plugins/list/install").default;
-export const SpListGridTable = require("./plugins/list/layouts/GridTable")
+export const ListGridTable = require("./plugins/list/layouts/GridTable")
   .default;
-export const SpListMasnory = require("./plugins/list/layouts/Masnory").default;
-export const SpListTable = require("./plugins/list/layouts/Table").default;
+export const ListMasnory = require("./plugins/list/layouts/Masnory").default;
+export const ListTable = require("./plugins/list/layouts/Table").default;

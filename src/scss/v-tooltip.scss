@@ -1,11 +1,12 @@
 .tooltip {
   display: block !important;
   z-index: 10000;
+  max-width: 300px;
 
   .tooltip-inner {
     background: black;
     color: white;
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 5px 10px 4px;
   }
 

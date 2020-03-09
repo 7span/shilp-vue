@@ -75,8 +75,13 @@ export default {
     }
   },
 
+  mounted() {
+    this.$emit("input", this.activeTab);
+  },
+
   methods: {
     change(name) {
+      this.$emit("input", name);
       this.localActiveTab = name;
     }
   }

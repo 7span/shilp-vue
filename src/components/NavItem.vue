@@ -6,19 +6,21 @@
       'nav__item--exact-active': exactActive
     }"
   >
-    <label v-if="type == 'label'" class="nav__label">
-      <slot />
-    </label>
-    <s-button
-      v-else
-      class="nav__link"
-      @active="active = $event"
-      @exact-active="exactActive = $event"
-      v-bind="{ ...$attrs, ...propsWithParent }"
-    >
+    <template v-if="type == 'group'">
+      <slot name="label" />
       <slot></slot>
-    </s-button>
-    <slot name="nav"></slot>
+    </template>
+
+    <template v-else>
+      <s-button
+        class="nav__link"
+        @active="active = $event"
+        @exact-active="exactActive = $event"
+        v-bind="{ ...$attrs, ...propsWithParent }"
+      >
+        <slot></slot>
+      </s-button>
+    </template>
   </li>
 </template>
 
@@ -47,20 +49,6 @@ export default {
       console.warn(
         "SHILP-VUE: The <s-nav-item> should be used as a child of <s-nav>"
       );
-    }
-  },
-  computed: {
-    test() {
-      return "HelloHi";
-    },
-    isActive() {
-      if (this.$attrs.to) {
-        const currentRoute = this.$route.fullPath;
-        const resolvedPath = this.$router.resolve(this.$attrs.to).route
-          .fullPath;
-        return currentRoute === resolvedPath;
-      }
-      return false;
     }
   }
 };

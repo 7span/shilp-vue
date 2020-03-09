@@ -22,16 +22,11 @@ export default {
   SDropdown: require("./components/Dropdown").default,
   SFieldView: require("./components/FieldView").default,
   SFile: require("./components/File").default,
+  SRadioButton: require("./components/RadioButton").default,
 
   //NAV
   SNav: require("./components/Nav").default,
   SNavItem: require("./components/NavItem").default,
-
-  //CARD
-  SCard: require("./components/Card").default,
-  SCardHeader: require("./components/CardHeader").default,
-  SCardBody: require("./components/CardBody").default,
-  SCardFooter: require("./components/CardFooter").default,
 
   //TAB
   STab: require("./components/Tab").default,

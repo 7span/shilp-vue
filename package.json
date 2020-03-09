@@ -1,6 +1,6 @@
 {
   "name": "@7span/shilp-vue",
-  "version": "0.1.0-beta.39",
+  "version": "0.1.0-beta.42",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name shilp-vue src/plugin.js",
@@ -13,8 +13,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@7span/shilp": "0.1.0-beta.24",
     "core-js": "^2.6.5",
+    "shilp": "0.1.0-beta.28",
     "vue": "^2.6.11"
   },
   "devDependencies": {

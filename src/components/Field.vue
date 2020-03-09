@@ -9,7 +9,7 @@
 
     <slot name="start"></slot>
 
-    <div class="field__group">
+    <div class="field__content" :class="{ 'h-100': fullHeight }">
       <!-- BEFORE -->
 
       <div v-if="before || beforeIcon" class="field__before">
@@ -74,7 +74,6 @@ export default {
     variant: ["color", "size", "theme"],
     boolean: ["optional"]
   },
-  inheritAttrs: false,
   mixins: [component],
 
   props: {
@@ -96,7 +95,11 @@ export default {
       type: Boolean,
       default: false
     },
-    passwordToggle: Object
+    passwordToggle: Object,
+    fullHeight: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {
@@ -108,6 +111,7 @@ export default {
   computed: {
     classList() {
       const classes = [];
+      if (this.fullHeight) classes.push("h-100");
       return classes;
     }
     // fieldGroupClasses() {

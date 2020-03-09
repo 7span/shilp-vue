@@ -3,38 +3,27 @@
     <div
       class="choice"
       :class="{ 'choice--custom': custom, 'choice--native': native }"
-      v-for="(option, index) in options"
+      v-for="(option, index) in optionsWithId"
       :key="`option--${index}`"
     >
       <input
         :name="name"
         type="radio"
-        :id="optionId(option)"
+        :id="option.id"
         :value="option.value"
         :checked="option.selected"
         v-model="checked"
         @change="input"
       />
 
-      <!-- STYLE: BUTTON -->
-      <s-button
-        v-if="optionComponent == 'button'"
-        v-bind="$attrs"
-        :for="optionId(option)"
-        :active="checked == option.value"
-      >{{ option.label }}</s-button>
-
       <!-- STYLE: NATIVE OR CUSTOM -->
       <label
-        v-else
         class="choice__label"
         :class="{ 'choice__label--checked': checked == option.value }"
-        :for="optionId(option)"
+        :for="option.id"
       >
         <slot :option="option" :checked="checked == option.value">
-          {{
-          option.label
-          }}
+          {{ option.label }}
         </slot>
       </label>
     </div>
@@ -64,7 +53,6 @@ export default {
     value: [String, Number, Boolean],
     options: Array,
     name: String,
-    optionComponent: String,
     custom: {
       type: Boolean,
       default: false
@@ -72,17 +60,20 @@ export default {
     native: {
       type: Boolean,
       default: false
-    },
-    buttonInactiveStyle: {
-      type: String,
-      default: "outline"
     }
   },
 
   computed: {
-    uniqueId() {
-      return uid();
+    optionsWithId() {
+      const newOptions = this.options.map(item => {
+        if (!item.id) {
+          item.id = uid();
+        }
+        return item;
+      });
+      return newOptions;
     },
+
     classes() {
       const classes = [];
       if (this.component == "button") {
@@ -96,10 +87,6 @@ export default {
     input() {
       let metaValue = this.options.find(item => item.value == this.checked);
       this.$emit("input", this.checked, metaValue);
-    },
-
-    optionId(option) {
-      return option.id || this.uniqueId + option.value;
     }
   }
 };

@@ -1,6 +1,15 @@
 <template>
   <div class="media" :class="blockClassList" :style="inlineCss">
-    <div class="media__wrap" :class="mediaRatio">
+    <!-- IF EMBEDED -->
+    <div
+      class="media__wrap"
+      :class="mediaRatio"
+      v-if="embed"
+      v-html="value"
+    ></div>
+
+    <!-- ELSE -->
+    <div v-else class="media__wrap" :class="mediaRatio">
       <!-- BASE64 PREVIEW -->
       <img v-if="preview" :src="preview" />
 
@@ -30,7 +39,7 @@
       </div>
 
       <!-- REMOVE BUTTON -->
-      <div class="media__remove" v-if="value && !readonly">
+      <div class="media__remove" v-if="(value || preview) && !readonly">
         <slot name="remove">
           <s-button
             theme="muted"
@@ -57,6 +66,10 @@ export default {
   },
   mixins: [component],
   props: {
+    embed: {
+      type: Boolean,
+      default: false
+    },
     size: Number,
     fit: String,
     position: String,
@@ -79,6 +92,10 @@ export default {
     waitToLoad: {
       type: Boolean,
       default: true
+    },
+    valueType: {
+      type: String,
+      default: "file"
     }
   },
 
@@ -189,7 +206,7 @@ export default {
         );
         return;
       }
-      this.$emit("input", file);
+
       let meta = {
         name: file.name,
         size: (file.size / 1024 / 1024).toFixed(2) + "MB",
@@ -202,8 +219,8 @@ export default {
     },
 
     remove() {
-      this.$emit("remove");
       this.$emit("input", null);
+      this.$emit("remove");
       this.preview = this.meta = this.fileObject = null;
     },
 
@@ -215,6 +232,13 @@ export default {
         this.loaded = true;
         this.$emit("load");
         this.preview = e.target.result;
+
+        if (this.valueType == "file") {
+          this.$emit("input", this.fileObject);
+        }
+        if (this.valueType == "base64") {
+          this.$emit("input", this.preview);
+        }
       };
 
       reader.onerror = () => {

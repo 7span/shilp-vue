@@ -4,10 +4,10 @@
       :checked="isChecked"
       class="switch__input"
       type="checkbox"
-      id="switch"
+      :id="id"
       @input="input($event.target.checked)"
     />
-    <label for="switch" class="switch__wrapper">
+    <label :for="id" class="switch__wrapper">
       <div class="switch__indicator"></div>
     </label>
   </div>
@@ -26,6 +26,10 @@ export default {
   mixins: [component],
   props: {
     value: {},
+    id: {
+      type: String,
+      default: "switch"
+    },
     rounded: Boolean,
     color: String,
     size: String,
