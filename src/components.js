@@ -2,14 +2,9 @@ export default {
   SApp: require("./components/App").default,
 
   //BUTTON
-  SButtonGroup: require("./components/ButtonGroup").default,
   SButton: require("./components/Button").default,
-  SList: require("./components/List").default,
-
-  //BLOCKS
-  SRow: require("./components/Row").default,
-  SColumn: require("./components/Column").default,
-  SGrid: require("./components/Grid").default,
+  SButtonGroup: require("./components/ButtonGroup").default,
+  SRadioButton: require("./components/RadioButton").default,
 
   //FORM
   SForm: require("./components/Form").default,
@@ -22,7 +17,7 @@ export default {
   SDropdown: require("./components/Dropdown").default,
   SFieldView: require("./components/FieldView").default,
   SFile: require("./components/File").default,
-  SRadioButton: require("./components/RadioButton").default,
+  SNumber: require("./components/Number").default,
 
   //NAV
   SNav: require("./components/Nav").default,
@@ -36,23 +31,27 @@ export default {
   SModal: require("./components/Modal").default,
   SModalContainer: require("./components/ModalContainer").default,
 
-  //Layout
-  SLayout: require("./components/Layout").default,
-  SLayoutLeft: require("./components/LayoutLeft").default,
-
   //OTHERS
-  SIcon: require("./components/Icon").default,
   SAlert: require("./components/Alert").default,
-  SItem: require("./components/Item").default,
   SColorPicker: require("./components/ColorPicker").default,
-  SAvatar: require("./components/Avatar").default,
-  SPerson: require("./components/Person").default,
   SSwitch: require("./components/Switch").default,
   SBreadcrumbs: require("./components/Breadcrumbs").default,
   SNotificationContainer: require("./components/NotificationContainer").default,
+  SRepeater: require("./components/Repeater").default,
+  SCopy: require("./components/Copy").default,
 
   //CORE
   SMedia: require("./components/Media").default,
   SText: require("./components/Text").default,
-  SBlock: require("./components/Block").default
+  SBlock: require("./components/Block").default,
+  SIcon: require("./components/Icon").default,
+
+  //LAYOUTS
+  SLayout: require("./components/Layout").default,
+  SRow: require("./components/Row").default,
+  SColumn: require("./components/Column").default,
+  SList: require("./components/List").default,
+  SGrid: require("./components/Grid").default,
+  SItem: require("./components/Item").default,
+  STable: require("./components/Table").default
 };

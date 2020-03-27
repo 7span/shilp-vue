@@ -59,7 +59,7 @@ export default {
   name: "s-button",
   shilp: {
     block: "button",
-    boolean: ["fluid", "active"],
+    boolean: ["fluid", "active", "badge"],
     variant: ["color", "size", "shape", "theme", "align"],
     inheritPropsFrom: "s-button-group"
   },
@@ -74,11 +74,10 @@ export default {
     },
 
     component() {
-      if (this.$attrs.href && !this.isDisabled) {
-        return "a";
-      }
-      if (this.$attrs.for) {
+      if (this.badge) {
         return "label";
+      } else if (this.$attrs.href && !this.isDisabled) {
+        return "a";
       }
       return "button";
     },

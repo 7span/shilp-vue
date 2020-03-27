@@ -80,6 +80,7 @@ export default {
 <style lang="scss" scoped>
 .v-list__pagination {
   text-align: center;
+  margin-bottom: --space(2);
   .button--active {
     background-color: --color("primary", dark);
     cursor: default;

@@ -58,44 +58,52 @@ if (typeof window !== "undefined" && window.Vue) {
  * Export individual components
  */
 export const {
-  SLayout,
   SApp,
+
   SButton,
-  SList,
-  SRow,
-  SColumn,
-  SIcon,
+  SButtonGroup,
+  SRadioButton,
+
+  SForm,
   SField,
   STextbox,
-  SSelect,
-  SRadio,
   SCheckbox,
-  SAlert,
-  SNav,
-  SNavItem,
-  SNavGroup,
-  SMedia,
+  SRadio,
+  SSelect,
   SDropdown,
   SFieldView,
-  SItem,
-  SForm,
   SFile,
+  SNumber,
+
+  SNav,
+  SNavItem,
+
   STab,
   STabItem,
-  SText,
-  SColorPicker,
-  SPerson,
-  SAvatar,
+
   SModal,
   SModalContainer,
-  SGrid,
-  SBlock,
-  SButtonGroup,
+
+  SAlert,
+  SColorPicker,
   SSwitch,
   SBreadcrumbs,
-  SLayoutLeft,
   SNotificationContainer,
-  SRadioButton
+  SRepeater,
+  SCopy,
+
+  SMedia,
+  SText,
+  SBlock,
+  SIcon,
+
+  SLayout,
+  SRow,
+  SColumn,
+  SList,
+  SGrid,
+  SItem,
+  STable
 } = components;
 
 /**

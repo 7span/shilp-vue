@@ -16,7 +16,7 @@
         class="nav__link"
         @active="active = $event"
         @exact-active="exactActive = $event"
-        v-bind="{ ...$attrs, ...propsWithParent }"
+        v-bind="{ ...$attrs, ...propsWithParent, ...activeProps }"
       >
         <slot></slot>
       </s-button>
@@ -44,11 +44,26 @@ export default {
       exactActive: null
     };
   },
+
   created() {
     if (this.parentComponent != "s-nav") {
       console.warn(
         "SHILP-VUE: The <s-nav-item> should be used as a child of <s-nav>"
       );
+    }
+  },
+
+  computed: {
+    activeProps() {
+      if (
+        (this.active || this.exactActive) &&
+        this.$parent.$props.activeColor
+      ) {
+        return {
+          color: this.$parent.$props.activeColor
+        };
+      }
+      return {};
     }
   }
 };

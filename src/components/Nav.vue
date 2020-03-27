@@ -32,7 +32,8 @@ export default {
     fluid: {
       type: Boolean,
       default: false
-    }
+    },
+    activeColor: String
   }
 };
 </script>

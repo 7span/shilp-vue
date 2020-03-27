@@ -11,13 +11,12 @@ export default {
   shilp: {
     block: "grid",
     boolean: [],
-    variant: ["gap", "size"]
+    variant: ["size"]
   },
   mixins: [component],
 
   props: {
-    size: String,
-    gap: String
+    size: String
   },
 
   computed: {

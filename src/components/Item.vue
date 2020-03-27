@@ -3,11 +3,11 @@
     <div class="item__media">
       <slot name="media"></slot>
     </div>
+    <div class="item__title">
+      <slot name="title"></slot>
+    </div>
     <div class="item__body">
-      <component :is="titleTag" v-if="title" class="item__title">{{ title }}</component>
-      <div class="item__content">
-        <slot></slot>
-      </div>
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -18,18 +18,9 @@ export default {
   name: "s-item",
   shilp: {
     block: "item",
-    variant: ["size"]
+    variant: []
   },
-
   mixins: [component],
-
-  props: {
-    title: String,
-    titleTag: {
-      type: String,
-      default: "h4"
-    },
-    size: String
-  }
+  props: {}
 };
 </script>

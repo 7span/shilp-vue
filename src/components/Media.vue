@@ -8,6 +8,11 @@
       v-html="value"
     ></div>
 
+    <!-- AVATAR -->
+    <template v-else-if="avatar">
+      <img v-if="value" :src="value" />
+    </template>
+
     <!-- ELSE -->
     <div v-else class="media__wrap" :class="mediaRatio">
       <!-- BASE64 PREVIEW -->
@@ -61,7 +66,7 @@ export default {
   name: "s-media",
   shilp: {
     block: "media",
-    boolean: [],
+    boolean: ["avatar"],
     variant: ["fit", "size"]
   },
   mixins: [component],
@@ -96,7 +101,8 @@ export default {
     valueType: {
       type: String,
       default: "file"
-    }
+    },
+    avatar: Boolean
   },
 
   data() {
@@ -161,7 +167,7 @@ export default {
 
     classList() {
       const classes = [];
-      if (!this.value) classes.push("media--select");
+      if (!this.value && !this.avatar) classes.push("media--select");
       if (this.preview) classes.push("media--preview");
       return classes;
     },

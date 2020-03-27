@@ -12,13 +12,16 @@
     <div class="field__content" :class="{ 'h-100': fullHeight }">
       <!-- BEFORE -->
 
-      <div v-if="before || beforeIcon" class="field__before">
+      <div
+        v-if="before || beforeIcon || $scopedSlots.before"
+        class="field__before"
+      >
         <template v-if="before">{{ before }}</template>
         <div class="field__icon" v-if="beforeIcon">
           <s-icon :name="beforeIcon" />
         </div>
+        <slot name="before"></slot>
       </div>
-      <slot v-else name="before"></slot>
 
       <slot></slot>
 
@@ -37,7 +40,7 @@
       </button>
 
       <!-- AFTER -->
-      <div v-if="after || afterIcon" class="field__after">
+      <div v-if="after || afterIcon || $scopedSlots.after" class="field__after">
         <template v-if="after">{{ after }}</template>
         <template v-else-if="afterIcon">
           <!-- ICON -->
@@ -45,8 +48,8 @@
             <s-icon :name="afterIcon" />
           </div>
         </template>
+        <slot name="after"></slot>
       </div>
-      <slot v-else name="after"></slot>
     </div>
 
     <!-- MESSAGES -->
@@ -72,7 +75,7 @@ export default {
   shilp: {
     block: "field",
     variant: ["color", "size", "theme"],
-    boolean: ["optional"]
+    boolean: ["optional", "inline"]
   },
   mixins: [component],
 
@@ -99,7 +102,8 @@ export default {
     fullHeight: {
       type: Boolean,
       default: false
-    }
+    },
+    inline: Boolean
   },
 
   data() {

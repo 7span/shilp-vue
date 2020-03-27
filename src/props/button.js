@@ -29,6 +29,10 @@ export default {
     type: String,
     default: "button"
   },
-  to: [Object, String]
+  to: [Object, String],
+  badge: {
+    type: Boolean,
+    default: false
+  }
   // href: String
 };
