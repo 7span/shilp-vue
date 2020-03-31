@@ -5,9 +5,9 @@
     </template>
 
     <template v-else>
-      <template v-for="i in count">
-        <s-column :key="`column-${i - 1}`" :size="config(i - 1)">
-          <slot :index="i - 1" :data="columnsData[i - 1] || columnsData[0]" />
+      <template v-for="(column, index) in config">
+        <s-column :key="`column-${index}`" :size="column.config">
+          <slot :name="slotName(index)" :index="index" :data="column.data" />
         </s-column>
       </template>
     </template>
@@ -29,15 +29,47 @@ export default {
     columnsData: {
       type: Array,
       default: () => []
+    },
+    reverse: {
+      type: Boolean,
+      default: false
     }
   },
 
   computed: {
-    count() {
-      if (Array.isArray(this.columns)) {
-        return this.columns.length;
+    config() {
+      let columns = [];
+      if (this.repeater) {
+        for (var i = 0; i < this.columnsCount; i++) {
+          columns.push({
+            config: this.columns,
+            data: this.columnsData[i] || this.columnsData[0]
+          });
+        }
       } else {
+        this.columns.forEach((config, i) => {
+          columns.push({
+            config: config,
+            data: this.columnsData[i] || this.columnsData[0]
+          });
+        });
+      }
+
+      if (this.reverse) {
+        return columns.reverse();
+      } else {
+        return columns;
+      }
+    },
+
+    repeater() {
+      return !Array.isArray(this.columns);
+    },
+    count() {
+      if (this.repeater) {
         return this.columnsCount;
+      } else {
+        return this.columns.length;
       }
     },
 
@@ -57,17 +89,20 @@ export default {
           classes.push(`g-${this.gap}`);
         }
       }
-
       return classes;
     }
   },
 
   methods: {
-    config(n) {
-      if (Array.isArray(this.columns)) {
-        return this.columns[n];
+    slotName(index) {
+      if (this.repeater) {
+        return "default";
       } else {
-        return this.columns;
+        if (this.reverse) {
+          return this.columns.length - index;
+        } else {
+          return index + 1;
+        }
       }
     }
   }

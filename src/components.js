@@ -18,6 +18,7 @@ export default {
   SFieldView: require("./components/FieldView").default,
   SFile: require("./components/File").default,
   SNumber: require("./components/Number").default,
+  SNumberCustom: require("./components/NumberCustom").default,
 
   //NAV
   SNav: require("./components/Nav").default,

@@ -1,32 +1,11 @@
 <template>
-  <!-- <div class="number">
-    <s-button
-      class="number__button"
-      v-bind="$attrs"
-      @click.native="plus()"
-      icon="Plus"
-    />
-    <s-textbox
-      class="number__input"
-      :value="value"
-      @input="set($event)"
-      type="number"
-    />
-    <s-button
-      class="number__button"
-      v-bind="$attrs"
-      @click.native="minus()"
-      icon="Minus"
-    />
-  </div> -->
-
-  <s-field class="number">
+  <s-field v-bind="$attrs" class="number">
     <template #before>
       <s-button
         class="number__button"
         shape="square"
-        @click.native="plus()"
-        icon="Plus"
+        @click.native="minus()"
+        icon="Minus"
       />
     </template>
     <s-textbox
@@ -39,43 +18,19 @@
       <s-button
         class="number__button"
         shape="square"
-        @click.native="minus()"
-        icon="Minus"
+        @click.native="plus()"
+        icon="Plus"
       />
     </template>
   </s-field>
 </template>
 
 <script>
+import number from "../mixins/number";
+
 export default {
-  props: {
-    value: Number,
-    min: {
-      type: Number,
-      default: 1
-    },
-    max: {
-      type: Number,
-      default: 10
-    }
-  },
-  methods: {
-    set(value) {
-      if (value <= this.max && value >= this.min) {
-        this.$emit("input", value);
-      }
-    },
-    plus() {
-      if (this.value < this.max) {
-        this.$emit("input", this.value + 1);
-      }
-    },
-    minus() {
-      if (this.value > this.min) {
-        this.$emit("input", this.value - 1);
-      }
-    }
-  }
+  inheritAttrs: false,
+  mixins: [number]
 };
 </script>
 
@@ -88,6 +43,7 @@ export default {
     }
   }
 }
+
 .number__button {
   flex: 0 0 auto;
   --button--size: calc(
@@ -96,7 +52,14 @@ export default {
   --button--color: #{--color(grey)};
   --button--hover-color: #{--color(grey, darkest)};
 }
+
 .number__input {
   text-align: center;
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
 }
 </style>
