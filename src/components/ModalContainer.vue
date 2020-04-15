@@ -21,3 +21,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+</style>

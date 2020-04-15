@@ -1,8 +1,11 @@
 <template>
-  <div class="file field-block">
+  <div
+    class="file"
+    :class="{ 'file--button': buttonOnly, 'field-block': !buttonOnly }"
+  >
     <input type="file" v-bind="attrGroup.file" @change="input" />
     <input type="text" :placeholder="placeholder" v-model="fileName" readonly />
-    <s-button v-bind="attrGroup.button" :size="parentProps.size">{{buttonLabel}}</s-button>
+    <s-button v-bind="attrGroup.button" />
   </div>
 </template>
 
@@ -12,16 +15,16 @@ export default {
   inheritAttrs: false,
   props: {
     placeholder: String,
-    buttonLabel: {
-      type: String,
-      default: "Select"
-    },
-    value: [FileList]
+    value: [FileList],
+    buttonOnly: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
       fileName: null,
-      buttonProps: ["color", "shape", "size", "theme", "align", "icon"]
+      buttonProps: ["label", "color", "shape", "size", "theme", "align", "icon"]
     };
   },
   computed: {

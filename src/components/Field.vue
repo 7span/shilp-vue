@@ -139,3 +139,11 @@ export default {
   cursor: pointer;
 }
 </style>
+
+<style lang="scss">
+.field {
+  .select-popover {
+    right: 0;
+  }
+}
+</style>

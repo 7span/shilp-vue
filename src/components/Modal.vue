@@ -1,9 +1,13 @@
 <template>
-  <portal v-if="open" to="modal-container" slim>
+  <portal v-if="isOpen" to="modal-container" slim>
     <transition>
       <div :id="id" class="modal" :class="blockClassList" v-bind="$attrs">
-        <div class="modal__overlay" :class="overlayClasses"></div>
-        <div class="modal__wrapper" @click.self="overlayClose">
+        <div
+          class="modal__overlay"
+          @click.self="overlayClose"
+          :class="overlayClasses"
+        ></div>
+        <div class="modal__wrapper">
           <slot v-bind="scope"></slot>
         </div>
       </div>
@@ -32,6 +36,10 @@ export default {
       type: Boolean,
       default: false
     },
+    fullHeight: {
+      type: Boolean,
+      default: false
+    },
     overlay: {
       type: [String, Boolean],
       default: "light"
@@ -47,7 +55,7 @@ export default {
   },
   data() {
     return {
-      open: false,
+      isOpen: false,
       scope: null
     };
   },
@@ -55,7 +63,8 @@ export default {
   computed: {
     classList() {
       const classes = [];
-      if (this.open) classes.push(`modal--show`);
+      if (this.isOpen) classes.push(`modal--show`);
+      if (this.fullHeight) classes.push(`modal--full-height`);
       return classes;
     },
     overlayClasses() {
@@ -72,47 +81,57 @@ export default {
     });
 
     this.$root.$on("shilp-modal-open", payload => {
-      let { id, scope } = this.extractPayload(payload);
-      if (!id) return;
-      if (this.id == id) {
-        this.scope = scope;
-        this.open = true;
-      } else {
-        this.scope = null;
-        this.open = false;
-      }
-      this.$emit("open");
+      this.open(payload);
     });
 
     this.$root.$on("shilp-modal-close", payload => {
-      const { id } = this.extractPayload(payload);
-      if (id) {
-        if (this.id == id) {
-          this.close();
-        }
-      } else {
-        this.close();
-      }
+      this.close(payload);
     });
   },
 
   methods: {
-    close() {
-      this.scope = null;
-      this.open = false;
-      this.$emit("close");
+    open(payload) {
+      let { id, scope } = this.extractPayload(payload);
+      if (!id) return;
+      if (this.id == id) {
+        this.scope = scope;
+        this.isOpen = true;
+      } else {
+        this.scope = null;
+        this.isOpen = false;
+      }
+      this.$emit("open");
+    },
+    close(payload) {
+      const { id } = this.extractPayload(payload);
+      let shouldClose = false;
+      if (id) {
+        if (this.id == id) {
+          shouldClose = true;
+        }
+      } else {
+        shouldClose = true;
+      }
+      if (shouldClose) {
+        this.scope = null;
+        this.isOpen = false;
+        this.$emit("close");
+      }
     },
     extractPayload(payload) {
       if (typeof payload === "object") {
         return payload;
-      }
-      if (typeof payload === "string") {
+      } else if (typeof payload === "string") {
         return {
           id: payload,
           scope: null
         };
+      } else {
+        return {
+          id: this.id,
+          scope: null
+        };
       }
-      return { id: null, scope: null };
     },
     overlayClose() {
       if (this.closeOnOverlay) {

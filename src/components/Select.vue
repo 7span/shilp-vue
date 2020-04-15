@@ -17,7 +17,7 @@
       <option
         v-for="option in serializedOptions"
         :value="option.value"
-        :key="uniqueId + '--' + option.value"
+        :key="uniqueId() + '--' + option.value"
         :selected="value == option.value"
         :disabled="option.disabled"
         >{{ option.label }}</option
@@ -70,9 +70,6 @@ export default {
   },
 
   computed: {
-    uniqueId() {
-      return uid();
-    },
     serializedOptions() {
       const options = this.request ? this.optionsFromRequest : this.options;
       return options.map(item => {
@@ -88,6 +85,9 @@ export default {
   },
 
   methods: {
+    uniqueId() {
+      return uid();
+    },
     input(e) {
       let options = this.request ? this.optionsFromRequest : this.options;
       let metaValue = options.find(item => item.value == e.target.value);

@@ -8,15 +8,15 @@
       <thead>
         <tr>
           <th
-            v-for="key in columns"
-            :key="`v-list-table-header-${key}`"
-            :class="thClass(key)"
-            :style="thStyle(key)"
-            @click="sortItemsBy(key)"
+            v-for="column in columns"
+            :key="`v-list-table-header-${column}`"
+            :class="thClass(column)"
+            :style="thStyle(column)"
+            @click="sortItemsBy(column)"
           >
             <div class="v-list__head">
-              <label>{{ th(key) }} </label>
-              <div v-if="key == sortBy" class="v-list__sort-icon">
+              <label>{{ th(column) }} </label>
+              <div v-if="column == sortBy" class="v-list__sort-icon">
                 <s-icon v-if="sortOrder == 'asc'" name="ChevronUp"></s-icon>
                 <s-icon v-if="sortOrder == 'desc'" name="ChevronDown"></s-icon>
               </div>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { merge, startCase } from "lodash";
+import { cloneDeep, merge, startCase } from "lodash";
 import layout from "../layout";
 
 const defaultItemProps = {
@@ -93,7 +93,7 @@ const defaultItemProps = {
 };
 
 export default {
-  name: "v-list-table",
+  name: "sp-list-table",
   mixins: [layout],
   props: {
     sortable: {
@@ -105,31 +105,46 @@ export default {
   computed: {
     columns() {
       //If not itemProps configuration is provided, return all the items to show!
-      if (!this.itemProps || Object.keys(this.itemProps).length == 0) {
+      if (!this.itemProps || this.itemProps.length == 0) {
         //Get all the keys from response data
         if (this.rows[0]) {
           return Object.keys(this.rows[0]);
         }
         return [];
       } else {
-        return Object.keys(this.itemProps);
+        return this.itemProps.map(col => {
+          if (typeof col == "object") {
+            return col.name;
+          }
+          return col;
+        });
       }
     },
     mergedProps() {
+      const itemPropsObj = {};
+      this.itemProps.forEach(item => {
+        if (typeof item == "object") {
+          itemPropsObj[item.name] = item;
+        } else {
+          itemPropsObj[item] = {};
+        }
+      });
+
       //Merge with global configuration
       const mergedProps = merge(
         defaultItemProps,
         this.OPTIONS.itemProps,
-        this.itemProps
+        itemPropsObj
       );
       return mergedProps;
     },
     rows: {
-      set() {
-        //Update of items is done with API and refreshing the request so no need to update the UI
+      set(value) {
+        this.$emit("new", value);
+        this.$parent.set("items", value);
       },
       get() {
-        return JSON.parse(JSON.stringify(this.items));
+        return cloneDeep(this.items);
       }
     }
   },
@@ -197,7 +212,8 @@ export default {
 
 <style lang="scss" scoped>
 .v-list-table {
-  --v-list-table--border-color: #{--color(grey, lighter)};
+  --v-list-table--border-color: #{--color(grey, lightest)};
+  --v-list-table--hover-color: rgba(0, 0, 0, 0.03);
   padding: --space(3);
 }
 .v-list-table__table {
@@ -225,7 +241,7 @@ export default {
   tbody {
     tr {
       &:hover {
-        background-color: --color(grey, lightest);
+        background-color: var(--v-list-table--hover-color);
       }
     }
   }

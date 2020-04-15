@@ -30,11 +30,11 @@ export default {
     variant: ["size"]
   },
   computed: {
-    classes() {
+    classList() {
       let classlist = [];
       if (this.border === true) classlist.push(`table--border`);
       if (typeof this.border === "string")
-        classlist.push(`table--${this.border}`);
+        classlist.push(`table--border-${this.border}`);
       return classlist;
     }
   }

@@ -1,5 +1,9 @@
 <template>
-  <transition-group class="notification-container">
+  <transition-group
+    tag="div"
+    class="notification-container"
+    :style="inlineStyle"
+  >
     <s-alert
       class="notification"
       v-for="(notification, index) in notifications"
@@ -30,6 +34,28 @@ const defaults = {
 
 export default {
   name: "s-notification-container",
+  props: {
+    width: {
+      type: String,
+      default: "300px"
+    },
+    top: {
+      type: String,
+      default: "8px"
+    },
+    right: {
+      type: String,
+      default: "8px"
+    },
+    left: {
+      type: String,
+      default: "auto"
+    },
+    bottom: {
+      type: String,
+      default: "auto"
+    }
+  },
   data() {
     return {
       notifications: []
@@ -39,6 +65,17 @@ export default {
     this.$root.$on("shilp-notify", payload => {
       this.push({ ...defaults, ...payload });
     });
+  },
+  computed: {
+    inlineStyle() {
+      return {
+        top: this.top,
+        right: this.right,
+        bottom: this.bottom,
+        left: this.left,
+        width: this.width
+      };
+    }
   },
   methods: {
     push(data) {
@@ -61,9 +98,7 @@ export default {
 <style lang="scss" scoped>
 .notification-container {
   position: fixed;
-  z-index: 99;
-  top: --space(3);
-  right: --space(3);
+  z-index: 101;
   display: flex;
   flex-direction: column;
 }

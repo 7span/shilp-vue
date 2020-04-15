@@ -1,57 +1,70 @@
 <template>
+  <div v-if="slim" class="v-list">
+    <slot :items="data || items" :loading="loading" :isEmpty="isEmpty" />
+  </div>
+
   <div
+    v-else
     class="v-list"
-    :class="{ 'v-list--sidebar': sidebarContent }"
+    :class="classList"
     v-shilp-loader.overlay="loader && loading && !initial"
     :loading="loading"
   >
-    <!-- HEADER -->
-    <header class="v-list__header" v-if="header">
-      <h5 class="v-list__title">{{ title }}</h5>
-      <!-- <div class="v-list__filters">
-        <s-button size="sm" color="secondary" shape="pill" label>Active</s-button>
-        <s-button size="sm" color="secondary" shape="pill" label>Pro Users</s-button>
-      </div>-->
-      <s-button-group
-        class="v-list__actions"
-        color="grey"
-        size="sm"
-        theme="trn"
-        shape="square"
-      >
-        <s-button
-          v-if="settingsPane"
-          icon="Settings"
-          @click.native="toggleSidebar('settings')"
-        ></s-button>
-        <s-button
-          v-if="filterPane"
-          icon="FilterIcon"
-          @click.native="toggleSidebar('filters')"
-        ></s-button>
-        <s-button
-          v-if="!data && allowRefresh"
-          icon="Refresh"
-          @click.native="refresh()"
-        ></s-button>
-        <slot name="actions"></slot>
-      </s-button-group>
-    </header>
-
     <!-- SETTINGS -->
     <div class="v-list__sidebar">
       <settings
         v-if="sidebarContent == 'settings'"
-        @per-page="currentPerPage = $event"
-        :perPage="currentPerPage"
+        @per-page="changePerPage($event)"
+        :perPage="localPerPage"
         :perPageOptions="perPageOptions"
-      ></settings>
+      >
+        <slot name="settings" />
+      </settings>
 
-      <slot v-if="sidebarContent == 'filters'" name="filters"></slot>
+      <slot v-if="sidebarContent == 'filters'" name="filters" />
     </div>
 
     <!-- CONTENT -->
     <section class="v-list__content">
+      <!-- HEADER -->
+      <header class="v-list__header" v-if="header">
+        <h5 class="v-list__title">
+          {{ title }}
+        </h5>
+
+        <s-field
+          v-if="actions.includes('search')"
+          size="sm"
+          class="v-list__search"
+        >
+          <s-textbox v-model="search" placeholder="Search" />
+        </s-field>
+
+        <s-button-group
+          class="v-list__actions"
+          color="grey"
+          theme="trn"
+          shape="square"
+        >
+          <s-button
+            v-if="actions.includes('settings')"
+            icon="Cog"
+            @click.native="toggleSidebar('settings')"
+          />
+          <s-button
+            v-if="actions.includes('filters')"
+            icon="FilterIcon"
+            @click.native="toggleSidebar('filters')"
+          />
+          <s-button
+            v-if="!data && actions.includes('refresh')"
+            icon="Refresh"
+            @click.native="refresh()"
+          />
+          <slot name="actions" />
+        </s-button-group>
+      </header>
+
       <!-- LOADER -->
       <ul v-if="loading && initial" class="v-list__loader">
         <li v-for="n in 10" :key="`loader-item--${n}`"></li>
@@ -63,33 +76,42 @@
         :items="data || items"
         :loading="loading"
         :isEmpty="isEmpty"
-      ></slot>
+      />
 
       <!-- EMPTY -->
-      <slot name="empty">
-        <p v-if="isEmpty" class="v-list__empty">
+      <slot v-if="!loading && isEmpty" name="empty">
+        <p class="v-list__empty">
           No data found for given duration & filters. Try changing
           duration/filters.
         </p>
       </slot>
-    </section>
 
-    <!-- FOOTER -->
-    <footer v-if="!initial" class="v-list__footer">
-      <pagination
-        v-if="currentPage > 0"
-        :perPage="currentPerPage"
-        :page="currentPage"
-        :count="count"
-        @change="currentPage = $event"
-      />
-      <meta-data :items="items" :count="count" />
-    </footer>
+      <!-- FOOTER -->
+      <footer v-if="!initial && footer && !isEmpty" class="v-list__footer">
+        <pagination
+          v-if="localPage > 0"
+          :perPage="localPerPage"
+          :page="localPage"
+          :count="count"
+          :mode="paginationMode"
+          :loading-more="loadingMore"
+          :loaded="items.length"
+          @change="changePage($event)"
+          @loadMore="loadMore($event)"
+        >
+          <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+            <slot :name="slot" v-bind="scope" />
+          </template>
+        </pagination>
+        <meta-data :items="items" :count="count" />
+      </footer>
+    </section>
   </div>
 </template>
 
 <script>
 import { debounce } from "lodash";
+import props from "./props";
 
 export default {
   components: {
@@ -98,91 +120,22 @@ export default {
     Settings: require("./Settings").default
   },
 
-  props: {
-    header: {
-      type: Boolean,
-      default: true
-    },
-    endpoint: String,
-    title: {
-      default: ""
-    },
-    page: {
-      type: Number,
-      default: 1
-    },
-    pageKey: {
-      type: String,
-      default: "page"
-    },
-    perPage: {
-      type: Number,
-      default: 25
-    },
-    perPageKey: {
-      type: String,
-      default: "per_page"
-    },
-    perPageOptions: {
-      type: Array,
-      default: () => [10, 25, 50, 100]
-    },
-    maxPagingLinks: {
-      type: Number,
-      default: 5
-    },
-    paginationMode: {
-      type: String,
-      default: "querystring",
-      validator(value) {
-        return ["querystring", "internal", "infinite"].includes(value);
-      }
-    },
-    params: Object,
-    data: Array,
-    pagination: {
-      type: Boolean,
-      default: true
-    },
-    filters: Object,
-    debounce: {
-      type: Number,
-      default: 1000
-    },
-    sortBy: String,
-    sortOrder: String,
-    loader: {
-      type: Boolean,
-      default: true
-    },
-    settingsPane: {
-      type: Boolean,
-      default: true
-    },
-    filterPane: {
-      type: Boolean,
-      default: false
-    },
-    allowRefresh: {
-      type: Boolean,
-      default: true
-    }
-  },
+  props: props,
 
   data() {
-    const self = this;
-
     return {
       sidebarContent: false,
       isFilters: false,
-      items: self.data || [],
+      items: this.data || [],
       count: 0,
       loading: false,
       initial: true,
-      localPage: null,
-      localPerPage: null,
-      localSortBy: self.sortBy,
-      localSortOrder: self.sortOrder
+      localPage: this.page,
+      localPerPage: this.perPage,
+      localSortBy: this.sortBy,
+      localSortOrder: this.sortOrder,
+      search: null,
+      loadingMore: false
     };
   },
 
@@ -197,16 +150,18 @@ export default {
       }
     },
     page(nv) {
-      this.currentPage = nv;
+      this.changePage(nv);
     },
     perPage(nv) {
-      this.currentPerPage = nv;
+      this.changePerPage(nv);
     },
-
+    search() {
+      this.debounceGetData();
+    },
     params: {
       handler() {
         //Changing page to 1 will automatically call getData with latest params due to watcher
-        this.currentPage = 1;
+        this.changePage(1);
       },
       deep: true
     }
@@ -225,6 +180,12 @@ export default {
   },
 
   computed: {
+    debounceGetData() {
+      return debounce(this.getData, this.debounce);
+    },
+    classList() {
+      return { "v-list--sidebar": this.sidebarContent };
+    },
     isEmpty() {
       if (this.data && this.data.length != 0) return false;
       if (this.items && this.items.length != 0) return false;
@@ -249,8 +210,16 @@ export default {
       set(value) {
         this.localPerPage = value;
         this.$emit("update:perPage", value);
-        this.currentPage = 1;
+        this.changePage(1);
       }
+    },
+    localParams() {
+      return Object.assign({}, this.params, {
+        page: this.localPage,
+        per_page: this.localPerPage,
+        sort_by: this.localSortBy,
+        sort_order: this.localSortOrder
+      });
     }
   },
 
@@ -272,58 +241,78 @@ export default {
 
       //Set the default page to render if page provided in URL
       if (this.$route && this.$route.query.page) {
-        this.currentPage = this.$route.query.page;
+        const page = parseInt(this.$route.query.page);
+        if (page != this.localPage) {
+          this.changePage(page);
+        }
       }
     },
 
     refresh() {
-      this.getData(0);
+      this.getData();
     },
 
-    getData(debounceValue = this.debounce) {
-      debounce(
-        function() {
-          this.loading = true;
-          const params = {
-            ...(this.params || {}),
-            [this.pageKey]: this.localPage || undefined,
-            [this.perPageKey]: this.currentPerPage || undefined,
-            sort_by: this.localSortBy,
-            sort_order: this.localSortOrder
-          };
+    changePage(value) {
+      this.localPage = value;
+      this.$emit("update:page", value);
+      this.getData(false);
+    },
 
-          const request = this.options.requestHandler({
-            method: "get",
-            endpoint: this.endpoint,
-            params,
-            filters: this.filters
-          });
+    changePerPage(value) {
+      this.localPerPage = value;
+      this.$emit("update:perPage", value);
+      this.changePage(1);
+    },
 
-          request
-            .then(res => {
-              this.items = res.items;
-              this.count = res.count;
+    loadMore(value) {
+      this.localPage = value;
+      this.$emit("update:page", value);
+      this.getData(true);
+    },
 
-              //Set Page URL
-              if (
-                this.$router &&
-                this.paginationMode == "querystring" &&
-                this.$route.query.page != this.currentPage
-              ) {
-                this.$router.push({
-                  query: {
-                    page: this.currentPage
-                  }
-                });
-              }
-              this.loading = this.initial = false;
-            })
-            .catch(() => {
-              this.loading = this.initial = false;
-            });
-        },
-        this.initial ? 0 : debounceValue
-      ).call(this);
+    setData(res, appendData) {
+      if (appendData) {
+        this.items = this.items.concat(res.items);
+      } else {
+        this.items = res.items;
+      }
+      this.count = res.count;
+
+      //Set Page URL
+      if (
+        this.$router &&
+        this.paginationMode == "querystring" &&
+        this.$route.query.page != this.localPage
+      ) {
+        this.$router.push({
+          query: {
+            page: this.localPage
+          }
+        });
+      }
+    },
+
+    getData(appendData = false) {
+      if (appendData) {
+        this.loadingMore = true;
+      } else {
+        this.loading = true;
+      }
+      this.options
+        .requestHandler({
+          method: "get",
+          endpoint: this.endpoint,
+          params: this.localParams,
+          filters: this.filters,
+          search: this.search
+        })
+        .then(res => {
+          this.setData(res, appendData);
+          this.loading = this.loadingMore = this.initial = false;
+        })
+        .catch(() => {
+          this.loading = this.loadingMore = this.initial = false;
+        });
     },
 
     sort(e) {
@@ -348,11 +337,12 @@ export default {
 <style lang="scss" scoped>
 .v-list {
   display: grid;
-  grid-template-rows: min-content auto min-content;
-  grid-template-columns: auto 240px;
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-columns: 1fr;
 }
 
 .v-list--sidebar {
+  grid-template-columns: 1fr 240px;
   .v-list__content {
     grid-column-start: 2;
   }
@@ -365,11 +355,23 @@ export default {
   display: flex;
   justify-content: space-between;
   grid-area: 1 / 3 / 2 / 1;
-  //border-bottom: 1px solid --color(grey, lightest);
   align-items: center;
-  background-color: --color(grey, lightest);
-  padding: var(--space--1) var(--space--3);
+  padding: --space(1) --space(3);
 }
+.v-list__title {
+  margin-right: auto;
+  flex: 0 0 auto;
+  color: --color(grey, dark);
+}
+.v-list__search {
+  flex: 0 0 auto;
+  margin-left: --space(2);
+}
+.v-list__actions {
+  margin-left: --space(2);
+  flex: 0 0 auto;
+}
+
 .v-list__sidebar {
   display: none;
   grid-area: 2 / 3 / 3 / 2;
@@ -385,12 +387,6 @@ export default {
   padding: --space(3);
 }
 
-.v-list__title {
-  margin: 0;
-  flex: 0 0 auto;
-  color: --color(grey, dark);
-}
-
 .v-list__filters {
   margin-left: 8px;
   .button {
@@ -400,11 +396,6 @@ export default {
       text-decoration: line-through;
     }
   }
-}
-
-.v-list__actions {
-  margin: 0;
-  margin-left: auto;
 }
 
 @keyframes shine {

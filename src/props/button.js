@@ -5,34 +5,22 @@ export default {
   theme: String,
   align: String,
   icon: String,
-  loader: {
-    type: Boolean,
-    default: false
-  },
+  emoji: String,
   loaderColor: {
     type: String,
-    default: "light"
-  },
-  fluid: {
-    type: Boolean,
-    default: false
-  },
-  active: {
-    type: Boolean,
-    default: false
+    default: "light",
   },
   label: {
     type: [Number, String],
-    default: null
   },
   type: {
     type: String,
-    default: "button"
+    default: "button",
   },
   to: [Object, String],
-  badge: {
-    type: Boolean,
-    default: false
-  }
-  // href: String
+  loader: Boolean,
+  fluid: Boolean,
+  active: Boolean,
+  badge: Boolean,
+  wrap: Boolean,
 };

@@ -42,6 +42,7 @@ export default {
 
   props: {
     value: [String, Number],
+    container: String,
     popoverOptions: Object,
     placeholder: {
       type: String,
@@ -99,6 +100,11 @@ export default {
         if (this.align == "left") options.placement = "bottom-start";
         if (this.align == "right") options.placement = "bottom-end";
       }
+
+      if (this.container) {
+        options.container = this.container;
+        options.boundariesElement = document.querySelector(this.container);
+      }
       return options;
     }
   },
@@ -116,7 +122,7 @@ export default {
 .dropdown {
   padding-right: 0;
   .select {
-    padding: 0 32px 0 var(--space--xs);
+    padding: 0 32px 0 0;
     line-height: initial;
   }
   .field {
@@ -151,7 +157,6 @@ export default {
 .tooltip.popover.dropdown-popover {
   border: 1px solid --color(grey, light);
   border-radius: --radius(3);
-  background-color: #fff;
   box-shadow: --shadow(4);
 
   .popover-inner {
@@ -167,10 +172,9 @@ export default {
 
 .tooltip.popover.select-popover {
   border: 1px solid --color(grey, light);
-  border-radius: --radius(3);
+  border-radius: 4px;
   background-color: #fff;
-  box-shadow: --shadow(4);
-
+  margin: 4px 11px 4px -11px;
   .popover-inner {
     background: transparent;
     border-radius: 0;

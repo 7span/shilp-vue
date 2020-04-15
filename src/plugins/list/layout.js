@@ -1,7 +1,7 @@
 export default {
   inject: ["OPTIONS"],
   props: {
-    itemProps: Object
+    itemProps: Array,
   },
   computed: {
     items() {
@@ -15,7 +15,7 @@ export default {
     },
     sortOrder() {
       return this.$parent.localSortOrder;
-    }
+    },
   },
   methods: {
     sortItemsBy(by) {
@@ -31,6 +31,6 @@ export default {
       return (
         this.$parent.currentPerPage * (this.$parent.currentPage - 1) + index + 1
       );
-    }
-  }
+    },
+  },
 };

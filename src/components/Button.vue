@@ -18,14 +18,19 @@ This component requires vue-router version to be 3.1.0+
         ...blockClassList
       ]"
     >
+      <slot name="before"></slot>
       <slot name="icon">
         <s-icon title v-if="icon" class="button__icon" :name="icon" />
+        <span v-else-if="emoji" class="button__icon button__emoji">{{
+          emoji
+        }}</span>
       </slot>
 
       <span v-if="label || $scopedSlots.default" class="button__label">
         <template v-if="label">{{ label }}</template>
         <slot v-else></slot>
       </span>
+      <slot name="after"></slot>
     </a>
   </router-link>
 
@@ -38,14 +43,21 @@ This component requires vue-router version to be 3.1.0+
     :class="blockClassList"
     v-bind="$attrs"
   >
+    <slot name="before"></slot>
+
     <slot name="icon">
       <s-icon title v-if="icon" class="button__icon" :name="icon" />
+      <span v-else-if="emoji" class="button__icon button__emoji">{{
+        emoji
+      }}</span>
     </slot>
 
     <span v-if="label || $scopedSlots.default" class="button__label">
       <template v-if="label">{{ label }}</template>
       <slot v-else></slot>
     </span>
+
+    <slot name="after"></slot>
   </component>
 </template>
 
@@ -59,7 +71,7 @@ export default {
   name: "s-button",
   shilp: {
     block: "button",
-    boolean: ["fluid", "active", "badge"],
+    boolean: ["fluid", "active", "badge", "wrap"],
     variant: ["color", "size", "shape", "theme", "align"],
     inheritPropsFrom: "s-button-group"
   },
@@ -74,7 +86,7 @@ export default {
     },
 
     component() {
-      if (this.badge) {
+      if (this.badge || this.$attrs.for) {
         return "label";
       } else if (this.$attrs.href && !this.isDisabled) {
         return "a";

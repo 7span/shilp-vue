@@ -1,6 +1,5 @@
 module.exports = {
   css: {
-    extract: true,
     loaderOptions: {
       sass: {
         data: '@import "shilp/scss/_globals.scss";'

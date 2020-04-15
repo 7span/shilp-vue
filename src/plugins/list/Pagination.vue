@@ -1,43 +1,68 @@
 <template>
   <div class="v-list__pagination" v-if="count > perPage">
-    <s-button-group size="sm" color="primary" shape="square">
-      <!-- PREV -->
-      <s-button
-        v-if="isPrev"
-        icon="chevron-left"
-        @click.native="changePage(page - 1)"
-      />
+    <!-- INFINITE MODE -->
+    <template v-if="mode == 'infinite'">
+      <slot
+        v-if="count > loaded"
+        name="load-more-button"
+        :loading="loadingMore"
+        :loadMore="loadMore"
+      >
+        <s-button
+          color="primary"
+          @click.native="loadMore"
+          :loader="loadingMore"
+          label="Load More"
+        />
+      </slot>
 
-      <!-- PAGES -->
-      <template v-for="n in paginationButtonCount">
+      <p v-else class="text-grey-light">— That's all —</p>
+    </template>
+
+    <!-- PAGING -->
+    <template v-else>
+      <s-button-group size="sm" color="primary" shape="square">
+        <!-- PREV -->
         <s-button
-          v-if="n == page"
-          class="button--active"
-          :key="`page--${n}`"
-          :label="n"
+          v-if="isPrev"
+          icon="chevron-left"
+          @click.native="changePage(page - 1)"
         />
+
+        <!-- PAGES -->
+        <template v-for="n in paginationButtonCount">
+          <s-button
+            v-if="n == page"
+            class="button--active"
+            :key="`page--${n}`"
+            :label="n"
+          />
+          <s-button
+            v-else
+            :key="`page--${n}`"
+            @click.native="changePage(n)"
+            :label="n"
+          />
+        </template>
+
+        <!-- NEXT -->
         <s-button
-          v-else
-          :key="`page--${n}`"
-          @click.native="changePage(n)"
-          :label="n"
+          v-if="isNext"
+          icon="chevron-right"
+          @click.native="changePage(page + 1)"
         />
+      </s-button-group>
+
+      <template v-if="totalPages > this.maxPagingLinks">
+        <select @change="changePage($event.target.value)" :value="page">
+          <option
+            v-for="n in totalPages"
+            :value="n"
+            :key="`paging-link--${n}`"
+            >{{ n }}</option
+          >
+        </select>
       </template>
-
-      <!-- NEXT -->
-      <s-button
-        v-if="isNext"
-        icon="chevron-right"
-        @click.native="changePage(page + 1)"
-      />
-    </s-button-group>
-
-    <template v-if="totalPages > this.maxPagingLinks">
-      <select @change="changePage($event.target.value)" :value="page">
-        <option v-for="n in totalPages" :value="n" :key="`paging-link--${n}`">{{
-          n
-        }}</option>
-      </select>
     </template>
   </div>
 </template>
@@ -51,7 +76,10 @@ export default {
       type: Number,
       default: 0
     },
-    maxPagingLinks: Number
+    mode: String,
+    maxPagingLinks: Number,
+    loadingMore: Boolean,
+    loaded: Number
   },
   computed: {
     paginationButtonCount() {
@@ -72,6 +100,9 @@ export default {
   methods: {
     changePage(number) {
       this.$emit("change", number);
+    },
+    loadMore() {
+      this.$emit("loadMore", this.page + 1);
     }
   }
 };

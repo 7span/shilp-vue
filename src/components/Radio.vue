@@ -1,5 +1,5 @@
 <template>
-  <div class="choices" :class="classes">
+  <div class="choices">
     <div
       class="choice"
       :class="{ 'choice--custom': custom, 'choice--native': native }"
@@ -72,14 +72,6 @@ export default {
         return item;
       });
       return newOptions;
-    },
-
-    classes() {
-      const classes = [];
-      if (this.component == "button") {
-        classes.push("buttons", `buttons--group`);
-      }
-      return classes;
     }
   },
 

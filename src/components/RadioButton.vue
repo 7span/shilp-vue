@@ -17,7 +17,9 @@
         :active="checked == option.value"
         :key="`button--${index}`"
         :theme="checked == option.value ? activeTheme : inactiveTheme"
-        :icon="checked == option.value ? activeIcon : null"
+        :color="checked == option.value ? activeColor : inactiveColor"
+        :icon="checked == option.value ? activeIcon : inactiveIcon"
+        :emoji="checked == option.value ? activeEmoji : inactiveEmoji"
       >
         {{ option.label }}
       </s-button>
@@ -47,6 +49,14 @@ export default {
     value: [String, Number, Boolean],
     options: { type: Array, required: true },
     name: String,
+    activeColor: {
+      type: String,
+      default: "primary"
+    },
+    inactiveColor: {
+      type: String,
+      default: "primary"
+    },
     activeTheme: {
       type: String,
       default: "solid"
@@ -56,6 +66,18 @@ export default {
       default: "outline"
     },
     activeIcon: {
+      type: String,
+      default: null
+    },
+    activeEmoji: {
+      type: String,
+      default: null
+    },
+    inactiveIcon: {
+      type: String,
+      default: null
+    },
+    inactiveEmoji: {
       type: String,
       default: null
     }

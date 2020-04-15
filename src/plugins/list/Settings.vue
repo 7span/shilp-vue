@@ -20,6 +20,8 @@
         :options="currentPerPageOptions"
       ></s-select>
     </s-field>
+
+    <slot />
   </s-list>
 </template>
 

@@ -167,7 +167,9 @@ export default {
 
     classList() {
       const classes = [];
-      if (!this.value && !this.avatar) classes.push("media--select");
+      if (!this.avatar && !this.readonly) {
+        classes.push("media--select");
+      }
       if (this.preview) classes.push("media--preview");
       return classes;
     },

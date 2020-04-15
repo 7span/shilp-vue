@@ -117,6 +117,10 @@ export default {
 
 <style lang="scss" scoped>
 .layout {
+  --layout--top-size: initial;
+  --layout--bottom-size: initial;
+  --layout--left-size: initial;
+  --layout--right-size: initial;
   display: grid;
   grid-template-rows:
     var(--layout--top-size, minmax(0, max-content))
