@@ -48,7 +48,6 @@ export default {
   },
   params: Object,
   data: Array,
-
   filters: Object,
   debounce: {
     type: Number,
@@ -59,5 +58,8 @@ export default {
   loader: {
     type: Boolean,
     default: true,
+  },
+  attrs: {
+    type: Array,
   },
 };

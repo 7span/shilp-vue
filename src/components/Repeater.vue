@@ -3,40 +3,40 @@ export default {
   props: {
     count: {
       type: Number,
-      default: 1
+      default: 1,
     },
     min: {
       type: Number,
-      default: 1
+      default: 1,
     },
     max: {
       type: Number,
-      default: 10
+      default: 10,
     },
     wrapper: {
-      type: String
+      type: String,
     },
     wrapperAttrs: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      localCount: this.count
+      localCount: this.count,
     };
   },
 
   watch: {
     count(newValue) {
       this.localCount = newValue;
-    }
+    },
   },
   render(h) {
     const nodes = [];
     for (var i = 0; i < this.localCount; i++) {
       nodes.push(
         this.$scopedSlots.default({
-          index: i
+          index: i,
         })
       );
     }
@@ -45,7 +45,7 @@ export default {
   methods: {
     add() {
       this.localCount++;
-    }
-  }
+    },
+  },
 };
 </script>

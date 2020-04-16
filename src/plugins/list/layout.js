@@ -1,11 +1,11 @@
 export default {
   inject: ["OPTIONS"],
-  props: {
-    itemProps: Array,
-  },
   computed: {
     items() {
       return this.$parent.items;
+    },
+    allAttrs() {
+      return this.$parent.allAttrs;
     },
     pagination() {
       return this.$parent.paginationConfig;

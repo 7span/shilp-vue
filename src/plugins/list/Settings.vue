@@ -1,16 +1,9 @@
 <template>
-  <s-list gap="sm" stack fluid>
-    <!-- ITEM PROPS -->
-    <!-- <s-field size="sm" label="Columns">
-        <s-dropdown select placeholder="Columns">
-          <h1>Hello!</h1>
-        </s-dropdown>
-    </s-field>-->
-
+  <div class="v-list__settings">
     <!-- LIMIT, PER PAGE RESULTS -->
     <s-field
+      class="v-list__per-page"
       v-if="currentPerPageOptions.length > 0"
-      class="list__limit m-0"
       label="Per Page"
       size="sm"
     >
@@ -18,20 +11,43 @@
         :value="perPage"
         @input="$emit('per-page', parseInt($event))"
         :options="currentPerPageOptions"
-      ></s-select>
+      />
     </s-field>
 
-    <slot />
-  </s-list>
+    <!-- SHOW/HIDE ATTRIBUTES -->
+    <s-field class="v-list__attributes" label="Visible Attributes">
+      <div class="v-list__attributes-list">
+        <s-field
+          v-for="(attr, index) in allAttrs"
+          :label="attr.label"
+          :key="`attr-${index}`"
+          inline
+        >
+          <s-switch
+            size="xxs"
+            theme="outline"
+            color="primary"
+            shape="pill"
+            :id="attr.name"
+            :value="attr.visible"
+            @input="updateAttr(index, attr.name, 'visible', $event)"
+          />
+        </s-field>
+      </div>
+    </s-field>
+
+    <div class="v-list__custom-settings">
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "list-header",
-
   props: {
     perPage: Number,
-    perPageOptions: Array
+    perPageOptions: Array,
+    allAttrs: Array
   },
 
   computed: {
@@ -47,16 +63,13 @@ export default {
         });
       }
 
-      //If the limit provided is not in perLimitOptions
-      // const perPageOptionValues = options.map(item => item.value);
-      // if (!perPageOptionValues.includes(this.perPage)) {
-      //   options.push({
-      //     value: this.perPage,
-      //     label: this.perPage
-      //   });
-      // }
-
       return options;
+    }
+  },
+
+  methods: {
+    updateAttr(index, name, key, value) {
+      this.$emit("updateAttr", { index, name, key, value });
     }
   }
 };
@@ -64,13 +77,17 @@ export default {
 
 <style lang="scss" scoped>
 .v-list__settings {
-  display: flex;
-  justify-content: space-between;
-  .field {
-    margin-bottom: 0;
-  }
-  .list {
-    grid-auto-rows: max-content;
-  }
+}
+.v-list__attributes {
+  margin-top: --space(4);
+}
+.v-list__attributes-list {
+  display: grid;
+  gap: --space(2);
+  padding: --space(3);
+  background: --color(grey, lightest);
+}
+.v-list__custom-settings {
+  margin-top: --space(4);
 }
 </style>

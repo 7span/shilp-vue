@@ -82,9 +82,9 @@ export default {
   props: {
     label: [String, Boolean],
     desc: String,
-    before: String,
+    before: [String, Number],
     beforeIcon: String,
-    after: String,
+    after: [String, Number],
     afterIcon: String,
     size: String,
     color: String,

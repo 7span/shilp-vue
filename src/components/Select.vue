@@ -17,7 +17,7 @@
       <option
         v-for="option in serializedOptions"
         :value="option.value"
-        :key="uniqueId() + '--' + option.value"
+        :key="`option-${option.value}`"
         :selected="value == option.value"
         :disabled="option.disabled"
         >{{ option.label }}</option

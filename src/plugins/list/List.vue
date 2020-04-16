@@ -14,9 +14,11 @@
     <div class="v-list__sidebar">
       <settings
         v-if="sidebarContent == 'settings'"
-        @per-page="changePerPage($event)"
         :perPage="localPerPage"
         :perPageOptions="perPageOptions"
+        :allAttrs="allAttrs"
+        @per-page="changePerPage($event)"
+        @updateAttr="updateAttr($event)"
       >
         <slot name="settings" />
       </settings>
@@ -70,24 +72,34 @@
         <li v-for="n in 10" :key="`loader-item--${n}`"></li>
       </ul>
 
-      <!-- ITEMS -->
-      <slot
-        v-else
-        :items="data || items"
-        :loading="loading"
-        :isEmpty="isEmpty"
-      />
+      <!-- CONTENT -->
+      <template v-else>
+        <slot v-if="error" name="error">
+          <p class="v-list__notice">
+            There was an error whilte processing yout request. Please refresh &
+            try again.
+          </p>
+        </slot>
 
-      <!-- EMPTY -->
-      <slot v-if="!loading && isEmpty" name="empty">
-        <p class="v-list__empty">
-          No data found for given duration & filters. Try changing
-          duration/filters.
-        </p>
-      </slot>
+        <!-- EMPTY -->
+        <slot v-else-if="isEmpty" name="empty">
+          <p class="v-list__notice">
+            No data found for given duration & filters. Try changing
+            duration/filters.
+          </p>
+        </slot>
+
+        <!-- ITEMS -->
+        <slot
+          v-else
+          :items="data || items"
+          :loading="loading"
+          :isEmpty="isEmpty"
+        />
+      </template>
 
       <!-- FOOTER -->
-      <footer v-if="!initial && footer && !isEmpty" class="v-list__footer">
+      <footer v-if="!initial && footer" class="v-list__footer">
         <pagination
           v-if="localPage > 0"
           :perPage="localPerPage"
@@ -96,6 +108,7 @@
           :mode="paginationMode"
           :loading-more="loadingMore"
           :loaded="items.length"
+          :maxPagingLinks="maxPagingLinks"
           @change="changePage($event)"
           @loadMore="loadMore($event)"
         >
@@ -112,6 +125,7 @@
 <script>
 import { debounce } from "lodash";
 import props from "./props";
+import { startCase } from "lodash";
 
 export default {
   components: {
@@ -119,13 +133,10 @@ export default {
     MetaData: require("./MetaData").default,
     Settings: require("./Settings").default
   },
-
   props: props,
-
   data() {
     return {
       sidebarContent: false,
-      isFilters: false,
       items: this.data || [],
       count: 0,
       loading: false,
@@ -134,8 +145,10 @@ export default {
       localPerPage: this.perPage,
       localSortBy: this.sortBy,
       localSortOrder: this.sortOrder,
+      localAttrs: null,
       search: null,
-      loadingMore: false
+      loadingMore: false,
+      error: false
     };
   },
 
@@ -164,6 +177,9 @@ export default {
         this.changePage(1);
       },
       deep: true
+    },
+    attrsToUse(newValue) {
+      this.serializeAttrs(newValue);
     }
   },
 
@@ -172,7 +188,7 @@ export default {
     //Create a clone of config to make overridable configs
     //This helps to use v-model as config
     this.setPaginationConfig();
-
+    this.serializeAttrs(this.attrsToUse);
     //If data is provided explicitly, prevent the request
     if (!this.data) {
       this.refresh();
@@ -180,6 +196,13 @@ export default {
   },
 
   computed: {
+    attrsToUse() {
+      return this.attrs || Object.keys(this.items[0] || []);
+    },
+    allAttrs() {
+      return this.localAttrs;
+    },
+
     debounceGetData() {
       return debounce(this.getData, this.debounce);
     },
@@ -224,6 +247,27 @@ export default {
   },
 
   methods: {
+    serializeAttrs(attrs) {
+      this.localAttrs = attrs.map(item => {
+        if (typeof item == "string") {
+          return {
+            label: startCase(item),
+            name: item,
+            visible: true
+          };
+        } else {
+          return Object.assign(
+            {},
+            {
+              visible: true,
+              label: startCase(item.name)
+            },
+            item
+          );
+        }
+      });
+    },
+
     set(key, value) {
       this[key] = value;
     },
@@ -293,6 +337,7 @@ export default {
     },
 
     getData(appendData = false) {
+      this.error = false;
       if (appendData) {
         this.loadingMore = true;
       } else {
@@ -311,6 +356,7 @@ export default {
           this.loading = this.loadingMore = this.initial = false;
         })
         .catch(() => {
+          this.error = true;
           this.loading = this.loadingMore = this.initial = false;
         });
     },
@@ -329,6 +375,11 @@ export default {
       } else if (this.options.sort) {
         this.options.sort(context);
       }
+    },
+
+    updateAttr(data) {
+      const { index, key, value } = data;
+      this.$set(this.localAttrs[index], key, value);
     }
   }
 };
@@ -423,7 +474,7 @@ export default {
     background-size: 200%;
   }
 }
-.v-list__empty {
+.v-list__notice {
   padding: 50px;
   text-align: center;
   color: --color(grey);

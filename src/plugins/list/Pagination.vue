@@ -54,14 +54,13 @@
       </s-button-group>
 
       <template v-if="totalPages > this.maxPagingLinks">
-        <select @change="changePage($event.target.value)" :value="page">
-          <option
-            v-for="n in totalPages"
-            :value="n"
-            :key="`paging-link--${n}`"
-            >{{ n }}</option
-          >
-        </select>
+        <s-field class="v-list__pages" size="sm">
+          <s-select
+            @input="changePage($event)"
+            :value="page"
+            :options="paginationLinks"
+          />
+        </s-field>
       </template>
     </template>
   </div>
@@ -82,6 +81,14 @@ export default {
     loaded: Number
   },
   computed: {
+    paginationLinks() {
+      const links = [];
+      for (var i = 1; i <= this.totalPages; i++) {
+        links.push(i);
+      }
+      return links;
+    },
+
     paginationButtonCount() {
       return this.totalPages >= this.maxPagingLinks
         ? this.maxPagingLinks
@@ -112,9 +119,15 @@ export default {
 .v-list__pagination {
   text-align: center;
   margin-bottom: --space(2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .button--active {
     background-color: --color("primary", dark);
     cursor: default;
   }
+}
+.v-list__pages {
+  margin-left: --space(2);
 }
 </style>

@@ -7,21 +7,26 @@
       <!-- HEADER -->
       <thead>
         <tr>
-          <th
-            v-for="column in columns"
-            :key="`v-list-table-header-${column}`"
-            :class="thClass(column)"
-            :style="thStyle(column)"
-            @click="sortItemsBy(column)"
-          >
-            <div class="v-list__head">
-              <label>{{ th(column) }} </label>
-              <div v-if="column == sortBy" class="v-list__sort-icon">
-                <s-icon v-if="sortOrder == 'asc'" name="ChevronUp"></s-icon>
-                <s-icon v-if="sortOrder == 'desc'" name="ChevronDown"></s-icon>
+          <template v-for="attr in allAttrs">
+            <th
+              v-if="attr.visible"
+              :key="`v-list-table-header-${attr.name}`"
+              :class="thClass(attr)"
+              :style="thStyle(attr)"
+              @click="sortItemsBy(attr)"
+            >
+              <div class="v-list__head">
+                <label>{{ attr.label }}</label>
+                <div v-if="attr.name == sortBy" class="v-list__sort-icon">
+                  <s-icon v-if="sortOrder == 'asc'" name="ChevronUp"></s-icon>
+                  <s-icon
+                    v-if="sortOrder == 'desc'"
+                    name="ChevronDown"
+                  ></s-icon>
+                </div>
               </div>
-            </div>
-          </th>
+            </th>
+          </template>
         </tr>
       </thead>
 
@@ -39,39 +44,47 @@
           :key="`v-list-table-row-${index}`"
           @click="$emit('rowClick', row)"
         >
-          <!-- Looping Columns -->
-          <td
-            v-for="key in columns"
-            :key="`v-list-table-col-${key}`"
-            :class="tdClass(key)"
-          >
-            <!-- Override Slot -->
-            <slot v-if="$scopedSlots[key]" :name="key" :item="row">
-              {{ row[key] }}
-            </slot>
-
-            <!-- Global Slot -->
-            <component
-              v-else-if="OPTIONS.slots && OPTIONS.slots[key]"
-              :item="row"
-              :is="OPTIONS.slots[key]"
-            />
-
-            <!-- Index -->
-            <slot v-else-if="key == '_index'" name="_index" :item="row">
-              <span>{{ itemIndex(index) }}</span>
-            </slot>
-
-            <!-- Drag Handle -->
-            <p v-else-if="key == '_sort'" class="v-list-table__sort">
-              <slot name="_sort" :item="row">
-                <s-icon title="Drag to Sort" name="drag"></s-icon>
+          <template v-for="attr in allAttrs">
+            <!-- Looping Columns -->
+            <td
+              v-if="attr.visible"
+              :key="`v-list-table-col-${attr.name}`"
+              :class="tdClass(attr)"
+            >
+              <!-- Override Slot -->
+              <slot
+                v-if="$scopedSlots[attr.name]"
+                :name="attr.name"
+                :item="row"
+              >
+                {{ row[attr.name] }}
               </slot>
-            </p>
 
-            <!-- Default Slot -->
-            <slot v-else :name="key" :item="row">{{ td(key, row) }}</slot>
-          </td>
+              <!-- Global Slot -->
+              <component
+                v-else-if="OPTIONS.slots && OPTIONS.slots[attr.name]"
+                :item="row"
+                :is="OPTIONS.slots[attr.name]"
+              />
+
+              <!-- Index -->
+              <slot v-else-if="attr.name == '_index'" name="_index" :item="row">
+                <span>{{ itemIndex(index) }}</span>
+              </slot>
+
+              <!-- Drag Handle -->
+              <p v-else-if="attr.name == '_sort'" class="v-list-table__sort">
+                <slot name="_sort" :item="row">
+                  <s-icon title="Drag to Sort" name="drag"></s-icon>
+                </slot>
+              </p>
+
+              <!-- Default Slot -->
+              <slot v-else :name="attr.name" :item="row">
+                {{ td(attr, row) }}
+              </slot>
+            </td>
+          </template>
         </tr>
       </component>
     </table>
@@ -79,18 +92,8 @@
 </template>
 
 <script>
-import { cloneDeep, merge, startCase } from "lodash";
+import { cloneDeep } from "lodash";
 import layout from "../layout";
-
-const defaultItemProps = {
-  _index: {
-    width: "50px",
-    label: "#"
-  },
-  _sort: {
-    width: "24px"
-  }
-};
 
 export default {
   name: "sp-list-table",
@@ -103,41 +106,6 @@ export default {
   },
 
   computed: {
-    columns() {
-      //If not itemProps configuration is provided, return all the items to show!
-      if (!this.itemProps || this.itemProps.length == 0) {
-        //Get all the keys from response data
-        if (this.rows[0]) {
-          return Object.keys(this.rows[0]);
-        }
-        return [];
-      } else {
-        return this.itemProps.map(col => {
-          if (typeof col == "object") {
-            return col.name;
-          }
-          return col;
-        });
-      }
-    },
-    mergedProps() {
-      const itemPropsObj = {};
-      this.itemProps.forEach(item => {
-        if (typeof item == "object") {
-          itemPropsObj[item.name] = item;
-        } else {
-          itemPropsObj[item] = {};
-        }
-      });
-
-      //Merge with global configuration
-      const mergedProps = merge(
-        defaultItemProps,
-        this.OPTIONS.itemProps,
-        itemPropsObj
-      );
-      return mergedProps;
-    },
     rows: {
       set(value) {
         this.$emit("new", value);
@@ -152,55 +120,43 @@ export default {
     change(data) {
       this.$emit("sort", data);
     },
-    th(key) {
-      const props = this.mergedProps[key];
-      return (props && props.label) || startCase(key);
-    },
-    thClass(key) {
-      const props = this.mergedProps[key];
-      if (!props) return;
-      const classList = [];
-      if (key == this.sortBy) classList.push("v-list-table__sort");
-      if (props.fix) classList.push("v-list-table__fix");
+    thClass(attr) {
+      const classList = [`v-list-table__${attr.name}`];
+      if (attr.name == this.sortBy) classList.push("v-list-table__sort");
+      if (attr.fix) classList.push("v-list-table__fix");
       return classList;
     },
-    thStyle(key) {
-      const props = this.mergedProps[key];
-      if (!props) return;
+    thStyle(attr) {
       const style = {};
-      if (props.width) style.width = props.width;
+      if (attr.width) style.width = attr.width;
       return style;
     },
-    tdClass(key) {
-      const props = this.mergedProps[key];
-      if (!props) return;
+    tdClass(attr) {
       const classList = [];
-      if (this.mergedProps[key].fix) classList.push("v-list-table__fix");
+      if (attr.fix) classList.push("v-list-table__fix");
       return classList;
     },
-    td(key, row) {
-      const props = this.mergedProps[key];
-      if (!props) return row[key];
-
+    td(attr, row) {
+      const key = attr.name;
       // valueMap: JSON
       // User can define a key:value map for "enum values" to "human readable" form, from response.
-      if (props.valueMap) {
+      if (attr.valueMap) {
         const value = row[key];
-        if (value && props.valueMap[value]) {
-          return props.valueMap[value];
+        if (value && attr.valueMap[value]) {
+          return attr.valueMap[value];
         }
       }
 
       // type: String
       // If type is provided, user can configure its value in global typeAdapter configuration.
-      if (props.type && this.OPTIONS.typeAdapters[props.type]) {
-        return this.OPTIONS.typeAdapters[props.type](row[key], row);
+      if (attr.type && this.OPTIONS.typeAdapters[attr.type]) {
+        return this.OPTIONS.typeAdapters[attr.type](row[key], row);
       }
 
       // value: Function
       // If user needs to evaluate the value manually.
-      if (props.value) {
-        return props.value(row);
+      if (attr.value) {
+        return attr.value(row);
       }
 
       //If props are defined but need to display row value.
