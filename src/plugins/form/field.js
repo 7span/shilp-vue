@@ -1,29 +1,29 @@
-import { merge, cloneDeep } from "lodash";
+import { merge, cloneDeep } from "lodash-es";
 export default {
   props: {
     name: {
       type: String,
-      default: null
+      default: null,
     },
     config: {
       type: Object,
-      default: null
+      default: null,
     },
     parentInterface: {
       type: String,
-      default: null
+      default: null,
     },
     parentValue: {
-      default: null
+      default: null,
     },
     parentMetaValue: {
-      default: null
-    }
+      default: null,
+    },
   },
 
   data() {
     return {
-      localConfig: {}
+      localConfig: {},
     };
   },
 
@@ -57,7 +57,7 @@ export default {
         config: this.mergedConfig,
         parentValue: this.parentValue,
         parentMetaValue: this.parentMetaValue,
-        index: this.index
+        index: this.index,
       };
     },
 
@@ -75,7 +75,7 @@ export default {
         if (field == this.name) {
           const slot = {
             destination,
-            key
+            key,
           };
           slots.push(slot);
           //NOTE: Removed Index Specific Slots
@@ -91,7 +91,7 @@ export default {
         }
       }
       return slots;
-    }
+    },
   },
 
   methods: {
@@ -116,6 +116,6 @@ export default {
       } else {
         return "sp-form-field";
       }
-    }
-  }
+    },
+  },
 };

@@ -115,7 +115,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .v-list__pagination {
   text-align: center;
   margin-bottom: --space(2);

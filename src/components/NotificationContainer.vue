@@ -5,14 +5,17 @@
     :style="inlineStyle"
   >
     <s-alert
-      class="notification"
+      class="notification g-2"
+      :class="{ 'flex--middle': !notification.message }"
       v-for="(notification, index) in notifications"
       :color="notification.type"
       :title="notification.title"
       :icon="notification.icon"
       :key="`notification-${index}`"
     >
-      {{ notification.message }}
+      <p v-if="notification.message">
+        {{ notification.message }}
+      </p>
     </s-alert>
   </transition-group>
 </template>
@@ -95,31 +98,31 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .notification-container {
   position: fixed;
   z-index: 101;
   display: flex;
   flex-direction: column;
+  &.v-enter {
+    opacity: 0;
+  }
+  &.v-enter-to {
+    opacity: 1;
+  }
+  &.v-leave-to {
+    opacity: 0;
+  }
+  &.v-enter-active {
+    transition: all 0.3s ease 0s;
+  }
+  &.v-leave-active {
+    transition: all 0.3s ease 0s;
+  }
 }
 .notification {
   + .notification {
     margin-top: --space(2);
   }
-}
-.v-enter {
-  opacity: 0;
-}
-.v-enter-to {
-  opacity: 1;
-}
-.v-leave-to {
-  opacity: 0;
-}
-.v-enter-active {
-  transition: all 0.3s ease 0s;
-}
-.v-leave-active {
-  transition: all 0.3s ease 0s;
 }
 </style>

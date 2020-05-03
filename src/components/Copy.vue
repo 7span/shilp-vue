@@ -3,16 +3,27 @@
 </template>
 <script>
 export default {
+  props: {
+    shadowRoot: {
+      type: ShadowRoot
+    }
+  },
   data() {
     return {
       value: null
     };
   },
+  computed: {},
   created() {
     this.$root.$on("shilp-copy", data => {
       this.value = data;
       this.$nextTick(() => {
-        const target = document.getElementById("shilp-copy");
+        let target;
+        if (!this.shadowRoot) {
+          target = document.getElementById("shilp-copy");
+        } else {
+          target = this.shadowRoot.getElementById("shilp-copy");
+        }
         target.select(); /* Select the text field */
         target.setSelectionRange(0, 99999); /*For mobile devices*/
         document.execCommand("copy");
@@ -23,7 +34,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #shilp-copy {
   position: fixed;
   top: 0;

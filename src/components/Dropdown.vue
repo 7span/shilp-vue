@@ -118,15 +118,25 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .dropdown {
   padding-right: 0;
-  .select {
-    padding: 0 32px 0 0;
-    line-height: initial;
-  }
   .field {
     margin-bottom: 0;
+  }
+  .trigger {
+    display: flex !important;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    .select {
+      padding: 0 32px 0 0;
+      line-height: initial;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
@@ -134,23 +144,6 @@ export default {
   button {
     &:hover {
       background-color: --color(grey, lightest);
-    }
-  }
-}
-</style>
-
-<style lang="scss">
-.dropdown {
-  .trigger {
-    display: flex !important;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    .select {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      height: 100%;
     }
   }
 }

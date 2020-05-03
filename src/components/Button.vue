@@ -63,7 +63,7 @@ This component requires vue-router version to be 3.1.0+
 
 <script>
 import buttonProps from "../props/button.js";
-import { cloneDeep } from "lodash";
+import { cloneDeep } from "lodash-es";
 import component from "../mixins/component.js";
 import childComponent from "../mixins/childComponent";
 

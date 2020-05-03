@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import { truncate } from "lodash";
+import { truncate } from "lodash-es";
 
 export default {
   name: "breadcrumbs",
@@ -136,7 +136,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .breadcrumbs {
   display: flex;
   align-items: center;

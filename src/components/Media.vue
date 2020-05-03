@@ -15,11 +15,8 @@
 
     <!-- ELSE -->
     <div v-else class="media__wrap" :class="mediaRatio">
-      <!-- BASE64 PREVIEW -->
-      <img v-if="preview" :src="preview" />
-
       <!-- URL -->
-      <template v-else-if="value">
+      <template v-if="value">
         <div
           v-if="waitToLoad && loading"
           class="media__loading"
@@ -31,6 +28,9 @@
         </div>
         <img v-else :src="src" alt />
       </template>
+
+      <!-- BASE64 PREVIEW -->
+      <img v-else-if="preview" :src="preview" />
 
       <!-- SELECT -->
       <div v-else-if="!readonly" class="media__select">
@@ -262,7 +262,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .media {
   position: relative;
 }

@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { merge } from "lodash-es";
 
 export default {
   computed: {
@@ -11,6 +11,6 @@ export default {
     propsWithParent() {
       const mergedProps = {};
       return merge(mergedProps, this.$parent.$props, this.$props);
-    }
-  }
+    },
+  },
 };

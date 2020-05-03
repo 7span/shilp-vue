@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { merge } from "lodash";
+import { merge } from "lodash-es";
 const settings = {
   defaults: {
     block: {

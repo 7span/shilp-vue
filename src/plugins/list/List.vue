@@ -95,6 +95,7 @@
           :items="data || items"
           :loading="loading"
           :isEmpty="isEmpty"
+          :refresh="refresh"
         />
       </template>
 
@@ -123,9 +124,8 @@
 </template>
 
 <script>
-import { debounce } from "lodash";
+import { debounce, startCase } from "lodash-es";
 import props from "./props";
-import { startCase } from "lodash";
 
 export default {
   components: {
@@ -385,7 +385,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .v-list {
   display: grid;
   grid-template-rows: min-content 1fr min-content;

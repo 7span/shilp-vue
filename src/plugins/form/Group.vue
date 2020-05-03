@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { cloneDeep, startCase } from "lodash";
+import { cloneDeep, startCase } from "lodash-es";
 import field from "./field";
 
 export default {

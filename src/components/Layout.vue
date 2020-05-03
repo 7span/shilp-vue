@@ -115,7 +115,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .layout {
   --layout--top-size: initial;
   --layout--bottom-size: initial;

@@ -1,9 +1,9 @@
 <template>
   <div class="alert" :class="blockClassList">
     <s-icon v-if="icon" class="alert__icon" :name="icon"></s-icon>
-    <p class="alert__title">{{ title }}</p>
-    <div class="alert__body">
-      <slot></slot>
+    <p class="alert__message">{{ title }}</p>
+    <div v-if="$scopedSlots.default" class="alert__body">
+      <slot />
     </div>
   </div>
 </template>

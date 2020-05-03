@@ -6,7 +6,7 @@
 
 <script>
 import props from "../props/button.js";
-import { cloneDeep } from "lodash";
+import { cloneDeep } from "lodash-es";
 import component from "../mixins/component";
 
 export default {

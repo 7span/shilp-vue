@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { set, cloneDeep, startCase } from "lodash";
+import { set, cloneDeep, startCase } from "lodash-es";
 import field from "./field";
 
 export default {
@@ -313,7 +313,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .repeater {
   &::v-deep > .field__label {
     font-weight: bold;

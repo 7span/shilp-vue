@@ -152,7 +152,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .color-picker__row {
   + .color-picker__row {
     margin-top: --space(3);

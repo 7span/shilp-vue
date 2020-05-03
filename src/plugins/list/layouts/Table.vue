@@ -1,23 +1,20 @@
 <template>
-  <div class="v-list-table">
-    <table
-      class="v-list-table__table"
-      :class="{ 'v-list-table--row-click': $listeners.rowClick }"
-    >
+  <div class="sp-table">
+    <table class="sp-table__table">
       <!-- HEADER -->
       <thead>
         <tr>
           <template v-for="attr in allAttrs">
             <th
               v-if="attr.visible"
-              :key="`v-list-table-header-${attr.name}`"
+              :key="`sp-table-header-${attr.name}`"
               :class="thClass(attr)"
               :style="thStyle(attr)"
               @click="sortItemsBy(attr)"
             >
-              <div class="v-list__head">
+              <div class="sp-table__head">
                 <label>{{ attr.label }}</label>
-                <div v-if="attr.name == sortBy" class="v-list__sort-icon">
+                <div v-if="attr.name == sortBy" class="sp-table__sort">
                   <s-icon v-if="sortOrder == 'asc'" name="ChevronUp"></s-icon>
                   <s-icon
                     v-if="sortOrder == 'desc'"
@@ -33,23 +30,20 @@
       <!-- BODY -->
       <component
         :is="sortable ? 'draggable' : 'tbody'"
-        handle=".v-list-table__sort"
+        handle=".sp-table__sort"
         tag="tbody"
         v-model="rows"
         @change="change($event)"
       >
         <!-- Looping Rows -->
-        <tr
-          v-for="(row, index) in rows"
-          :key="`v-list-table-row-${index}`"
-          @click="$emit('rowClick', row)"
-        >
+        <tr v-for="(row, index) in rows" :key="`sp-table-row-${index}`">
           <template v-for="attr in allAttrs">
             <!-- Looping Columns -->
             <td
               v-if="attr.visible"
-              :key="`v-list-table-col-${attr.name}`"
+              :key="`sp-table-col-${attr.name}`"
               :class="tdClass(attr)"
+              @click="attr.click !== false && $emit('rowClick', row)"
             >
               <!-- Override Slot -->
               <slot
@@ -73,7 +67,7 @@
               </slot>
 
               <!-- Drag Handle -->
-              <p v-else-if="attr.name == '_sort'" class="v-list-table__sort">
+              <p v-else-if="attr.name == '_sort'" class="sp-table__sort">
                 <slot name="_sort" :item="row">
                   <s-icon title="Drag to Sort" name="drag"></s-icon>
                 </slot>
@@ -92,7 +86,7 @@
 </template>
 
 <script>
-import { cloneDeep } from "lodash";
+import { cloneDeep } from "lodash-es";
 import layout from "../layout";
 
 export default {
@@ -121,9 +115,9 @@ export default {
       this.$emit("sort", data);
     },
     thClass(attr) {
-      const classList = [`v-list-table__${attr.name}`];
-      if (attr.name == this.sortBy) classList.push("v-list-table__sort");
-      if (attr.fix) classList.push("v-list-table__fix");
+      const classList = [`sp-table__${attr.name}`];
+      if (attr.name == this.sortBy) classList.push("sp-table__sort");
+      if (attr.fix) classList.push("sp-table__fix");
       return classList;
     },
     thStyle(attr) {
@@ -133,7 +127,9 @@ export default {
     },
     tdClass(attr) {
       const classList = [];
-      if (attr.fix) classList.push("v-list-table__fix");
+      if (attr.fix) classList.push("sp-table__fix");
+      if (this.$listeners.rowClick && attr.click !== false)
+        classList.push("sp-table__click");
       return classList;
     },
     td(attr, row) {
@@ -166,21 +162,21 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.v-list-table {
-  --v-list-table--border-color: #{--color(grey, lightest)};
-  --v-list-table--hover-color: rgba(0, 0, 0, 0.03);
+<style lang="scss">
+.sp-table {
+  --sp-table--border-color: #{--color(grey, lightest)};
+  --sp-table--hover-color: rgba(0, 0, 0, 0.03);
   padding: --space(3);
 }
-.v-list-table__table {
+.sp-table__table {
   width: 100%;
   border-collapse: collapse;
   border-style: hidden;
-  border-bottom: 2px solid var(--v-list-table--border-color);
+  border-bottom: 2px solid var(--sp-table--border-color);
   th,
   td {
     padding: 10px;
-    border-color: var(--v-list-table--border-color);
+    border-color: var(--sp-table--border-color);
     border-style: solid;
     border-bottom-width: 1px;
     border-top-width: 1px;
@@ -197,7 +193,7 @@ export default {
   tbody {
     tr {
       &:hover {
-        background-color: var(--v-list-table--hover-color);
+        background-color: var(--sp-table--hover-color);
       }
     }
   }
@@ -221,13 +217,7 @@ export default {
   }
 }
 
-.v-list-table--row-click {
-  tr {
-    cursor: pointer;
-  }
-}
-
-.v-list__head {
+.sp-table__head {
   display: flex;
   align-items: center;
   label {
@@ -235,8 +225,12 @@ export default {
     cursor: pointer;
   }
 }
-.v-list-table__fix {
+.sp-table__fix {
   width: 1px;
   white-space: nowrap;
+}
+
+.sp-table__click {
+  cursor: pointer;
 }
 </style>

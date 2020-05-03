@@ -128,7 +128,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.field {
+  .select-popover {
+    right: 0;
+  }
+}
 .field__password-toggle {
   width: var(--field--size);
   height: var(--field--size);
@@ -137,13 +142,5 @@ export default {
   border-left: none;
   color: var(--field--circum-color);
   cursor: pointer;
-}
-</style>
-
-<style lang="scss">
-.field {
-  .select-popover {
-    right: 0;
-  }
 }
 </style>

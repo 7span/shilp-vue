@@ -1,5 +1,5 @@
 <template>
-  <s-button-group v-bind="$attrs">
+  <s-button-group class="radio-button" v-bind="$attrs">
     <input
       v-for="(option, index) in optionsWithId"
       :name="name"
@@ -40,14 +40,14 @@ export default {
   inheritAttrs: false,
   data() {
     return {
-      checked: this.value,
+      checked: this.value
     };
   },
 
   watch: {
     value(newValue) {
       this.checked = newValue;
-    },
+    }
   },
 
   props: {
@@ -56,41 +56,41 @@ export default {
     name: String,
     activeColor: {
       type: String,
-      default: "primary",
+      default: "primary"
     },
     inactiveColor: {
       type: String,
-      default: "primary",
+      default: "primary"
     },
     activeTheme: {
       type: String,
-      default: "solid",
+      default: "solid"
     },
     inactiveTheme: {
       type: String,
-      default: "outline",
+      default: "outline"
     },
     activeIcon: {
       type: String,
-      default: null,
+      default: null
     },
     activeEmoji: {
       type: String,
-      default: null,
+      default: null
     },
     inactiveIcon: {
       type: String,
-      default: null,
+      default: null
     },
     inactiveEmoji: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
 
   computed: {
     optionsWithId() {
-      const newOptions = this.options.map((item) => {
+      const newOptions = this.options.map(item => {
         if (!item.id) {
           item.id = uid();
         }
@@ -104,21 +104,23 @@ export default {
         classes.push("buttons", `buttons--group`);
       }
       return classes;
-    },
+    }
   },
   methods: {
     input() {
-      let metaValue = this.options.find((item) => item.value == this.checked);
+      let metaValue = this.options.find(item => item.value == this.checked);
       this.$emit("input", this.checked, metaValue);
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  z-index: -1;
+<style lang="scss">
+.radio-button {
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
 }
 </style>

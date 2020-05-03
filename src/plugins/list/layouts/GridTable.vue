@@ -86,7 +86,7 @@
 
 <script>
 import layout from "../layout";
-const merge = require("lodash/merge");
+import { merge } from "lodash-es";
 const defaultItemProps = {
   _index: {
     width: "50px",
@@ -186,7 +186,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .grid-table {
   --cols: 5;
   --cols-template: repeat(var(--cols), 1fr);
