@@ -29,7 +29,11 @@
     <!-- CONTENT -->
     <section class="v-list__content">
       <!-- HEADER -->
-      <header class="v-list__header" v-if="header">
+      <header v-if="$scopedSlots.header" class="v-list__custom-header">
+        <slot name="header" :refresh="refresh"> </slot>
+      </header>
+
+      <header v-else-if="header" class="v-list__header">
         <h5 class="v-list__title">
           {{ title }}
         </h5>

@@ -21,7 +21,7 @@
 
     <!-- PAGING -->
     <template v-else>
-      <s-button-group size="sm" color="primary" shape="square">
+      <s-button-group class="list g-1" size="sm" color="primary" shape="square">
         <!-- PREV -->
         <s-button
           v-if="isPrev"

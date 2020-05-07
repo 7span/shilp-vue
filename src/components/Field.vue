@@ -75,7 +75,7 @@ export default {
   shilp: {
     block: "field",
     variant: ["color", "size", "theme"],
-    boolean: ["optional", "inline"]
+    boolean: ["optional", "inline"],
   },
   mixins: [component],
 
@@ -92,23 +92,23 @@ export default {
     message: [String, Boolean],
     loader: {
       type: Boolean,
-      default: false
+      default: false,
     },
     optional: {
       type: Boolean,
-      default: false
+      default: false,
     },
     passwordToggle: Object,
     fullHeight: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    inline: Boolean
+    inline: Boolean,
   },
 
   data() {
     return {
-      isPasswordVisible: false
+      isPasswordVisible: false,
     };
   },
 
@@ -117,14 +117,14 @@ export default {
       const classes = [];
       if (this.fullHeight) classes.push("h-100");
       return classes;
-    }
+    },
     // fieldGroupClasses() {
     //   const classes = [];
     //   if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
     //   if (this.loader && this.size) classes.push(`loader--${this.size}`);
     //   return classes;
     // }
-  }
+  },
 };
 </script>
 
@@ -135,12 +135,18 @@ export default {
   }
 }
 .field__password-toggle {
+  flex: 0 0 auto;
   width: var(--field--size);
   height: var(--field--size);
-  background-color: transparent;
+  background-color: var(--field--circum-bg);
   border: var(--field--border-width) solid var(--field--border-color);
   border-left: none;
   color: var(--field--circum-color);
   cursor: pointer;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  outline: none !important;
 }
 </style>

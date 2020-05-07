@@ -1,16 +1,16 @@
 <template>
-  <div class="number">
+  <div class="number-custom">
     <s-button
-      class="number__button"
+      class="number-custom__button"
       @click.native="minus()"
       icon="Minus"
       v-bind="$attrs"
     />
-    <div class="number__display" :style="{ width: displayWidth }">
+    <div class="number-custom__display" :style="{ width: displayWidth }">
       {{ value }}
     </div>
     <s-button
-      class="number__button"
+      class="number-custom__button"
       @click.native="plus()"
       icon="Plus"
       v-bind="$attrs"
@@ -33,12 +33,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.number {
+<style lang="scss">
+.number-custom {
   display: flex;
   align-items: center;
 }
-.number__display {
+.number-custom__display {
   text-align: center;
 }
 </style>
