@@ -15,9 +15,9 @@
     >
       <option value>{{ placeholder }}</option>
       <option
-        v-for="option in serializedOptions"
+        v-for="(option, index) in serializedOptions"
         :value="option.value"
-        :key="`option-${option.value}`"
+        :key="`option-${option.value}-${index}`"
         :selected="value == option.value"
         :disabled="option.disabled"
         >{{ option.label }}</option

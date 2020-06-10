@@ -1,5 +1,5 @@
 <template>
-  <div class="sp-table">
+  <div class="sp-table" :class="{ 'sp-table--sticky-header': stickyHeader }">
     <table class="sp-table__table">
       <!-- HEADER -->
       <thead>
@@ -96,6 +96,10 @@ export default {
     sortable: {
       type: Boolean,
       default: false
+    },
+    stickyHeader: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -167,6 +171,15 @@ export default {
   --sp-table--border-color: #{--color(grey, lightest)};
   --sp-table--hover-color: rgba(0, 0, 0, 0.03);
   padding: --space(3);
+}
+
+.sp-table--sticky-header {
+  th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 9;
+  }
 }
 .sp-table__table {
   width: 100%;

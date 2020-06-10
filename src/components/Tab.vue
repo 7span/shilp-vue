@@ -61,6 +61,7 @@ export default {
     tabList() {
       if (this.$slots.default) {
         return this.$slots.default.map((item, index) => {
+          console.log(item);
           if (item.componentOptions.propsData.name) {
             return item.componentOptions.propsData.name;
           } else {

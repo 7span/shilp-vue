@@ -4,7 +4,7 @@
       class="field__label"
       v-if="label !== false && label !== null && label !== undefined"
     >
-      {{ label == "" ? "&nbsp;" : label }}
+      {{ label === "" ? "&#8203;" : label }}
     </label>
 
     <slot name="start"></slot>
@@ -75,7 +75,7 @@ export default {
   shilp: {
     block: "field",
     variant: ["color", "size", "theme"],
-    boolean: ["optional", "inline"],
+    boolean: ["optional", "inline"]
   },
   mixins: [component],
 
@@ -92,23 +92,23 @@ export default {
     message: [String, Boolean],
     loader: {
       type: Boolean,
-      default: false,
+      default: false
     },
     optional: {
       type: Boolean,
-      default: false,
+      default: false
     },
     passwordToggle: Object,
     fullHeight: {
       type: Boolean,
-      default: false,
+      default: false
     },
-    inline: Boolean,
+    inline: Boolean
   },
 
   data() {
     return {
-      isPasswordVisible: false,
+      isPasswordVisible: false
     };
   },
 
@@ -117,14 +117,14 @@ export default {
       const classes = [];
       if (this.fullHeight) classes.push("h-100");
       return classes;
-    },
+    }
     // fieldGroupClasses() {
     //   const classes = [];
     //   if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
     //   if (this.loader && this.size) classes.push(`loader--${this.size}`);
     //   return classes;
     // }
-  },
+  }
 };
 </script>
 

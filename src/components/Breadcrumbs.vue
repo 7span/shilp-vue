@@ -140,15 +140,16 @@ export default {
 .breadcrumbs {
   display: flex;
   align-items: center;
+  .breadcrumbs__back {
+    --button--color: #{--color(grey)};
+    --button--hover-color: #{--color(primary)};
+  }
+  .breadcrumbs__icon {
+    --button--color: #{--color(grey)};
+    --button--hover-color: #{--color(grey)};
+  }
 }
-.breadcrumbs__back {
-  --button--color: #{--color(grey)};
-  --button--hover-color: #{--color(primary)};
-}
-.breadcrumbs__icon {
-  --button--color: #{--color(grey)};
-  --button--hover-color: #{--color(grey)};
-}
+
 .breadcrumbs__item {
   font-size: --text(sm);
   text-decoration: none !important;

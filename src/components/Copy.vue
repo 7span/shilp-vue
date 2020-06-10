@@ -1,5 +1,5 @@
 <template>
-  <input type="text" id="shilp-copy" :value="value" />
+  <textarea id="shilp-copy" :value="value" />
 </template>
 <script>
 export default {
@@ -24,6 +24,7 @@ export default {
         } else {
           target = this.shadowRoot.getElementById("shilp-copy");
         }
+        console.log(this.shadowRoot);
         target.select(); /* Select the text field */
         target.setSelectionRange(0, 99999); /*For mobile devices*/
         document.execCommand("copy");
@@ -37,11 +38,11 @@ export default {
 <style lang="scss">
 #shilp-copy {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: -10px;
+  left: -10px;
   height: 0px;
   padding: 0;
-  border: none;
+  border: 1px solid transparent;
   opacity: 0;
   z-index: -1;
 }
