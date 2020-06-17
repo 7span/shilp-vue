@@ -6,9 +6,11 @@
       icon="Minus"
       v-bind="$attrs"
     />
-    <div class="number-custom__display" :style="{ width: displayWidth }">
-      {{ value }}
-    </div>
+    <slot :value="value" :set="set">
+      <div class="number-custom__display" :style="{ width: displayWidth }">
+        {{ value }}
+      </div>
+    </slot>
     <s-button
       class="number-custom__button"
       @click.native="plus()"

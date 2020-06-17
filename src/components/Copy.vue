@@ -24,7 +24,6 @@ export default {
         } else {
           target = this.shadowRoot.getElementById("shilp-copy");
         }
-        console.log(this.shadowRoot);
         target.select(); /* Select the text field */
         target.setSelectionRange(0, 99999); /*For mobile devices*/
         document.execCommand("copy");
