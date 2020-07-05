@@ -425,6 +425,8 @@ export default {
 .v-list__actions {
   margin-left: --space(2);
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
 }
 
 .v-list__sidebar {

@@ -1,7 +1,11 @@
 <template>
   <!-- MULTIPLE CHECKBOX -->
   <div v-if="options" class="options" :class="`space space--${gap}`">
-    <div class="choice" v-for="(option,index) in options" :key="`option--${index}`">
+    <div
+      class="choice"
+      v-for="(option, index) in options"
+      :key="`option--${index}`"
+    >
       <input
         :name="name"
         type="checkbox"
@@ -13,10 +17,12 @@
       />
       <label
         class="choice__label"
-        :class="{'choice__label--checked':checkedArray.includes(option.value)}"
+        :class="{
+          'choice__label--checked': checkedArray.includes(option.value)
+        }"
         :for="optionId(option)"
       >
-        <slot :name="optionId(option)">{{option.label}}</slot>
+        <slot :name="optionId(option)">{{ option.label }}</slot>
       </label>
     </div>
   </div>
@@ -28,7 +34,7 @@
       v-model="checked"
       type="checkbox"
       v-bind="$attrs"
-      @change="$emit('input',checked)"
+      @change="$emit('input', checked)"
     />
     <label class="choice__label" :for="$attrs.id">
       <slot></slot>
@@ -63,13 +69,13 @@ export default {
       return option.id || option.value;
     },
     input() {
-      let metaValue = this.options.filter(item =>
-        this.checked.includes(item.value)
-      );
       if (this.options) {
+        const metaValue = this.options.filter(item =>
+          this.checkedArray.includes(item.value)
+        );
         this.$emit("input", this.checkedArray, metaValue);
       } else {
-        this.$emit("input", this.checked, metaValue);
+        this.$emit("input", this.checked, this.checked);
       }
     }
   }
