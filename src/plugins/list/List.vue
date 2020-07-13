@@ -73,7 +73,7 @@
 
       <!-- LOADER -->
       <ul v-if="loading && initial" class="v-list__loader">
-        <li v-for="n in 10" :key="`loader-item--${n}`"></li>
+        <li class="shimmer" v-for="n in 10" :key="`loader-item--${n}`"></li>
       </ul>
 
       <!-- CONTENT -->
@@ -455,29 +455,15 @@ export default {
   }
 }
 
-@keyframes shine {
-  to {
-    background-position: -200% 0;
-  }
-}
 .v-list__loader {
   list-style: none;
   margin: 0;
   padding: --space(3);
   li {
     height: 40px;
-    opacity: 0.5;
-    background: linear-gradient(
-      90deg,
-      --color(grey, lightest),
-      --color(grey, lighter),
-      --color(grey, lightest)
-    );
     margin-top: 10px;
     position: relative;
     border-radius: --radius(3);
-    animation: shine 1.5s infinite;
-    background-size: 200%;
   }
 }
 .v-list__notice {

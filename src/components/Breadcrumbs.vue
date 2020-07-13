@@ -66,7 +66,8 @@ export default {
       //If a route name is added to this and has a value,
       // This value will be used instead of provided in router meta
       labels: {},
-      params: {}
+      params: {},
+      routes: null
     };
   },
 
@@ -95,6 +96,8 @@ export default {
     this.$root.$on("shilp-breadcrumbs-params", (key, value) => {
       this.$set(this.params, key, value);
     });
+
+    this.routes = this.findRoutes();
   },
 
   computed: {
@@ -102,16 +105,20 @@ export default {
       let breadcrumbs = this.$route.meta.breadcrumbs
         .map(item => {
           //Gets the router object with the name.
-          const resolvedRoute = this.$router.resolve({ name: item });
+          //Using manual list of routes instead of resolve method.
+          //Resolve creates an issue when 'redirect' is used.
+          //It returs the redirected route hence breaking the chain of breadcrumbs
+          // const resolvedRoute = this.$router.resolve({ name: item });
+          const resolvedRoute =
+            this.routes && this.routes.find(route => route.name == item);
           if (resolvedRoute) {
-            const { name, meta } = resolvedRoute.route;
+            const { name, meta } = resolvedRoute;
             return { name, meta };
           } else {
             return null;
           }
         })
         .filter(item => item); //Remove non-existing routes
-
       return breadcrumbs;
     },
 
@@ -126,6 +133,21 @@ export default {
   },
 
   methods: {
+    findRoutes() {
+      const breadcrumbsRoutes = [];
+      const filterRoutes = routes => {
+        routes.forEach(route => {
+          if (route.meta && route.meta.breadcrumbs) {
+            breadcrumbsRoutes.push(route);
+          }
+          if (route.children) {
+            filterRoutes(route.children);
+          }
+        });
+      };
+      filterRoutes(this.$router.options.routes);
+      return breadcrumbsRoutes;
+    },
     routeLabel(route) {
       return (
         truncate(this.labels[route.name], { length: this.truncate }) ||

@@ -8,16 +8,29 @@
       v-html="value"
     ></div>
 
+    <!-- AVATAR -->
+    <template v-else-if="avatar">
+      <img v-if="value" :src="value" />
+    </template>
+
     <!-- ELSE -->
     <div v-else class="media__wrap" :class="mediaRatio">
       <!-- URL -->
       <template v-if="value">
-        <div v-if="loading" class="media__loading shimmer radius-2" />
+        <div
+          v-if="waitToLoad && loading"
+          class="media__loading"
+          v-shilp-loader="true"
+        ></div>
+        <!-- ERROR -->
         <div v-else-if="error" class="media__placeholder">
           <s-icon name="ImageBroken"></s-icon>
         </div>
-        <img v-else :src="src" />
+        <img v-else :src="src" alt />
       </template>
+
+      <!-- BASE64 PREVIEW -->
+      <img v-else-if="preview" :src="preview" />
 
       <!-- SELECT -->
       <div v-else-if="!readonly" class="media__select">
@@ -31,7 +44,7 @@
       </div>
 
       <!-- REMOVE BUTTON -->
-      <div class="media__remove" v-if="value && !readonly">
+      <div class="media__remove" v-if="(value || preview) && !readonly">
         <slot name="remove">
           <s-button
             theme="muted"
@@ -53,13 +66,14 @@ export default {
   name: "s-media",
   shilp: {
     block: "media",
-    variant: ["fit", "size"]
+    boolean: ["avatar"],
+    variant: ["fit", "size"],
   },
   mixins: [component],
   props: {
     embed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     size: Number,
     fit: String,
@@ -70,56 +84,83 @@ export default {
     height: String,
     readonly: {
       type: Boolean,
-      default: true
+      default: true,
     },
     accept: {
       type: String,
-      default: "*"
+      default: "*",
     },
     maxFileSize: {
       type: Number,
-      default: 2 * 1024 * 1024 //2 MB
+      default: 2 * 1024 * 1024, //2 MB
     },
     waitToLoad: {
       type: Boolean,
-      default: true
+      default: true,
     },
     valueType: {
       type: String,
-      default: "file"
-    }
+      default: "file",
+    },
+    avatar: Boolean,
   },
 
   data() {
     return {
+      preview: null,
+      fileObject: null,
       meta: null,
       loading: false,
       loaded: false,
       error: false,
-      src: null
     };
   },
 
   watch: {
     value: {
       deep: true,
-      async handler(newValue) {
+      handler(newValue) {
+        console.log("handler -> newValue", newValue);
         if (newValue) {
-          this.src = await this.readFile(newValue);
+          this.loadMedia();
         } else {
-          this.meta = null;
+          this.preview = this.meta = this.fileObject = null;
         }
-      }
-    }
+        // if (
+        //   (!oldValue && newValue && newValue.url) ||
+        //   (oldValue &&
+        //     oldValue.url &&
+        //     newValue &&
+        //     newValue.url &&
+        //     newValue.url != oldValue.url)
+        // ) {
+
+        // }
+      },
+    },
   },
 
-  async created() {
-    if (this.value) {
-      this.src = await this.readFile(this.value);
-    }
+  created() {
+    if (this.src && this.waitToLoad) this.loadMedia();
   },
 
   computed: {
+    src() {
+      if (!this.value) return null;
+      if (typeof this.value === "object" && this.value.url) {
+        return this.value.url;
+      } else if (typeof this.value === "string") {
+        return this.value;
+      } else {
+        return null;
+      }
+    },
+
+    isUploaded() {
+      if (!this.value) return false;
+      return !(this.value instanceof File);
+    },
+
     mediaRatio() {
       const classes = [];
       if (this.ratio) classes.push("ratio", `ratio--${this.ratio}`);
@@ -130,9 +171,10 @@ export default {
 
     classList() {
       const classes = [];
-      if (!this.readonly) {
+      if (!this.avatar && !this.readonly) {
         classes.push("media--select");
       }
+      if (this.preview) classes.push("media--preview");
       return classes;
     },
 
@@ -142,55 +184,32 @@ export default {
       if (this.width) css["width"] = this.width;
       if (this.height) css["height"] = this.height;
       return css;
-    }
+    },
   },
 
   methods: {
-    readFile(value) {
+    loadMedia() {
+      if (!this.src) return;
+
       this.loading = true;
       this.loaded = false;
       this.error = false;
-      const isFile = value instanceof File;
-      let img;
-      if (isFile) {
-        img = new FileReader();
-      } else {
-        img = new Image();
-      }
-
-      return new Promise((resolve, reject) => {
-        img.onload = e => {
-          this.loading = false;
-          this.loaded = true;
-          this.$emit("load");
-          if (isFile) {
-            resolve(e.target.result);
-          } else {
-            console.log("LOADED", img.src);
-            resolve(img.src);
-          }
-        };
-        img.onerror = err => {
-          this.loading = false;
-          this.loaded = false;
-          this.error = true;
-          this.$emit("error");
-          reject(err);
-        };
-
-        if (isFile) {
-          img.readAsDataURL(value);
-        } else {
-          if (typeof value == "object") {
-            img.src = value.url;
-          } else {
-            img.src = value;
-          }
-        }
-      });
+      var img = new Image();
+      img.src = this.src;
+      img.onload = () => {
+        this.loading = false;
+        this.loaded = true;
+        this.$emit("load");
+      };
+      img.onerror = (err) => {
+        console.log("img.onerror -> err", err);
+        this.loading = false;
+        this.loaded = false;
+        this.error = true;
+        this.$emit("error");
+      };
     },
-
-    async select(e) {
+    select(e) {
       let file = e.target.files[0];
       if (file.size > this.maxFileSize) {
         alert(
@@ -200,27 +219,52 @@ export default {
         );
         return;
       }
+
       let meta = {
         name: file.name,
         size: (file.size / 1024 / 1024).toFixed(2) + "MB",
-        type: file.type
+        type: file.type,
       };
+      this.fileObject = file;
       this.meta = meta;
 
-      if (this.valueType == "file") {
-        this.$emit("input", file);
-      } else if (this.valueType == "base64") {
-        const base64 = await this.readFile(file);
-        this.$emit("input", base64);
-      }
+      this.renderPreview();
     },
 
     remove() {
       this.$emit("input", null);
       this.$emit("remove");
-      this.meta = null;
-    }
-  }
+      this.preview = this.meta = this.fileObject = null;
+    },
+
+    renderPreview() {
+      var reader = new FileReader();
+      this.loading = true;
+
+      reader.onload = (e) => {
+        this.loading = false;
+        this.loaded = true;
+        this.$emit("load");
+        this.preview = e.target.result;
+
+        if (this.valueType == "file") {
+          this.$emit("input", this.fileObject);
+        }
+        if (this.valueType == "base64") {
+          this.$emit("input", this.preview);
+        }
+      };
+
+      reader.onerror = (err) => {
+        this.loading = false;
+        this.loaded = false;
+        this.error = true;
+        this.$emit("error");
+      };
+
+      reader.readAsDataURL(this.fileObject);
+    },
+  },
 };
 </script>
 
@@ -228,17 +272,14 @@ export default {
 .media {
   position: relative;
 }
-.media--select {
+.media--select,
+.media--preview {
   border: 2px dotted --color(grey, lighter);
 }
 .media__select,
 .media__placeholder,
 .media__loading {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  @include position(absolute, 0, 0, 0, 0);
   overflow: hidden;
   display: flex;
   justify-content: center;
