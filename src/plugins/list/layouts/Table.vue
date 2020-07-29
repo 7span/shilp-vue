@@ -3,23 +3,22 @@
     <table class="sp-table__table">
       <!-- HEADER -->
       <thead>
-        <tr>
-          <template v-for="attr in allAttrs">
+        <tr v-for="(row, rowIndex) in headers" :key="`row-${rowIndex}`">
+          <template v-for="(col, colIndex) in row">
             <th
-              v-if="attr.visible"
-              :key="`sp-table-header-${attr.name}`"
-              :class="thClass(attr)"
-              :style="thStyle(attr)"
-              @click="sortItemsBy(attr)"
+              v-if="col.visible"
+              :key="`sp-table-header-${col.name}-${colIndex}`"
+              :class="thClass(col)"
+              :style="thStyle(col)"
+              :rowspan="rowspan(rowIndex, col.key)"
+              :colspan="colspan(rowIndex, col.key)"
+              @click="sortItemsBy(col)"
             >
               <div class="sp-table__head">
-                <label>{{ attr.label }}</label>
-                <div v-if="attr.name == sortBy" class="sp-table__sort">
-                  <s-icon v-if="sortOrder == 'asc'" name="ChevronUp"></s-icon>
-                  <s-icon
-                    v-if="sortOrder == 'desc'"
-                    name="ChevronDown"
-                  ></s-icon>
+                <label>{{ col.label }}</label>
+                <div v-if="col.name == sortBy" class="sp-table__sort">
+                  <s-icon v-if="sortOrder == 'asc'" name="ChevronUp" />
+                  <s-icon v-if="sortOrder == 'desc'" name="ChevronDown" />
                 </div>
               </div>
             </th>
@@ -37,11 +36,11 @@
       >
         <!-- Looping Rows -->
         <tr v-for="(row, index) in rows" :key="`sp-table-row-${index}`">
-          <template v-for="attr in allAttrs">
+          <template v-for="(attr, attrIndex) in body">
             <!-- Looping Columns -->
             <td
               v-if="attr.visible"
-              :key="`sp-table-col-${attr.name}`"
+              :key="`sp-table-col-${attr.name}-${attrIndex}`"
               :class="tdClass(attr)"
               @click="attr.click !== false && $emit('rowClick', row)"
             >
@@ -103,6 +102,28 @@ export default {
     }
   },
 
+  data() {
+    return {
+      headers: [],
+      body: []
+    };
+  },
+
+  watch: {
+    allAttrs: {
+      deep: true,
+      handler(newValue) {
+        this.$set(this, "headers", []);
+        this.$set(this, "body", []);
+        this.generateHeader(newValue, 0);
+      }
+    }
+  },
+
+  created() {
+    this.generateHeader(this.allAttrs, 0);
+  },
+
   computed: {
     rows: {
       set(value) {
@@ -114,7 +135,58 @@ export default {
       }
     }
   },
+
   methods: {
+    rowspan(rowIndex, colKey) {
+      let spans = 1;
+      for (var i = rowIndex + 1; i < this.headers.length; i++) {
+        const row = this.headers[i];
+        const hasChild = row.some(item => item.key.startsWith(colKey));
+        if (hasChild) {
+          return spans;
+        } else {
+          spans++;
+        }
+      }
+      return spans;
+    },
+    colspan(rowIndex, colKey) {
+      let spans = 1;
+      for (var i = rowIndex + 1; i < this.headers.length; i++) {
+        const row = this.headers[i];
+        const items = row.filter(item => item.key.startsWith(colKey));
+        if (items && items.length > 0) {
+          spans = spans + items.length - 1;
+        }
+      }
+      return spans;
+    },
+
+    generateHeader(attrs, index, parentKey = "0") {
+      if (!this.headers[index]) {
+        this.$set(this.headers, index, []);
+      }
+      attrs.forEach((attr, attrIndex) => {
+        //Render only if the attr is visible
+        if (attr.visible) {
+          //This unique key based on index helps to find parent-child
+          //Make sure `attr` stays reactive by not extracting it but adding additional data by keys
+          const uniqueKey = parentKey + "" + attrIndex;
+          attr.key = uniqueKey;
+          this.headers[index].push(attr);
+
+          //If there are child elements, we need to add new row
+          if (attr.attrs) {
+            const newIndex = index + 1;
+            this.generateHeader(attr.attrs, newIndex, uniqueKey);
+          } else {
+            //This helps to render body rows
+            this.body.push(attr);
+          }
+        }
+      });
+    },
+
     change(data) {
       this.$emit("sort", data);
     },

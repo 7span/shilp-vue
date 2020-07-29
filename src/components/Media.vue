@@ -151,6 +151,7 @@ export default {
       this.loaded = false;
       this.error = false;
       const isFile = value instanceof File;
+
       let img;
       if (isFile) {
         img = new FileReader();
@@ -166,7 +167,6 @@ export default {
           if (isFile) {
             resolve(e.target.result);
           } else {
-            console.log("LOADED", img.src);
             resolve(img.src);
           }
         };
@@ -206,7 +206,6 @@ export default {
         type: file.type
       };
       this.meta = meta;
-
       if (this.valueType == "file") {
         this.$emit("input", file);
       } else if (this.valueType == "base64") {

@@ -31,6 +31,7 @@ export default {
   //MODAL
   SModal: require("./components/Modal").default,
   SModalContainer: require("./components/ModalContainer").default,
+  SConfirm: require("./components/Confirm").default,
 
   //OTHERS
   SAlert: require("./components/Alert").default,
@@ -54,5 +55,5 @@ export default {
   SList: require("./components/List").default,
   SGrid: require("./components/Grid").default,
   SItem: require("./components/Item").default,
-  STable: require("./components/Table").default
+  STable: require("./components/Table").default,
 };

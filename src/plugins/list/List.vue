@@ -252,7 +252,11 @@ export default {
 
   methods: {
     serializeAttrs(attrs) {
-      this.localAttrs = attrs.map(item => {
+      this.localAttrs = this.attrSerializer(attrs);
+    },
+
+    attrSerializer(attrs) {
+      return attrs.map(item => {
         if (typeof item == "string") {
           return {
             label: startCase(item),
@@ -260,6 +264,9 @@ export default {
             visible: true
           };
         } else {
+          if (item.attrs) {
+            item.attrs = this.attrSerializer(item.attrs);
+          }
           return Object.assign(
             {},
             {
@@ -347,6 +354,7 @@ export default {
       } else {
         this.loading = true;
       }
+      //TODO: Accept requestHandler via props too for individual configs
       this.options
         .requestHandler({
           method: "get",

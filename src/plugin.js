@@ -3,7 +3,7 @@ import defaultOptions from "./default-options";
 import components from "./components";
 import {
   open as modalOpenDirective,
-  close as modalCloseDirective
+  close as modalCloseDirective,
 } from "./directives/modal";
 import { loader as loaderDirective } from "./directives/loader";
 
@@ -12,7 +12,7 @@ export let events = null;
 const install = (Vue, options) => {
   const vueMaterialDesignIcons = {
     ...defaultOptions.vueMaterialDesignIcons,
-    ...(options.vueMaterialDesignIcons || {})
+    ...(options.vueMaterialDesignIcons || {}),
   };
 
   //Register Components
@@ -28,13 +28,22 @@ const install = (Vue, options) => {
   //Provide Options
   Vue.mixin({
     provide: {
-      REQUEST: options.requestHandler
+      REQUEST: options.requestHandler,
     },
     created() {
-      Vue.prototype.$notify = payload => {
+      Vue.prototype.$notify = (payload) => {
         this.$root.$emit("shilp-notify", payload);
       };
-    }
+
+      Vue.prototype.$confirm = {
+        open: (payload) => {
+          this.$root.$emit("shilp-confirm-open", payload);
+        },
+        close: () => {
+          this.$root.$emit("shilp-modal-close", "shilp-confirm");
+        },
+      };
+    },
   });
 
   //Directives
@@ -45,7 +54,7 @@ const install = (Vue, options) => {
 
 const plugin = {
   install,
-  version: "__VERSION__"
+  version: "__VERSION__",
 };
 
 export default plugin;
@@ -84,6 +93,7 @@ export const {
 
   SModal,
   SModalContainer,
+  SConfirm,
 
   SAlert,
   SColorPicker,
@@ -104,7 +114,7 @@ export const {
   SList,
   SGrid,
   SItem,
-  STable
+  STable,
 } = components;
 
 /**
