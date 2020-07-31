@@ -1,6 +1,6 @@
 {
   "name": "shilp-vue",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name shilp-vue src/plugin.js",
@@ -16,7 +16,8 @@
     "core-js": "^2.6.5",
     "lodash-es": "^4.17.15",
     "shilp": "0.1.0-beta.32",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-material-design-icons": "^4.8.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",

@@ -14,20 +14,20 @@
       <template v-if="value">
         <div v-if="loading" class="media__loading shimmer radius-2" />
         <div v-else-if="error" class="media__placeholder">
-          <s-icon name="ImageBroken"></s-icon>
+          <s-icon name="vmdi-image-broken" />
         </div>
         <img v-else :src="src" />
       </template>
 
       <!-- SELECT -->
       <div v-else-if="!readonly" class="media__select">
-        <s-icon name="ImagePlus"></s-icon>
+        <s-icon name="vmdi-image-plus" />
         <input type="file" :accept="accept" @change="select($event)" />
       </div>
 
       <!-- FALLBACK -->
       <div v-else class="media__placeholder">
-        <s-icon name="ImageIcon"></s-icon>
+        <s-icon name="vmdi-image" />
       </div>
 
       <!-- REMOVE BUTTON -->
@@ -38,9 +38,9 @@
             @click.native="remove"
             color="danger"
             size="sm"
-            icon="Close"
+            icon="vmdi-close"
             shape="circle"
-          ></s-button>
+          />
         </slot>
       </div>
     </div>
@@ -53,13 +53,13 @@ export default {
   name: "s-media",
   shilp: {
     block: "media",
-    variant: ["fit", "size"]
+    variant: ["fit", "size"],
   },
   mixins: [component],
   props: {
     embed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     size: Number,
     fit: String,
@@ -70,24 +70,24 @@ export default {
     height: String,
     readonly: {
       type: Boolean,
-      default: true
+      default: true,
     },
     accept: {
       type: String,
-      default: "*"
+      default: "*",
     },
     maxFileSize: {
       type: Number,
-      default: 2 * 1024 * 1024 //2 MB
+      default: 2 * 1024 * 1024, //2 MB
     },
     waitToLoad: {
       type: Boolean,
-      default: true
+      default: true,
     },
     valueType: {
       type: String,
-      default: "file"
-    }
+      default: "file",
+    },
   },
 
   data() {
@@ -96,26 +96,34 @@ export default {
       loading: false,
       loaded: false,
       error: false,
-      src: null
+      src: null,
     };
   },
 
   watch: {
     value: {
       deep: true,
-      async handler(newValue) {
+      handler(newValue) {
         if (newValue) {
-          this.src = await this.readFile(newValue);
+          this.readFile(newValue)
+            .then((res) => {
+              this.src = res;
+            })
+            .catch(() => {});
         } else {
           this.meta = null;
         }
-      }
-    }
+      },
+    },
   },
 
-  async created() {
+  created() {
     if (this.value) {
-      this.src = await this.readFile(this.value);
+      this.readFile(this.value)
+        .then((res) => {
+          this.src = res;
+        })
+        .catch(() => {});
     }
   },
 
@@ -142,7 +150,7 @@ export default {
       if (this.width) css["width"] = this.width;
       if (this.height) css["height"] = this.height;
       return css;
-    }
+    },
   },
 
   methods: {
@@ -160,7 +168,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        img.onload = e => {
+        img.onload = (e) => {
           this.loading = false;
           this.loaded = true;
           this.$emit("load");
@@ -170,7 +178,7 @@ export default {
             resolve(img.src);
           }
         };
-        img.onerror = err => {
+        img.onerror = (err) => {
           this.loading = false;
           this.loaded = false;
           this.error = true;
@@ -203,14 +211,17 @@ export default {
       let meta = {
         name: file.name,
         size: (file.size / 1024 / 1024).toFixed(2) + "MB",
-        type: file.type
+        type: file.type,
       };
       this.meta = meta;
       if (this.valueType == "file") {
         this.$emit("input", file);
       } else if (this.valueType == "base64") {
-        const base64 = await this.readFile(file);
-        this.$emit("input", base64);
+        this.readFile(file)
+          .then((res) => {
+            this.$emit("input", res);
+          })
+          .catch(() => {});
       }
     },
 
@@ -218,8 +229,8 @@ export default {
       this.$emit("input", null);
       this.$emit("remove");
       this.meta = null;
-    }
-  }
+    },
+  },
 };
 </script>
 

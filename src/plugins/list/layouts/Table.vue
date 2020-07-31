@@ -17,8 +17,8 @@
               <div class="sp-table__head">
                 <label>{{ col.label }}</label>
                 <div v-if="col.name == sortBy" class="sp-table__sort">
-                  <s-icon v-if="sortOrder == 'asc'" name="ChevronUp" />
-                  <s-icon v-if="sortOrder == 'desc'" name="ChevronDown" />
+                  <s-icon v-if="sortOrder == 'asc'" name="vmdi-chevron-up" />
+                  <s-icon v-if="sortOrder == 'desc'" name="vmdi-chevron-down" />
                 </div>
               </div>
             </th>
@@ -42,7 +42,7 @@
               v-if="attr.visible"
               :key="`sp-table-col-${attr.name}-${attrIndex}`"
               :class="tdClass(attr)"
-              @click="attr.click !== false && $emit('rowClick', row)"
+              @click="tdClick(attr, row)"
             >
               <!-- Override Slot -->
               <slot
@@ -68,7 +68,7 @@
               <!-- Drag Handle -->
               <p v-else-if="attr.name == '_sort'" class="sp-table__sort">
                 <slot name="_sort" :item="row">
-                  <s-icon title="Drag to Sort" name="drag"></s-icon>
+                  <s-icon title="Drag to Sort" name="vmdi-drag" />
                 </slot>
               </p>
 
@@ -94,18 +94,18 @@ export default {
   props: {
     sortable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     stickyHeader: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
     return {
       headers: [],
-      body: []
+      body: [],
     };
   },
 
@@ -116,8 +116,8 @@ export default {
         this.$set(this, "headers", []);
         this.$set(this, "body", []);
         this.generateHeader(newValue, 0);
-      }
-    }
+      },
+    },
   },
 
   created() {
@@ -132,8 +132,8 @@ export default {
       },
       get() {
         return cloneDeep(this.items);
-      }
-    }
+      },
+    },
   },
 
   methods: {
@@ -141,7 +141,7 @@ export default {
       let spans = 1;
       for (var i = rowIndex + 1; i < this.headers.length; i++) {
         const row = this.headers[i];
-        const hasChild = row.some(item => item.key.startsWith(colKey));
+        const hasChild = row.some((item) => item.key.startsWith(colKey));
         if (hasChild) {
           return spans;
         } else {
@@ -154,7 +154,7 @@ export default {
       let spans = 1;
       for (var i = rowIndex + 1; i < this.headers.length; i++) {
         const row = this.headers[i];
-        const items = row.filter(item => item.key.startsWith(colKey));
+        const items = row.filter((item) => item.key.startsWith(colKey));
         if (items && items.length > 0) {
           spans = spans + items.length - 1;
         }
@@ -190,24 +190,36 @@ export default {
     change(data) {
       this.$emit("sort", data);
     },
+
     thClass(attr) {
       const classList = [`sp-table__${attr.name}`];
       if (attr.name == this.sortBy) classList.push("sp-table__sort");
       if (attr.fix) classList.push("sp-table__fix");
       return classList;
     },
+
     thStyle(attr) {
       const style = {};
       if (attr.width) style.width = attr.width;
       return style;
     },
+
+    tdClick(attr, row) {
+      if (attr.onClick) {
+        attr.onClick(row);
+      } else if (attr.rowClick !== false) {
+        this.$emit("rowClick", row);
+      }
+    },
+
     tdClass(attr) {
       const classList = [];
       if (attr.fix) classList.push("sp-table__fix");
-      if (this.$listeners.rowClick && attr.click !== false)
+      if (this.$listeners.rowClick && attr.rowClick !== false)
         classList.push("sp-table__click");
       return classList;
     },
+
     td(attr, row) {
       const key = attr.name;
       // valueMap: JSON
@@ -233,15 +245,15 @@ export default {
 
       //If props are defined but need to display row value.
       return row[key];
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 .sp-table {
-  --sp-table--border-color: #{--color(grey, lightest)};
-  --sp-table--hover-color: rgba(0, 0, 0, 0.03);
+  --sp-table--border-color: #{--color("grey", "lightest")};
+  --sp-table--hover-color: #{transparentize(color("grey", "lightest"), 0.8)};
   padding: --space(3);
 }
 

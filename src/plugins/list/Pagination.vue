@@ -25,7 +25,7 @@
         <!-- PREV -->
         <s-button
           v-if="isPrev"
-          icon="chevron-left"
+          icon="vmdi-chevron-left"
           @click.native="changePage(page - 1)"
         />
 
@@ -48,7 +48,7 @@
         <!-- NEXT -->
         <s-button
           v-if="isNext"
-          icon="chevron-right"
+          icon="vmdi-chevron-right"
           @click.native="changePage(page + 1)"
         />
       </s-button-group>
@@ -73,12 +73,12 @@ export default {
     perPage: Number,
     count: {
       type: Number,
-      default: 0
+      default: 0,
     },
     mode: String,
     maxPagingLinks: Number,
     loadingMore: Boolean,
-    loaded: Number
+    loaded: Number,
   },
   computed: {
     paginationLinks() {
@@ -102,7 +102,7 @@ export default {
     },
     totalPages() {
       return Math.ceil(this.count / this.perPage);
-    }
+    },
   },
   methods: {
     changePage(number) {
@@ -110,8 +110,8 @@ export default {
     },
     loadMore() {
       this.$emit("loadMore", this.page + 1);
-    }
-  }
+    },
+  },
 };
 </script>
 

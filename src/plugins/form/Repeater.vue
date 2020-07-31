@@ -50,7 +50,7 @@
                 color="danger"
                 theme="muted"
                 shape="square"
-                icon="MinusCircleOutline"
+                icon="vmdi-minus-circle-outline"
                 @click.native="removeRepeat(i)"
               >
               </s-button>
@@ -67,7 +67,7 @@
           color="primary"
           theme="muted"
           @click.native="repeat"
-          icon="PlusCircleOutline"
+          icon="vmdi-plus-circle-outline"
         >
           Add
         </s-button>
@@ -92,21 +92,21 @@ export default {
   props: {
     value: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   data() {
     return {
       // Need to clone values to avoid directly mutating props.
       repeaterValue: [],
-      repeaterMetaValue: []
+      repeaterMetaValue: [],
     };
   },
 
   created() {
     this.setDefaultValues();
-    this.$root.$on("v-form::set-value", data => this.setValue(data));
+    this.$root.$on("v-form::set-value", (data) => this.setValue(data));
   },
 
   computed: {
@@ -114,7 +114,7 @@ export default {
       return startCase(this.name);
     },
     repeaterCount() {
-      return this.repeaterValue.filter(item => !item._delete).length;
+      return this.repeaterValue.filter((item) => !item._delete).length;
     },
 
     canRepeat() {
@@ -131,7 +131,7 @@ export default {
       } else {
         return this.repeaterCount > this.config.repeater.min;
       }
-    }
+    },
   },
 
   methods: {
@@ -168,8 +168,8 @@ export default {
           field: this.name,
           action: "repeater-default-value",
           value: this.repeaterValue,
-          metaValue: this.repeaterMetaValue
-        }
+          metaValue: this.repeaterMetaValue,
+        },
       ]);
     },
 
@@ -191,7 +191,7 @@ export default {
         // This adds an object with null values
         let index = this.repeaterValue.length;
         this.$set(this.repeaterValue, index, {
-          value: null
+          value: null,
         });
 
         this.$emit("input", this.repeaterValue, [
@@ -200,8 +200,8 @@ export default {
             value: this.repeaterValue,
             metaValue: this.repeaterMetaValue,
             action: "repeater-add",
-            index: this.indexWithoutDeleted(index)
-          }
+            index: this.indexWithoutDeleted(index),
+          },
         ]);
       }
     },
@@ -212,7 +212,7 @@ export default {
       if (this.repeaterValue[index]._id) {
         this.$set(this.repeaterValue, index, {
           ...this.repeaterValue[index],
-          _delete: true
+          _delete: true,
         });
       } else {
         this.$delete(this.repeaterValue, index);
@@ -226,8 +226,8 @@ export default {
           value: this.repeaterValue,
           action: "repeater-remove",
           metaValue: this.repeaterMetaValue,
-          index: this.indexWithoutDeleted(index)
-        }
+          index: this.indexWithoutDeleted(index),
+        },
       ]);
     },
 
@@ -242,13 +242,13 @@ export default {
 
       // Merging the original value
       this.$set(this.repeaterValue, index, {
-        value: args[0]
+        value: args[0],
       });
 
       // Merging the meta value
       if (changed.length > 0) {
         this.$set(this.repeaterMetaValue, index, {
-          value: changed[changed.length - 1].metaValue
+          value: changed[changed.length - 1].metaValue,
         });
       }
 
@@ -257,7 +257,7 @@ export default {
         action: "repeater-input",
         value: this.repeaterValue,
         metaValue: this.repeaterMetaValue,
-        index: index
+        index: index,
       });
 
       this.$emit("input", this.repeaterValue, changed);
@@ -304,12 +304,12 @@ export default {
             field: this.name,
             action: "set-value",
             value: this.repeaterValue,
-            metaValue: this.repeaterMetaValue
-          }
+            metaValue: this.repeaterMetaValue,
+          },
         ]);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

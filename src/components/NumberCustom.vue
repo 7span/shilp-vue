@@ -3,7 +3,7 @@
     <s-button
       class="number-custom__button"
       @click.native="minus()"
-      icon="Minus"
+      icon="vmdi-minus"
       v-bind="$attrs"
     />
     <slot :value="value" :set="set">
@@ -14,7 +14,7 @@
     <s-button
       class="number-custom__button"
       @click.native="plus()"
-      icon="Plus"
+      icon="vmdi-plus"
       v-bind="$attrs"
     />
   </div>
@@ -29,9 +29,9 @@ export default {
   props: {
     displayWidth: {
       type: String,
-      default: "40px"
-    }
-  }
+      default: "40px",
+    },
+  },
 };
 </script>
 

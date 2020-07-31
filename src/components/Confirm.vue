@@ -26,7 +26,7 @@
               class="ml-2"
               :label="okLabel"
               :color="okColor"
-              @click.native="ok()"
+              @click.native="ok({ close })"
             />
           </footer>
         </slot>
@@ -75,6 +75,12 @@ export default {
 
       this.$root.$emit("shilp-modal-open", "shilp-confirm");
     });
+  },
+
+  methods: {
+    close() {
+      this.$root.$emit("shilp-modal-close", "shilp-confirm");
+    }
   }
 };
 </script>

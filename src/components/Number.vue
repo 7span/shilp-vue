@@ -5,7 +5,7 @@
         class="number__button"
         shape="square"
         @click.native="minus()"
-        icon="Minus"
+        icon="vmdi-minus"
       />
     </template>
     <s-textbox
@@ -19,7 +19,7 @@
         class="number__button"
         shape="square"
         @click.native="plus()"
-        icon="Plus"
+        icon="vmdi-plus"
       />
     </template>
   </s-field>
@@ -30,7 +30,7 @@ import number from "../mixins/number";
 
 export default {
   inheritAttrs: false,
-  mixins: [number]
+  mixins: [number],
 };
 </script>
 

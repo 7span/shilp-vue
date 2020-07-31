@@ -52,8 +52,7 @@
             :key="colKey(key, index)"
           >
             <slot name="_drag" :item="row">
-              <s-icon title="Drag to Sort" name="drag"></s-icon>
-              <!-- <s-button title="Drag to Sort" icon="drag" color="grey" style_="trn" shape="square"></s-button> -->
+              <s-icon title="Drag to Sort" name="vmdi-drag" />
             </slot>
           </p>
 
@@ -90,11 +89,11 @@ import { merge } from "lodash-es";
 const defaultItemProps = {
   _index: {
     width: "50px",
-    label: "#"
+    label: "#",
   },
   _drag: {
-    width: "24px"
-  }
+    width: "24px",
+  },
 };
 
 export default {
@@ -107,8 +106,8 @@ export default {
     slots: Object,
     sortable: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   computed: {
@@ -122,9 +121,9 @@ export default {
     localCols() {
       let localCols;
       if (Array.isArray(this.itemProps)) {
-        this.itemProps.forEach(item => {
+        this.itemProps.forEach((item) => {
           localCols[item] = {
-            label: item
+            label: item,
           };
         });
       } else if (typeof this.itemProps == "object") {
@@ -143,7 +142,7 @@ export default {
     _style() {
       return {
         "--cols": this.totalCols,
-        "--cols-template": this.colTemplate
+        "--cols-template": this.colTemplate,
       };
     },
     //Number of Columns
@@ -157,16 +156,16 @@ export default {
       },
       get() {
         return JSON.parse(JSON.stringify(this.items));
-      }
+      },
     },
     colTemplate() {
       //LocalCols are used for keeping the order same as provided in configuration
       //Merged Cols changes the sequence of keys due to merge by lodash
       let template = Object.keys(this.localCols).map(
-        item => this.mergedCols[item].width || "1fr"
+        (item) => this.mergedCols[item].width || "1fr"
       );
       return template.join(" ");
-    }
+    },
   },
   methods: {
     colKey(key, index) {
@@ -181,8 +180,8 @@ export default {
       return (
         this.$parent.currentPerPage * (this.$parent.currentPage - 1) + index + 1
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

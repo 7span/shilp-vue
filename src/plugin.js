@@ -1,55 +1,33 @@
 import "./scss/v-tooltip.scss";
 import defaultOptions from "./default-options";
 import components from "./components";
-import {
-  open as modalOpenDirective,
-  close as modalCloseDirective,
-} from "./directives/modal";
-import { loader as loaderDirective } from "./directives/loader";
+import registerIcons from "./icons";
+import registerPrototypes from "./prototypes";
+import registerDirectives from "./directives";
 
-export let events = null;
-
-const install = (Vue, options) => {
-  const vueMaterialDesignIcons = {
-    ...defaultOptions.vueMaterialDesignIcons,
-    ...(options.vueMaterialDesignIcons || {}),
-  };
+const install = (Vue, userOptions) => {
+  const options = Object.assign({}, defaultOptions, userOptions);
 
   //Register Components
   for (var componentName in components) {
     Vue.component(componentName, components[componentName]);
   }
 
-  //Vue Material Design Icons
-  for (var iconName in vueMaterialDesignIcons) {
-    Vue.component(iconName, vueMaterialDesignIcons[iconName]);
-  }
+  registerIcons(Vue, options.vueMaterialDesignIcons);
+  registerDirectives(Vue);
 
-  //Provide Options
   Vue.mixin({
     provide: {
+      //Global Request Handler
+      //Used in Dynamic Form & Select component to retrive options.
       REQUEST: options.requestHandler,
     },
     created() {
-      Vue.prototype.$notify = (payload) => {
-        this.$root.$emit("shilp-notify", payload);
-      };
-
-      Vue.prototype.$confirm = {
-        open: (payload) => {
-          this.$root.$emit("shilp-confirm-open", payload);
-        },
-        close: () => {
-          this.$root.$emit("shilp-modal-close", "shilp-confirm");
-        },
-      };
+      //Need to register prototypes in side created hook
+      //to have access to component instance.
+      registerPrototypes(Vue, this);
     },
   });
-
-  //Directives
-  Vue.directive("shilp-modal-open", modalOpenDirective);
-  Vue.directive("shilp-modal-close", modalCloseDirective);
-  Vue.directive("shilp-loader", loaderDirective);
 };
 
 const plugin = {

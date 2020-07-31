@@ -10,7 +10,7 @@
     <s-button
       v-if="back && backRoute"
       class="breadcrumbs__back"
-      icon="ArrowLeftCircleOutline"
+      icon="vmdi-arrow-left-circle-outline"
       shape="square"
       size="lg"
       :to="{ name: backRoute, params: params[backRoute] }"
@@ -50,16 +50,16 @@ export default {
   props: {
     truncate: {
       type: Number,
-      default: 15
+      default: 15,
     },
     back: {
       type: Boolean,
-      default: true
+      default: true,
     },
     icon: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
@@ -67,7 +67,7 @@ export default {
       // This value will be used instead of provided in router meta
       labels: {},
       params: {},
-      routes: null
+      routes: null,
     };
   },
 
@@ -82,8 +82,8 @@ export default {
             delete this.labels[key];
           }
         }
-      }
-    }
+      },
+    },
   },
 
   created() {
@@ -103,14 +103,14 @@ export default {
   computed: {
     breadcrumbs() {
       let breadcrumbs = this.$route.meta.breadcrumbs
-        .map(item => {
+        .map((item) => {
           //Gets the router object with the name.
           //Using manual list of routes instead of resolve method.
           //Resolve creates an issue when 'redirect' is used.
           //It returs the redirected route hence breaking the chain of breadcrumbs
           // const resolvedRoute = this.$router.resolve({ name: item });
           const resolvedRoute =
-            this.routes && this.routes.find(route => route.name == item);
+            this.routes && this.routes.find((route) => route.name == item);
           if (resolvedRoute) {
             const { name, meta } = resolvedRoute;
             return { name, meta };
@@ -118,7 +118,7 @@ export default {
             return null;
           }
         })
-        .filter(item => item); //Remove non-existing routes
+        .filter((item) => item); //Remove non-existing routes
       return breadcrumbs;
     },
 
@@ -129,14 +129,14 @@ export default {
       } else {
         return null;
       }
-    }
+    },
   },
 
   methods: {
     findRoutes() {
       const breadcrumbsRoutes = [];
-      const filterRoutes = routes => {
-        routes.forEach(route => {
+      const filterRoutes = (routes) => {
+        routes.forEach((route) => {
           if (route.meta && route.meta.breadcrumbs) {
             breadcrumbsRoutes.push(route);
           }
@@ -153,8 +153,8 @@ export default {
         truncate(this.labels[route.name], { length: this.truncate }) ||
         route.meta.label
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

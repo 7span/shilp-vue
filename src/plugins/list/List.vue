@@ -54,17 +54,17 @@
         >
           <s-button
             v-if="actions.includes('settings')"
-            icon="Cog"
+            icon="vmdi-cog"
             @click.native="toggleSidebar('settings')"
           />
           <s-button
             v-if="actions.includes('filters')"
-            icon="FilterIcon"
+            icon="vmdi-filter"
             @click.native="toggleSidebar('filters')"
           />
           <s-button
             v-if="!data && actions.includes('refresh')"
-            icon="Refresh"
+            icon="vmdi-refresh"
             @click.native="refresh()"
           />
           <slot name="actions" />
@@ -135,7 +135,7 @@ export default {
   components: {
     Pagination: require("./Pagination").default,
     MetaData: require("./MetaData").default,
-    Settings: require("./Settings").default
+    Settings: require("./Settings").default,
   },
   props: props,
   data() {
@@ -152,7 +152,7 @@ export default {
       localAttrs: null,
       search: null,
       loadingMore: false,
-      error: false
+      error: false,
     };
   },
 
@@ -164,7 +164,7 @@ export default {
       deep: true,
       handler() {
         this.getData();
-      }
+      },
     },
     page(nv) {
       this.changePage(nv);
@@ -180,11 +180,11 @@ export default {
         //Changing page to 1 will automatically call getData with latest params due to watcher
         this.changePage(1);
       },
-      deep: true
+      deep: true,
     },
     attrsToUse(newValue) {
       this.serializeAttrs(newValue);
-    }
+    },
   },
 
   created() {
@@ -226,7 +226,7 @@ export default {
         this.localPage = value;
         this.$emit("update:page", value);
         this.refresh();
-      }
+      },
     },
     currentPerPage: {
       get() {
@@ -238,16 +238,16 @@ export default {
         this.localPerPage = value;
         this.$emit("update:perPage", value);
         this.changePage(1);
-      }
+      },
     },
     localParams() {
       return Object.assign({}, this.params, {
         page: this.localPage,
         per_page: this.localPerPage,
         sort_by: this.localSortBy,
-        sort_order: this.localSortOrder
+        sort_order: this.localSortOrder,
       });
-    }
+    },
   },
 
   methods: {
@@ -256,12 +256,12 @@ export default {
     },
 
     attrSerializer(attrs) {
-      return attrs.map(item => {
+      return attrs.map((item) => {
         if (typeof item == "string") {
           return {
             label: startCase(item),
             name: item,
-            visible: true
+            visible: true,
           };
         } else {
           if (item.attrs) {
@@ -271,7 +271,7 @@ export default {
             {},
             {
               visible: true,
-              label: startCase(item.name)
+              label: startCase(item.name),
             },
             item
           );
@@ -341,8 +341,8 @@ export default {
       ) {
         this.$router.push({
           query: {
-            page: this.localPage
-          }
+            page: this.localPage,
+          },
         });
       }
     },
@@ -361,9 +361,9 @@ export default {
           endpoint: this.endpoint,
           params: this.localParams,
           filters: this.filters,
-          search: this.search
+          search: this.search,
         })
-        .then(res => {
+        .then((res) => {
           this.setData(res, appendData);
           this.loading = this.loadingMore = this.initial = false;
         })
@@ -378,7 +378,7 @@ export default {
         items: e,
         endpoint: this.endpoint,
         params: this.params,
-        data: this.data
+        data: this.data,
       };
       //If sort listner is provided, use it
       //Else execute the global callback
@@ -392,8 +392,8 @@ export default {
     updateAttr(data) {
       const { index, key, value } = data;
       this.$set(this.localAttrs[index], key, value);
-    }
-  }
+    },
+  },
 };
 </script>
 

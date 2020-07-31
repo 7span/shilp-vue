@@ -24,15 +24,15 @@
 import { uid } from "./../utils";
 
 const icons = {
-  info: "Information",
-  success: "CheckCircle",
-  warning: "Alert",
-  danger: "CloseOctagon"
+  info: "vmdi-information",
+  success: "vmdi-check-circle`",
+  warning: "vmdi-alert",
+  danger: "vmdi-close-octagon",
 };
 const defaults = {
   type: "info",
   icon: icons["info"],
-  duration: 3000
+  duration: 3000,
 };
 
 export default {
@@ -40,32 +40,32 @@ export default {
   props: {
     width: {
       type: String,
-      default: "300px"
+      default: "300px",
     },
     top: {
       type: String,
-      default: "8px"
+      default: "8px",
     },
     right: {
       type: String,
-      default: "8px"
+      default: "8px",
     },
     left: {
       type: String,
-      default: "auto"
+      default: "auto",
     },
     bottom: {
       type: String,
-      default: "auto"
-    }
+      default: "auto",
+    },
   },
   data() {
     return {
-      notifications: []
+      notifications: [],
     };
   },
   created() {
-    this.$root.$on("shilp-notify", payload => {
+    this.$root.$on("shilp-notify", (payload) => {
       this.push({ ...defaults, ...payload });
     });
   },
@@ -76,9 +76,9 @@ export default {
         right: this.right,
         bottom: this.bottom,
         left: this.left,
-        width: this.width
+        width: this.width,
       };
-    }
+    },
   },
   methods: {
     push(data) {
@@ -93,8 +93,8 @@ export default {
         }, data.duration);
       }
       this.notifications.push(data);
-    }
-  }
+    },
+  },
 };
 </script>
 

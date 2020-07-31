@@ -34,8 +34,8 @@
         title="View Password"
       >
         <div class="field__icon">
-          <s-icon v-if="isPasswordVisible" :name="passwordToggle.visibleIcon" />
-          <s-icon v-if="!isPasswordVisible" :name="passwordToggle.hiddenIcon" />
+          <s-icon v-if="isPasswordVisible" name="vmdi-eye-outline" />
+          <s-icon v-if="!isPasswordVisible" name="vmdi-eye-off-outline" />
         </div>
       </button>
 
@@ -75,7 +75,7 @@ export default {
   shilp: {
     block: "field",
     variant: ["color", "size", "theme"],
-    boolean: ["optional", "inline"]
+    boolean: ["optional", "inline"],
   },
   mixins: [component],
 
@@ -92,23 +92,26 @@ export default {
     message: [String, Boolean],
     loader: {
       type: Boolean,
-      default: false
+      default: false,
     },
     optional: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    passwordToggle: Object,
+    passwordToggle: {
+      type: Boolean,
+      default: false,
+    },
     fullHeight: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    inline: Boolean
+    inline: Boolean,
   },
 
   data() {
     return {
-      isPasswordVisible: false
+      isPasswordVisible: false,
     };
   },
 
@@ -117,14 +120,14 @@ export default {
       const classes = [];
       if (this.fullHeight) classes.push("h-100");
       return classes;
-    }
+    },
     // fieldGroupClasses() {
     //   const classes = [];
     //   if (this.loader) classes.push("loader", `loader--${this.loaderColor}`);
     //   if (this.loader && this.size) classes.push(`loader--${this.size}`);
     //   return classes;
     // }
-  }
+  },
 };
 </script>
 
