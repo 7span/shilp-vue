@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     sortItemsBy(by) {
-      this.$parent.set("localSortBy", by);
+      this.$parent.set("localSortBy", by.name);
       if (this.sortOrder && this.sortOrder == "asc") {
         this.$parent.set("localSortOrder", "desc");
       } else {

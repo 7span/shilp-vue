@@ -12,7 +12,7 @@
               :style="thStyle(col)"
               :rowspan="rowspan(rowIndex, col.key)"
               :colspan="colspan(rowIndex, col.key)"
-              @click="sortItemsBy(col)"
+              @click="col.sortable ? sortItemsBy(col) : null"
             >
               <div class="sp-table__head">
                 <label>{{ col.label }}</label>
@@ -28,11 +28,10 @@
 
       <!-- BODY -->
       <component
-        :is="sortable ? 'draggable' : 'tbody'"
-        handle=".sp-table__sort"
+        :is="reorder ? 'draggable' : 'tbody'"
+        handle=".sp-table__drag"
         tag="tbody"
         v-model="rows"
-        @change="change($event)"
       >
         <!-- Looping Rows -->
         <tr v-for="(row, index) in rows" :key="`sp-table-row-${index}`">
@@ -66,8 +65,8 @@
               </slot>
 
               <!-- Drag Handle -->
-              <p v-else-if="attr.name == '_sort'" class="sp-table__sort">
-                <slot name="_sort" :item="row">
+              <p v-else-if="attr.name == '_drag'" class="sp-table__drag">
+                <slot name="_drag" :item="row">
                   <s-icon title="Drag to Sort" name="vmdi-drag" />
                 </slot>
               </p>
@@ -92,20 +91,20 @@ export default {
   name: "sp-list-table",
   mixins: [layout],
   props: {
-    sortable: {
+    reorder: {
       type: Boolean,
-      default: false,
+      default: false
     },
     stickyHeader: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   data() {
     return {
       headers: [],
-      body: [],
+      body: []
     };
   },
 
@@ -116,8 +115,8 @@ export default {
         this.$set(this, "headers", []);
         this.$set(this, "body", []);
         this.generateHeader(newValue, 0);
-      },
-    },
+      }
+    }
   },
 
   created() {
@@ -127,13 +126,13 @@ export default {
   computed: {
     rows: {
       set(value) {
-        this.$emit("new", value);
+        this.$emit("reorder", value);
         this.$parent.set("items", value);
       },
       get() {
         return cloneDeep(this.items);
-      },
-    },
+      }
+    }
   },
 
   methods: {
@@ -141,7 +140,7 @@ export default {
       let spans = 1;
       for (var i = rowIndex + 1; i < this.headers.length; i++) {
         const row = this.headers[i];
-        const hasChild = row.some((item) => item.key.startsWith(colKey));
+        const hasChild = row.some(item => item.key.startsWith(colKey));
         if (hasChild) {
           return spans;
         } else {
@@ -154,7 +153,7 @@ export default {
       let spans = 1;
       for (var i = rowIndex + 1; i < this.headers.length; i++) {
         const row = this.headers[i];
-        const items = row.filter((item) => item.key.startsWith(colKey));
+        const items = row.filter(item => item.key.startsWith(colKey));
         if (items && items.length > 0) {
           spans = spans + items.length - 1;
         }
@@ -185,10 +184,6 @@ export default {
           }
         }
       });
-    },
-
-    change(data) {
-      this.$emit("sort", data);
     },
 
     thClass(attr) {
@@ -245,8 +240,8 @@ export default {
 
       //If props are defined but need to display row value.
       return row[key];
-    },
-  },
+    }
+  }
 };
 </script>
 
