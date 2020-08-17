@@ -62,4 +62,14 @@ export default {
   attrs: {
     type: Array,
   },
+  //An adaptor which defines which attributes to be passed to layout
+  //This is helpful when you don't know which attributes are sent from API
+  //Also useful when you need to show all the columns except few.
+  attrsAdaptor: {
+    type: Function,
+  },
+  //You can define search query manually if internal searchbox is not being used.
+  searchQuery: {
+    type: String,
+  },
 };

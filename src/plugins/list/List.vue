@@ -163,7 +163,8 @@ export default {
     filters: {
       deep: true,
       handler() {
-        this.getData();
+        //When filter changes, we need to set the page to 1st to get all the data from start
+        this.changePage(1);
       }
     },
     page(nv) {
@@ -201,7 +202,12 @@ export default {
 
   computed: {
     attrsToUse() {
-      return this.attrs || Object.keys(this.items[0] || []);
+      const attrs = this.attrs || Object.keys(this.items[0] || []);
+      if (this.attrsAdaptor) {
+        return this.attrsAdaptor(attrs);
+      } else {
+        return attrs;
+      }
     },
     allAttrs() {
       return this.localAttrs;
@@ -353,7 +359,7 @@ export default {
           endpoint: this.endpoint,
           params: this.params,
           filters: this.filters,
-          search: this.search,
+          search: this.searchQuery || this.search,
           pagination: {
             page: this.localPage,
             perPage: this.localPerPage
