@@ -14,6 +14,9 @@ export default {
     async validate() {
       return await this.$refs.formObserver.validate();
     },
+    reset() {
+      this.$refs.formObserver.reset();
+    },
     async submit() {
       const isValid = await this.validate();
       if (isValid) this.$emit("submit");

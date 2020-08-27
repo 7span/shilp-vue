@@ -1,6 +1,12 @@
 <template>
   <div v-if="slim" class="v-list">
-    <slot :items="data || items" :loading="loading" :isEmpty="isEmpty" />
+    <slot
+      :items="data || items"
+      :loading="loading"
+      :isEmpty="isEmpty"
+      :loadMore="loadMore"
+      :loadingMore="loadingMore"
+    />
   </div>
 
   <div
@@ -72,9 +78,13 @@
       </header>
 
       <!-- LOADER -->
-      <ul v-if="loading && initial" class="v-list__loader">
-        <li class="shimmer" v-for="n in 10" :key="`loader-item--${n}`"></li>
-      </ul>
+      <template v-if="loading && (initial || !loader)">
+        <slot name="loader">
+          <ul class="v-list__loader">
+            <li class="shimmer" v-for="n in 10" :key="`loader-item--${n}`"></li>
+          </ul>
+        </slot>
+      </template>
 
       <!-- CONTENT -->
       <template v-else>
@@ -115,7 +125,7 @@
           :loaded="items.length"
           :maxPagingLinks="maxPagingLinks"
           @change="changePage($event)"
-          @loadMore="loadMore($event)"
+          @loadMore="loadMore()"
         >
           <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
             <slot :name="slot" v-bind="scope" />
@@ -317,9 +327,9 @@ export default {
       this.changePage(1);
     },
 
-    loadMore(value) {
-      this.localPage = value;
-      this.$emit("update:page", value);
+    loadMore() {
+      this.localPage++;
+      this.$emit("update:page", this.localPage);
       this.getData(true);
     },
 

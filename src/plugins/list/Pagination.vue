@@ -73,12 +73,12 @@ export default {
     perPage: Number,
     count: {
       type: Number,
-      default: 0,
+      default: 0
     },
     mode: String,
     maxPagingLinks: Number,
     loadingMore: Boolean,
-    loaded: Number,
+    loaded: Number
   },
   computed: {
     paginationLinks() {
@@ -102,16 +102,16 @@ export default {
     },
     totalPages() {
       return Math.ceil(this.count / this.perPage);
-    },
+    }
   },
   methods: {
     changePage(number) {
       this.$emit("change", number);
     },
     loadMore() {
-      this.$emit("loadMore", this.page + 1);
-    },
-  },
+      this.$emit("loadMore");
+    }
+  }
 };
 </script>
 
