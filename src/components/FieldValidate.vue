@@ -2,9 +2,10 @@
   <validation-provider
     tag="div"
     class="field-validate"
-    :name="name || $attrs.label"
+    :name="$attrs.label"
     :rules="rules"
     v-slot="props"
+    :vid="vid || $attrs.label"
   >
     <!-- 
     @validate: Manually call validate method on file fields.
@@ -32,7 +33,8 @@ export default {
 
   props: {
     rules: [String, Object],
-    name: String
+    name: String,
+    vid: String
   }
 };
 </script>

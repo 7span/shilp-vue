@@ -18,6 +18,9 @@ export default {
     handleUpdate(newContent) {
       this.open = newContent;
     }
+  },
+  mounted() {
+    this.$emit("ready");
   }
 };
 </script>
