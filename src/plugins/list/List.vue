@@ -40,17 +40,19 @@
       </header>
 
       <header v-else-if="header" class="v-list__header">
-        <h5 class="v-list__title">
-          {{ title }}
-        </h5>
+        <div class="v-list__title">
+          <slot name="title">
+            <h5>{{ title }}</h5>
+          </slot>
+        </div>
 
-        <s-field
-          v-if="actions.includes('search')"
-          size="sm"
-          class="v-list__search"
-        >
-          <s-textbox v-model="search" placeholder="Search" />
-        </s-field>
+        <div class="v-list__search">
+          <slot name="search">
+            <s-field v-if="actions.includes('search')" size="sm">
+              <s-textbox v-model="search" placeholder="Search" />
+            </s-field>
+          </slot>
+        </div>
 
         <s-button-group
           class="v-list__actions"
@@ -107,6 +109,7 @@
         <slot
           v-else
           :items="data || items"
+          :response="response"
           :loading="loading"
           :isEmpty="isEmpty"
           :refresh="refresh"
@@ -167,6 +170,7 @@ export default {
       search: null,
       loadingMore: false,
       error: false,
+      response: null,
     };
   },
 
@@ -386,6 +390,7 @@ export default {
           },
         })
         .then((res) => {
+          this.response = res;
           this.setData(res, appendData);
           this.loading = this.loadingMore = this.initial = false;
         })
@@ -446,7 +451,6 @@ export default {
 .v-list__title {
   margin-right: auto;
   flex: 0 0 auto;
-  color: --color(grey, dark);
 }
 .v-list__search {
   flex: 0 0 auto;

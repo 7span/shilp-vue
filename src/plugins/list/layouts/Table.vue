@@ -15,11 +15,19 @@
               @click="col.sortable ? sortItemsBy(col) : null"
             >
               <div class="sp-table__head">
-                <label>{{ col.label }}</label>
                 <div v-if="col.name == sortBy" class="sp-table__sort">
-                  <s-icon v-if="sortOrder == 'asc'" name="vmdi-chevron-up" />
-                  <s-icon v-if="sortOrder == 'desc'" name="vmdi-chevron-down" />
+                  <s-icon
+                    :size="18"
+                    v-if="sortOrder == 'asc'"
+                    name="vmdi-chevron-up"
+                  />
+                  <s-icon
+                    :size="18"
+                    v-if="sortOrder == 'desc'"
+                    name="vmdi-chevron-down"
+                  />
                 </div>
+                <label class="sp-table__label">{{ col.label }}</label>
               </div>
             </th>
           </template>
@@ -33,6 +41,8 @@
         tag="tbody"
         v-model="rows"
       >
+        <slot name="rows-before" />
+
         <!-- Looping Rows -->
         <tr v-for="(row, index) in rows" :key="`sp-table-row-${index}`">
           <template v-for="(attr, attrIndex) in body">
@@ -78,6 +88,8 @@
             </td>
           </template>
         </tr>
+
+        <slot name="rows-after" />
       </component>
     </table>
   </div>
@@ -93,18 +105,18 @@ export default {
   props: {
     reorder: {
       type: Boolean,
-      default: false
+      default: false,
     },
     stickyHeader: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
     return {
       headers: [],
-      body: []
+      body: [],
     };
   },
 
@@ -115,8 +127,8 @@ export default {
         this.$set(this, "headers", []);
         this.$set(this, "body", []);
         this.generateHeader(newValue, 0);
-      }
-    }
+      },
+    },
   },
 
   created() {
@@ -131,8 +143,8 @@ export default {
       },
       get() {
         return cloneDeep(this.items);
-      }
-    }
+      },
+    },
   },
 
   methods: {
@@ -140,7 +152,7 @@ export default {
       let spans = 1;
       for (var i = rowIndex + 1; i < this.headers.length; i++) {
         const row = this.headers[i];
-        const hasChild = row.some(item => item.key.startsWith(colKey));
+        const hasChild = row.some((item) => item.key.startsWith(colKey));
         if (hasChild) {
           return spans;
         } else {
@@ -153,7 +165,7 @@ export default {
       let spans = 1;
       for (var i = rowIndex + 1; i < this.headers.length; i++) {
         const row = this.headers[i];
-        const items = row.filter(item => item.key.startsWith(colKey));
+        const items = row.filter((item) => item.key.startsWith(colKey));
         if (items && items.length > 0) {
           spans = spans + items.length - 1;
         }
@@ -189,7 +201,10 @@ export default {
     thClass(attr) {
       const classList = [`sp-table__${attr.name}`];
       if (attr.name == this.sortBy) classList.push("sp-table__sort");
+      if (attr.sortable) classList.push("sp-table__sortable");
       if (attr.fix) classList.push("sp-table__fix");
+      if (attr.classList) classList.push(...attr.classList);
+      if (attr.type) classList.push(`sp-table__${attr.type}`);
       return classList;
     },
 
@@ -212,6 +227,8 @@ export default {
       if (attr.fix) classList.push("sp-table__fix");
       if (this.$listeners.rowClick && attr.rowClick !== false)
         classList.push("sp-table__click");
+      if (attr.classList) classList.push(...attr.classList);
+      if (attr.type) classList.push(`sp-table__${attr.type}`);
       return classList;
     },
 
@@ -240,8 +257,8 @@ export default {
 
       //If props are defined but need to display row value.
       return row[key];
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -274,7 +291,12 @@ export default {
     border-top-width: 1px;
     border-left-width: 0px;
     border-right-width: 0px;
+    text-align: left;
     text-align: start;
+    &.sp-table__number {
+      text-align: end;
+      text-align: right;
+    }
   }
   th {
     border-bottom-width: 2px;
@@ -312,10 +334,6 @@ export default {
 .sp-table__head {
   display: flex;
   align-items: center;
-  label {
-    flex: 0 0 auto;
-    cursor: pointer;
-  }
 }
 .sp-table__fix {
   width: 1px;
@@ -323,6 +341,15 @@ export default {
 }
 
 .sp-table__click {
+  cursor: pointer;
+}
+
+.sp-table__label {
+  text-align: inherit;
+  flex: 1 1 auto;
+}
+
+.sp-table__sortable {
   cursor: pointer;
 }
 </style>
