@@ -22,12 +22,6 @@
       <!-- SELECT -->
       <div v-else-if="!readonly" class="media__select">
         <s-icon name="vmdi-image-plus" />
-        <input
-          type="file"
-          :accept="accept"
-          onclick="this.value = null"
-          @change="select($event)"
-        />
       </div>
 
       <!-- FALLBACK -->
@@ -35,19 +29,40 @@
         <s-icon name="vmdi-image" />
       </div>
 
-      <!-- REMOVE BUTTON -->
-      <div class="media__remove" v-if="value && !readonly">
-        <slot name="remove">
-          <s-button
-            theme="muted"
-            @click.native="remove"
-            color="danger"
-            size="sm"
-            icon="vmdi-close"
-            shape="circle"
-          />
-        </slot>
-      </div>
+      <!-- INPUT -->
+      <input
+        ref="input"
+        type="file"
+        :accept="accept"
+        onclick="this.value = null"
+        @change="select($event)"
+      />
+    </div>
+
+    <!-- REMOVE BUTTON -->
+    <div class="media__actions" v-if="value && !readonly">
+      <slot name="actions" :remove="remove" :change="change">
+        <s-button
+          v-if="removable"
+          class="media__change mr-1"
+          theme="muted"
+          @click.native="change"
+          color="primary"
+          size="sm"
+          icon="vmdi-pencil"
+          shape="circle"
+        />
+        <s-button
+          v-if="changeable"
+          class="media__remove"
+          theme="muted"
+          @click.native="remove"
+          color="danger"
+          size="sm"
+          icon="vmdi-close"
+          shape="circle"
+        />
+      </slot>
     </div>
   </div>
 </template>
@@ -92,6 +107,14 @@ export default {
     valueType: {
       type: String,
       default: "file"
+    },
+    removable:{
+      type:Boolean,
+      default:true
+    },
+    changeable:{
+      type:Boolean,
+      default:true
     }
   },
 
@@ -234,6 +257,10 @@ export default {
       this.$emit("input", null);
       this.$emit("remove");
       this.meta = null;
+    },
+
+    change(){
+      this.$refs.input.click()
     }
   }
 };
@@ -242,9 +269,23 @@ export default {
 <style lang="scss">
 .media {
   position: relative;
+  input {
+    @include position(absolute, 0, 0, 0, 0);
+    width: 100%;
+    opacity: 0;
+    font-size: 0;
+    cursor: pointer;
+  }
+  &:hover{
+    .media__actions{
+      opacity: 1;
+    }
+  }
 }
 .media--select {
-  border: 2px dotted --color(grey, lighter);
+  .media__wrap{
+    border: 2px dotted --color(grey, lighter);
+  }
 }
 .media__select,
 .media__placeholder,
@@ -262,15 +303,9 @@ export default {
 }
 .media__select {
   cursor: pointer;
-  input {
-    @include position(absolute, 0, 0, 0, 0);
-    width: 100%;
-    opacity: 0;
-    font-size: 0;
-    cursor: pointer;
-  }
 }
-.media__remove {
+.media__actions {
+  opacity: 0;
   @include position(absolute, 8px, 8px, auto, auto);
 }
 </style>

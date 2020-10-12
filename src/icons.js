@@ -1,5 +1,6 @@
 const defaultIcons = {
   "vmdi-plus": require("vue-material-design-icons/Plus").default,
+  "vmdi-pencil": require("vue-material-design-icons/Pencil").default,
   "vmdi-image": require("vue-material-design-icons/Image").default,
   "vmdi-image-broken": require("vue-material-design-icons/ImageBroken").default,
   "vmdi-image-plus": require("vue-material-design-icons/ImagePlus").default,
