@@ -24,9 +24,19 @@ export default (Vue, instance) => {
     instance.$root.$emit("shilp-copy", text);
   };
 
+  //Breadcrumbs
+  const bradcrumbs = {
+    setLabel: (key, value) => {
+      instance.$root.$emit("shilp-breadcrumbs-label", key, value);
+    },
+    setParams: (key, value) => {
+      instance.$root.$emit("shilp-breadcrumbs-params", key, value);
+    },
+  };
+
   //All the prototpyes for Shilp are added under $shilp
   //This helps to avoid conflicts with other 3rd party plugins
-  Vue.prototype.$shilp = { confirm, notify, modal, copy };
+  Vue.prototype.$shilp = { confirm, notify, modal, copy, bradcrumbs };
 
   //TODO: Remove this in future
   Vue.prototype.$notify = (payload) => {

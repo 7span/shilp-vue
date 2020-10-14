@@ -4,7 +4,7 @@
       select: custom,
       'field-block': custom,
       'native-select': !custom,
-      'loader loader--dark': loader
+      'loader loader--dark': loader,
     }"
   >
     <select
@@ -37,31 +37,31 @@ export default {
   props: {
     options: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     value: [String, Number],
     placeholder: {
       type: String,
-      default: "Select"
+      default: "Select",
     },
     custom: {
       type: Boolean,
-      default: true
+      default: true,
     },
     deselect: {
       type: Boolean,
-      default: false
+      default: false,
     },
     request: {
       type: [Function, Object],
-      default: null
-    }
+      default: null,
+    },
   },
 
   data() {
     return {
       loader: false,
-      optionsFromRequest: []
+      optionsFromRequest: [],
     };
   },
 
@@ -72,16 +72,16 @@ export default {
   computed: {
     serializedOptions() {
       const options = this.request ? this.optionsFromRequest : this.options;
-      return options.map(item => {
+      return options.map((item) => {
         if (typeof item !== "object") {
           return {
             label: item,
-            value: item
+            value: item,
           };
         }
         return item;
       });
-    }
+    },
   },
 
   methods: {
@@ -90,8 +90,12 @@ export default {
     },
     input(e) {
       let options = this.request ? this.optionsFromRequest : this.options;
-      let metaValue = options.find(item => item.value == e.target.value);
-      this.$emit("input", e.target.value, metaValue);
+      let metaValue = options.find((item) => item.value == e.target.value);
+      //Finding value from metaValue here
+      //to keep null and undefined values as it is.
+      //the null values are replaced with blank string if taken from e.target.value
+      const value = metaValue && metaValue.value;
+      this.$emit("input", value, metaValue);
     },
     getOptions() {
       this.loader = true;
@@ -106,11 +110,11 @@ export default {
           name: this.$attrs.name,
           method: "get",
           endpoint: this.request.url,
-          params: this.request.params
+          params: this.request.params,
         });
       }
       request
-        .then(res => {
+        .then((res) => {
           this.loader = false;
           this.optionsFromRequest = res;
         })
@@ -120,8 +124,8 @@ export default {
     },
     refresh() {
       if (this.request) this.getOptions();
-    }
-  }
+    },
+  },
 };
 </script>
 

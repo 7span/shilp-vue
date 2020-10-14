@@ -2,7 +2,7 @@
   <validation-provider
     tag="div"
     class="field-validate"
-    :name="$attrs.label"
+    :name="name || $attrs.label"
     :rules="rules"
     v-slot="props"
     :vid="vid || $attrs.label"
@@ -34,7 +34,7 @@ export default {
   props: {
     rules: [String, Object],
     name: String,
-    vid: String
-  }
+    vid: String,
+  },
 };
 </script>

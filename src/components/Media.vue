@@ -43,7 +43,7 @@
     <div class="media__actions" v-if="value && !readonly">
       <slot name="actions" :remove="remove" :change="change">
         <s-button
-          v-if="removable"
+          v-if="changeable"
           class="media__change mr-1"
           theme="muted"
           @click.native="change"
@@ -53,7 +53,7 @@
           shape="circle"
         />
         <s-button
-          v-if="changeable"
+          v-if="removable"
           class="media__remove"
           theme="muted"
           @click.native="remove"

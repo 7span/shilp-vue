@@ -34,6 +34,8 @@
 
     <!-- CONTENT -->
     <section class="v-list__content">
+      <slot name="before-header" />
+
       <!-- HEADER -->
       <header v-if="$scopedSlots.header" class="v-list__custom-header">
         <slot name="header" :refresh="refresh"> </slot>
@@ -79,6 +81,8 @@
         </s-button-group>
       </header>
 
+      <slot name="after-header" />
+
       <!-- LOADER -->
       <template v-if="loading && (initial || !loader)">
         <slot name="loader">
@@ -116,6 +120,8 @@
         />
       </template>
 
+      <slot name="before-footer" />
+
       <!-- FOOTER -->
       <footer v-if="!initial && footer" class="v-list__footer">
         <pagination
@@ -140,6 +146,8 @@
           </template>
         </meta-data>
       </footer>
+
+      <slot name="after-footer" />
     </section>
   </div>
 </template>
@@ -345,9 +353,10 @@ export default {
     setData(res, appendData) {
       if (appendData) {
         this.items = this.items.concat(res.items);
-        this.$emit("afterLoadMore");
+        this.$emit("afterLoadMore", res);
       } else {
         this.items = res.items;
+        this.$emit("afterLoad", res);
       }
       this.count = res.count;
 
@@ -357,8 +366,11 @@ export default {
         this.paginationMode == "querystring" &&
         this.$route.query.page != this.localPage
       ) {
+        //We need maintain already existing query params in URL
+        const existingQueryParams = this.$route.query || {};
         this.$router.push({
           query: {
+            ...existingQueryParams,
             page: this.localPage,
           },
         });
@@ -391,6 +403,10 @@ export default {
         })
         .then((res) => {
           this.response = res;
+
+          //Response event
+          //Fires asap after ajax request is successfull
+          this.$emit("res", res);
           this.setData(res, appendData);
           this.loading = this.loadingMore = this.initial = false;
         })
