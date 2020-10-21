@@ -4,7 +4,9 @@
       <s-media ratio="1x1" :readonly="false" v-model="media"></s-media>
       {{ value }}
       <s-field>
-        <s-select v-model="value" :options="options"></s-select>
+        <s-select v-model="value" :options="options2">
+          <option value="test">Testr</option>
+        </s-select>
       </s-field>
     </div>
   </div>
@@ -16,6 +18,7 @@ export default {
     return {
       media: null,
       value: null,
+      options2: [5, 10, 15],
       options: [
         {
           value: "",
@@ -24,6 +27,10 @@ export default {
         {
           value: "hi",
           label: "Hi",
+        },
+        {
+          value: "hierr",
+          label: "Hierer",
         },
       ],
     };

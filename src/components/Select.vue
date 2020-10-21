@@ -89,13 +89,22 @@ export default {
       return uid();
     },
     input(e) {
-      let options = this.request ? this.optionsFromRequest : this.options;
-      let metaValue = options.find((item) => item.value == e.target.value);
-      //Finding value from metaValue here
-      //to keep null and undefined values as it is.
-      //the null values are replaced with blank string if taken from e.target.value
-      const value = metaValue && metaValue.value;
-      this.$emit("input", value, metaValue);
+      //If options are passed via props/request
+      if (this.serializedOptions.length > 0) {
+        let metaValue = this.serializedOptions.find(
+          (item) => item.value == e.target.value
+        );
+        //Finding value from metaValue here
+        //to keep null and undefined values as it is.
+        //the null values are replaced with blank string if taken from e.target.value
+        const value = metaValue && metaValue.value;
+        this.$emit("input", value, metaValue);
+      }
+      //If options are rendered via slots, we don't have access to its label/values
+      //Hence directly update the value.
+      else {
+        this.$emit("input", e.target.value);
+      }
     },
     getOptions() {
       this.loader = true;
