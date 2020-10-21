@@ -5484,7 +5484,7 @@ module.exports = function (Constructor, NAME, next) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0bc29f22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Select.vue?vue&type=template&id=7aebacd5&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0bc29f22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Select.vue?vue&type=template&id=1cc7f468&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{
     select: _vm.custom,
     'field-block': _vm.custom,
@@ -5494,7 +5494,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Select.vue?vue&type=template&id=7aebacd5&
+// CONCATENATED MODULE: ./src/components/Select.vue?vue&type=template&id=1cc7f468&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.function.name.js
 var es6_function_name = __webpack_require__("7f7f");
@@ -5604,15 +5604,21 @@ var utils = __webpack_require__("025e");
       return Object(utils["a" /* uid */])();
     },
     input: function input(e) {
-      var options = this.request ? this.optionsFromRequest : this.options;
-      var metaValue = options.find(function (item) {
-        return item.value == e.target.value;
-      }); //Finding value from metaValue here
-      //to keep null and undefined values as it is.
-      //the null values are replaced with blank string if taken from e.target.value
+      //If options are passed via props/request
+      if (this.serializedOptions.length > 0) {
+        var metaValue = this.serializedOptions.find(function (item) {
+          return item.value == e.target.value;
+        }); //Finding value from metaValue here
+        //to keep null and undefined values as it is.
+        //the null values are replaced with blank string if taken from e.target.value
 
-      var value = metaValue && metaValue.value;
-      this.$emit("input", value, metaValue);
+        var value = metaValue && metaValue.value;
+        this.$emit("input", value, metaValue);
+      } //If options are rendered via slots, we don't have access to its label/values
+      //Hence directly update the value.
+      else {
+          this.$emit("input", e.target.value);
+        }
     },
     getOptions: function getOptions() {
       var _this = this;
