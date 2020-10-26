@@ -51,7 +51,7 @@
         <div class="v-list__search">
           <slot name="search">
             <s-field v-if="actions.includes('search')" size="sm">
-              <s-textbox v-model="search" placeholder="Search" />
+              <s-textbox v-model="localSearch" placeholder="Search" />
             </s-field>
           </slot>
         </div>
@@ -175,7 +175,7 @@ export default {
       localSortBy: this.sortBy,
       localSortOrder: this.sortOrder,
       localAttrs: null,
-      search: null,
+      localSearch: this.search,
       loadingMore: false,
       error: false,
       response: null,
@@ -199,11 +199,15 @@ export default {
     perPage(nv) {
       this.changePerPage(nv);
     },
-    search() {
+    search(value) {
+      this.localSearch = value;
+    },
+
+    localSearch() {
       this.debounceGetData();
     },
     params: {
-      handler() {
+      handler(newValue) {
         //Changing page to 1 will automatically call getData with latest params due to watcher
         this.changePage(1);
       },
@@ -391,7 +395,7 @@ export default {
           endpoint: this.endpoint,
           params: this.params,
           filters: this.filters,
-          search: this.searchQuery || this.search,
+          search: this.localSearch,
           pagination: {
             page: this.localPage,
             perPage: this.localPerPage,

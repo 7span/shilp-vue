@@ -69,7 +69,7 @@ export default {
     type: Function,
   },
   //You can define search query manually if internal searchbox is not being used.
-  searchQuery: {
+  search: {
     type: String,
   },
 };

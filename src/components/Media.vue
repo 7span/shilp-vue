@@ -31,6 +31,7 @@
 
       <!-- INPUT -->
       <input
+        v-if="!readonly"
         ref="input"
         type="file"
         :accept="accept"
@@ -73,13 +74,13 @@ export default {
   name: "s-media",
   shilp: {
     block: "media",
-    variant: ["fit", "size"]
+    variant: ["fit", "size"],
   },
   mixins: [component],
   props: {
     embed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     size: Number,
     fit: String,
@@ -90,32 +91,32 @@ export default {
     height: String,
     readonly: {
       type: Boolean,
-      default: true
+      default: true,
     },
     accept: {
       type: String,
-      default: "*"
+      default: "*",
     },
     maxFileSize: {
       type: Number,
-      default: 2 * 1024 * 1024 //2 MB
+      default: 2 * 1024 * 1024, //2 MB
     },
     waitToLoad: {
       type: Boolean,
-      default: true
+      default: true,
     },
     valueType: {
       type: String,
-      default: "file"
+      default: "file",
     },
-    removable:{
-      type:Boolean,
-      default:true
+    removable: {
+      type: Boolean,
+      default: true,
     },
-    changeable:{
-      type:Boolean,
-      default:true
-    }
+    changeable: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   data() {
@@ -124,7 +125,7 @@ export default {
       loading: false,
       loaded: false,
       error: false,
-      src: null
+      src: null,
     };
   },
 
@@ -134,21 +135,21 @@ export default {
       handler(newValue) {
         if (newValue) {
           this.readFile(newValue)
-            .then(res => {
+            .then((res) => {
               this.src = res;
             })
             .catch(() => {});
         } else {
           this.meta = null;
         }
-      }
-    }
+      },
+    },
   },
 
   created() {
     if (this.value) {
       this.readFile(this.value)
-        .then(res => {
+        .then((res) => {
           this.src = res;
         })
         .catch(() => {});
@@ -178,7 +179,7 @@ export default {
       if (this.width) css["width"] = this.width;
       if (this.height) css["height"] = this.height;
       return css;
-    }
+    },
   },
 
   methods: {
@@ -196,7 +197,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        img.onload = e => {
+        img.onload = (e) => {
           this.loading = false;
           this.loaded = true;
           this.$emit("load");
@@ -206,7 +207,7 @@ export default {
             resolve(img.src);
           }
         };
-        img.onerror = err => {
+        img.onerror = (err) => {
           this.loading = false;
           this.loaded = false;
           this.error = true;
@@ -239,14 +240,14 @@ export default {
       let meta = {
         name: file.name,
         size: (file.size / 1024 / 1024).toFixed(2) + "MB",
-        type: file.type
+        type: file.type,
       };
       this.meta = meta;
       if (this.valueType == "file") {
         this.$emit("input", file);
       } else if (this.valueType == "base64") {
         this.readFile(file)
-          .then(res => {
+          .then((res) => {
             this.$emit("input", res);
           })
           .catch(() => {});
@@ -259,10 +260,10 @@ export default {
       this.meta = null;
     },
 
-    change(){
-      this.$refs.input.click()
-    }
-  }
+    change() {
+      this.$refs.input.click();
+    },
+  },
 };
 </script>
 
@@ -276,14 +277,14 @@ export default {
     font-size: 0;
     cursor: pointer;
   }
-  &:hover{
-    .media__actions{
+  &:hover {
+    .media__actions {
       opacity: 1;
     }
   }
 }
 .media--select {
-  .media__wrap{
+  .media__wrap {
     border: 2px dotted --color(grey, lighter);
   }
 }
