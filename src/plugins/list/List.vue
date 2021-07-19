@@ -96,7 +96,7 @@
       <template v-else>
         <slot v-if="error" name="error">
           <p class="v-list__notice">
-            There was an error whilte processing yout request. Please refresh &
+            There was an error while processing your request. Please refresh &
             try again.
           </p>
         </slot>
@@ -195,6 +195,15 @@ export default {
     },
     page(nv) {
       this.changePage(nv);
+    },
+
+    sortBy(nv) {
+      this.localSortBy = nv;
+      this.changePage(1);
+    },
+    sortOrder(nv) {
+      this.localSortOrder = nv;
+      this.changePage(1);
     },
     perPage(nv) {
       this.changePerPage(nv);
