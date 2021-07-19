@@ -8,7 +8,7 @@
             <th
               v-if="col.visible"
               :key="`sp-table-header-${col.name}-${colIndex}`"
-              :class="thClass(col)"
+              :class="thClass(col, row)"
               :style="thStyle(col)"
               :rowspan="rowspan(rowIndex, col.key)"
               :colspan="colspan(rowIndex, col.key)"
@@ -50,7 +50,7 @@
             <td
               v-if="attr.visible"
               :key="`sp-table-col-${attr.name}-${attrIndex}`"
-              :class="tdClass(attr)"
+              :class="tdClass(attr, row)"
               @click="tdClick(attr, row)"
             >
               <!-- Override Slot -->
@@ -198,12 +198,16 @@ export default {
       });
     },
 
-    thClass(attr) {
-      const classList = [`sp-table__${attr.name}`];
+    thClass(attr, row) {
+      let classList = [`sp-table__${attr.name}`];
       if (attr.name == this.sortBy) classList.push("sp-table__sort");
       if (attr.sortable) classList.push("sp-table__sortable");
       if (attr.fix) classList.push("sp-table__fix");
-      if (attr.classList) classList.push(...attr.classList);
+      if (Array.isArray(attr.classList)) {
+        classList.push(...attr.classList);
+      } else if (typeof attr.classList === "function") {
+        classList.push(...attr.classList(row));
+      }
       if (attr.type) classList.push(`sp-table__${attr.type}`);
       return classList;
     },
@@ -222,12 +226,16 @@ export default {
       }
     },
 
-    tdClass(attr) {
+    tdClass(attr, row) {
       const classList = [];
       if (attr.fix) classList.push("sp-table__fix");
       if (this.$listeners.rowClick && attr.rowClick !== false)
         classList.push("sp-table__click");
-      if (attr.classList) classList.push(...attr.classList);
+      if (Array.isArray(attr.classList)) {
+        classList.push(...attr.classList);
+      } else if (typeof attr.classList === "function") {
+        classList.push(...attr.classList(row));
+      }
       if (attr.type) classList.push(`sp-table__${attr.type}`);
       return classList;
     },
