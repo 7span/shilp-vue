@@ -50,7 +50,7 @@
             <td
               v-if="attr.visible"
               :key="`sp-table-col-${attr.name}-${attrIndex}`"
-              :class="tdClass(attr)"
+              :class="tdClass(attr, row)"
               @click="tdClick(attr, row)"
             >
               <!-- Override Slot -->
@@ -226,12 +226,16 @@ export default {
       }
     },
 
-    tdClass(attr) {
+    tdClass(attr, row) {
       const classList = [];
       if (attr.fix) classList.push("sp-table__fix");
       if (this.$listeners.rowClick && attr.rowClick !== false)
         classList.push("sp-table__click");
-      if (attr.classList) classList.push(...attr.classList);
+      if (Array.isArray(attr.classList)) {
+        classList.push(...attr.classList);
+      } else if (typeof attr.classList === "function") {
+        classList.push(...attr.classList(row));
+      }
       if (attr.type) classList.push(`sp-table__${attr.type}`);
       return classList;
     },
