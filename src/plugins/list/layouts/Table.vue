@@ -206,9 +206,7 @@ export default {
       if (Array.isArray(attr.classList)) {
         classList.push(...attr.classList);
       } else if (typeof attr.classList === "function") {
-        classList(row);
-      } else {
-        classList = [];
+        classList.push(...attr.classList(row));
       }
       if (attr.type) classList.push(`sp-table__${attr.type}`);
       return classList;
