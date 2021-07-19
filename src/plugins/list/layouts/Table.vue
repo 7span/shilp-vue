@@ -8,7 +8,7 @@
             <th
               v-if="col.visible"
               :key="`sp-table-header-${col.name}-${colIndex}`"
-              :class="thClass(col)"
+              :class="thClass(col, row)"
               :style="thStyle(col)"
               :rowspan="rowspan(rowIndex, col.key)"
               :colspan="colspan(rowIndex, col.key)"
@@ -198,12 +198,18 @@ export default {
       });
     },
 
-    thClass(attr) {
-      const classList = [`sp-table__${attr.name}`];
+    thClass(attr, row) {
+      let classList = [`sp-table__${attr.name}`];
       if (attr.name == this.sortBy) classList.push("sp-table__sort");
       if (attr.sortable) classList.push("sp-table__sortable");
       if (attr.fix) classList.push("sp-table__fix");
-      if (attr.classList) classList.push(...attr.classList);
+      if (Array.isArray(attr.classList)) {
+        classList.push(...attr.classList);
+      } else if (typeof attr.classList === "function") {
+        classList(row);
+      } else {
+        classList = [];
+      }
       if (attr.type) classList.push(`sp-table__${attr.type}`);
       return classList;
     },
