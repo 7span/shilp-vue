@@ -49,9 +49,13 @@
         </div>
 
         <div class="v-list__search">
-          <slot name="search">
+          <slot name="search" :search="debounceSearch" :value="localSearch">
             <s-field v-if="actions.includes('search')" size="sm">
-              <s-textbox v-model="localSearch" placeholder="Search" />
+              <s-textbox
+                :value="localSearch"
+                @input="debounceSearch($event)"
+                placeholder="Search"
+              />
             </s-field>
           </slot>
         </div>
@@ -179,6 +183,7 @@ export default {
       loadingMore: false,
       error: false,
       response: null,
+      debounceSearch: null,
     };
   },
 
@@ -212,11 +217,8 @@ export default {
       this.localSearch = value;
     },
 
-    localSearch() {
-      this.debounceGetData();
-    },
     params: {
-      handler(newValue) {
+      handler() {
         //Changing page to 1 will automatically call getData with latest params due to watcher
         this.changePage(1);
       },
@@ -237,6 +239,11 @@ export default {
     if (!this.data) {
       this.refresh();
     }
+
+    this.debounceSearch = debounce((value) => {
+      this.localSearch = value;
+      this.changePage(1);
+    }, this.debounce);
   },
 
   computed: {
@@ -252,9 +259,6 @@ export default {
       return this.localAttrs;
     },
 
-    debounceGetData() {
-      return debounce(this.getData, this.debounce);
-    },
     classList() {
       return { "v-list--sidebar": this.sidebarContent };
     },
