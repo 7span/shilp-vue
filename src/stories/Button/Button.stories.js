@@ -1,7 +1,5 @@
-import Button from "./Button";
 export default {
   title: "Button",
-  component: Button,
   // argTypes: {
   //   size: {
   //     description: "Size of Button",
@@ -67,7 +65,6 @@ export default {
 // };
 
 export const Theme = () => ({
-  components: { Button },
   template:
     '<div><s-button theme="muted" label="Muted" color="success"></s-button>\
     <s-button theme="solid" label="Solid" color="primary"></s-button>\
@@ -80,7 +77,6 @@ export const Theme = () => ({
 });
 
 export const colors = () => ({
-  components: { Button },
   template:
     '<div><s-button label="Primary" color="primary"></s-button>\
               <s-button label="Secondary" color="secondary"></s-button>\
@@ -90,7 +86,6 @@ export const colors = () => ({
 });
 
 export const Sizes = () => ({
-  components: { Button },
   template:
     '<div><s-button  label="Extra Small" size="xs" color="success"></s-button>\
     <s-button  label="Small" size="sm" color="primary"></s-button>\
@@ -101,7 +96,6 @@ export const Sizes = () => ({
 });
 
 export const Shapes = () => ({
-  components: { Button },
   template:
     '<div><s-button  label="Pill" shape="pill" color="success"></s-button>\
     <s-button label="Rectangle" shape="rectangle" color="primary"></s-button>\
@@ -112,7 +106,6 @@ export const Shapes = () => ({
 });
 
 export const Loader = () => ({
-  components: { Button },
   template:
     '<div><s-button  label="Pill" shape="pill" color="success" :loader="true"></s-button>\
     <s-button label="Rectangle" shape="rectangle" color="primary" :loader="true"></s-button>\
@@ -123,7 +116,6 @@ export const Loader = () => ({
 });
 
 export const Alignment = () => ({
-  components: { Button },
   template:
     '<div><s-button  label="Center"  color="success" align="center"></s-button>\
     <s-button label="Left" color="primary" align="left"></s-button>\
@@ -132,7 +124,6 @@ export const Alignment = () => ({
 });
 
 export const Disabled = () => ({
-  components: { Button },
   template:
     '<div><s-button  label="Disabled"  color="success" disabled></s-button>\
     <s-button label="Solid" color="primary" ></s-button>\
