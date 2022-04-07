@@ -22,7 +22,7 @@ export default {
   shilp: {
     block: "modal",
     boolean: ["fullscreen"],
-    variant: ["size"]
+    variant: ["size"],
   },
   mixins: [component],
   inheritAttrs: false,
@@ -30,33 +30,33 @@ export default {
     id: String,
     size: {
       type: String,
-      default: "md"
+      default: "md",
     },
     fullscreen: {
       type: Boolean,
-      default: false
+      default: false,
     },
     fullHeight: {
       type: Boolean,
-      default: false
+      default: false,
     },
     overlay: {
       type: [String, Boolean],
-      default: "light"
+      default: "light",
     },
     closeOnOverlay: {
       type: Boolean,
-      default: true
+      default: true,
     },
     closeOnEsc: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
       isOpen: false,
-      scope: null
+      scope: null,
     };
   },
 
@@ -70,21 +70,21 @@ export default {
     overlayClasses() {
       if (this.overlay === false) return;
       return ["overlay", `overlay--${this.overlay}`];
-    }
+    },
   },
 
   mounted() {
-    document.addEventListener("keyup", e => {
+    document.addEventListener("keyup", (e) => {
       if (e.keyCode === 27 && this.closeOnEsc) {
         this.close();
       }
     });
 
-    this.$root.$on("shilp-modal-open", payload => {
+    this.$root.$on("shilp-modal-open", (payload) => {
       this.open(payload);
     });
 
-    this.$root.$on("shilp-modal-close", payload => {
+    this.$root.$on("shilp-modal-close", (payload) => {
       this.close(payload);
     });
   },
@@ -100,7 +100,7 @@ export default {
         this.scope = null;
         this.isOpen = false;
       }
-      this.$emit("open");
+      this.$emit("open", payload);
     },
     close(payload) {
       const { id } = this.extractPayload(payload);
@@ -115,7 +115,7 @@ export default {
       if (shouldClose) {
         this.scope = null;
         this.isOpen = false;
-        this.$emit("close");
+        this.$emit("close", payload);
       }
     },
     extractPayload(payload) {
@@ -124,12 +124,12 @@ export default {
       } else if (typeof payload === "string") {
         return {
           id: payload,
-          scope: null
+          scope: null,
         };
       } else {
         return {
           id: this.id,
-          scope: null
+          scope: null,
         };
       }
     },
@@ -137,7 +137,7 @@ export default {
       if (this.closeOnOverlay) {
         this.close();
       }
-    }
-  }
+    },
+  },
 };
 </script>
