@@ -14,21 +14,28 @@
               :colspan="colspan(rowIndex, col.key)"
               @click="col.sortable ? sortItemsBy(col) : null"
             >
-              <div class="sp-table__head">
-                <div v-if="col.name == sortBy" class="sp-table__sort">
-                  <s-icon
-                    :size="18"
-                    v-if="sortOrder == 'asc'"
-                    name="vmdi-chevron-up"
-                  />
-                  <s-icon
-                    :size="18"
-                    v-if="sortOrder == 'desc'"
-                    name="vmdi-chevron-down"
-                  />
+              <slot
+                name="sort"
+                :col="col"
+                :sortBy="sortBy"
+                :sortOrder="sortOrder"
+              >
+                <div class="sp-table__head">
+                  <div v-if="col.name == sortBy" class="sp-table__sort">
+                    <s-icon
+                      :size="18"
+                      v-if="sortOrder == 'asc'"
+                      name="vmdi-chevron-up"
+                    />
+                    <s-icon
+                      :size="18"
+                      v-if="sortOrder == 'desc'"
+                      name="vmdi-chevron-down"
+                    />
+                  </div>
+                  <label class="sp-table__label">{{ col.label }}</label>
                 </div>
-                <label class="sp-table__label">{{ col.label }}</label>
-              </div>
+              </slot>
             </th>
           </template>
         </tr>
