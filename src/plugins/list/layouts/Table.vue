@@ -58,6 +58,7 @@
                 v-if="$scopedSlots[attr.name]"
                 :name="attr.name"
                 :item="row"
+                :rowIndex="index"
               >
                 {{ row[attr.name] }}
               </slot>
@@ -66,23 +67,29 @@
               <component
                 v-else-if="OPTIONS.slots && OPTIONS.slots[attr.name]"
                 :item="row"
+                :rowIndex="index"
                 :is="OPTIONS.slots[attr.name]"
               />
 
               <!-- Index -->
-              <slot v-else-if="attr.name == '_index'" name="_index" :item="row">
+              <slot
+                v-else-if="attr.name == '_index'"
+                name="_index"
+                :item="row"
+                :rowIndex="index"
+              >
                 <span>{{ itemIndex(index) }}</span>
               </slot>
 
               <!-- Drag Handle -->
               <p v-else-if="attr.name == '_drag'" class="sp-table__drag">
-                <slot name="_drag" :item="row">
+                <slot name="_drag" :item="row" :rowIndex="index">
                   <s-icon title="Drag to Sort" name="vmdi-drag" />
                 </slot>
               </p>
 
               <!-- Default Slot -->
-              <slot v-else :name="attr.name" :item="row">
+              <slot v-else :name="attr.name" :item="row" :rowIndex="index">
                 {{ td(attr, row) }}
               </slot>
             </td>
