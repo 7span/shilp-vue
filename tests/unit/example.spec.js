@@ -3,7 +3,7 @@ import Button from "@/components/Button.vue";
 
 describe("Button.vue", () => {
   it("renders props.msg when passed", () => {
-    const msg = "Sign In";
+    const msg = "Log In";
     const wrapper = shallowMount(Button, {
       propsData: { msg },
     });
