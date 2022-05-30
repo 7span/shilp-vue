@@ -2,11 +2,11 @@ import { mount } from "@vue/test-utils";
 import Button from "@/components/Button.vue";
 
 describe("Button.vue", () => {
-  it("renders props.msg when passed", () => {
-    const msg = "Log In";
+  it("checks whether label prop is set when passed", () => {
     const wrapper = mount(Button, {
-      propsData: { msg },
+      propsData: { label: "Log In" },
     });
-    expect(wrapper.text()).toMatch(msg);
+
+    expect(wrapper.props().label).toBe("Log In");
   });
 });
