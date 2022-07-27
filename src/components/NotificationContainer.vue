@@ -9,6 +9,8 @@
       :class="{ 'flex--middle': !notification.message }"
       v-for="(notification, index) in notifications"
       :color="notification.type"
+      :theme="theme || notification.theme"
+      :shape="shape || notification.shape"
       :title="notification.title"
       :icon="notification.icon"
       :key="`notification-${index}`"
@@ -38,6 +40,8 @@ const defaults = {
 export default {
   name: "s-notification-container",
   props: {
+    theme: String,
+    shape: String,
     width: {
       type: String,
       default: "300px",
