@@ -1,6 +1,6 @@
 {
   "name": "shilp-vue",
-  "version": "0.6.1",
+  "version": "0.7.1",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name shilp-vue src/plugin.js",
